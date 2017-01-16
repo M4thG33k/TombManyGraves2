@@ -7,6 +7,10 @@ public class ModConfigs {
 
     public static Configuration config;
 
+    // Client configs
+    public static boolean FORCE_DIRT_RENDER;
+    public static int GRAVE_SKULL_RENDER_TYPE;
+
     // Common configs
     public static boolean ENABLE_GRAVES;
     public static boolean DROP_ITEMS_ON_GROUND;
@@ -36,12 +40,28 @@ public class ModConfigs {
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
 
+        handleClientConfigs();
         handleServerConfigs();
         handleCommonConfigs();
         handleInteractionConfigs();
         handleGravePlacementConfigs();
 
         config.save();
+    }
+
+    private static void handleClientConfigs()
+    {
+        FORCE_DIRT_RENDER = config.get("renderOptions", "forceDirtRender", false, "If true, all graves will " +
+                "be rendered with a dirt base instead of using the adaptive model. (Defaults to false).").getBoolean();
+
+        GRAVE_SKULL_RENDER_TYPE = config.get("renderOptions", "graveSkullRenderType", 3, "Changing this value " +
+                "determines the type of skull that renders on the grave. 0 = Skeleton, 1 = Wither Skeleton, " +
+                "2 = Zombie, 3 = The Player Who Owns The Grave, 4 = Creeper. Any value outside of this range " +
+                "will be set to 3 instead. (Defaults to 3.)").getInt();
+        if (GRAVE_SKULL_RENDER_TYPE < 0 || GRAVE_SKULL_RENDER_TYPE > 4)
+        {
+            GRAVE_SKULL_RENDER_TYPE = 3;
+        }
     }
 
     private static void handleCommonConfigs()

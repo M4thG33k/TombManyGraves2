@@ -28,7 +28,7 @@ public class TileGrave extends TileEntity {
     // static final Strings for use as NBT tags (keep it consistent yo!)
     private static final String TAG_CAMO = "camo";
     private static final String TAG_CAMO_META = "camoMeta";
-    private static final String SKULL_TAG = "skullOwner";
+    private static final String SKULL_TAG = "SkullOwner";
     public static final String PLAYER_NAME = "PlayerName";
     public static final String ANGLE_OF_DEATH = "AngleOfDeath";
     public static final String LOCKED = "IsLocked";
