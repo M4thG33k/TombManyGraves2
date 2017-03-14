@@ -3,6 +3,8 @@ package com.m4thg33k.tombmanygraves.lib;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.awt.*;
+
 public class ModConfigs {
 
     public static Configuration config;
@@ -10,12 +12,17 @@ public class ModConfigs {
     // Client configs
     public static boolean FORCE_DIRT_RENDER;
     public static int GRAVE_SKULL_RENDER_TYPE;
+    public static boolean DISPLAY_GRAVE_NAME;
+    public static int NAME_FORCE;
+    public static int NAME_YIELD;
 
     // Common configs
     public static boolean ENABLE_GRAVES;
     public static boolean DROP_ITEMS_ON_GROUND;
     public static boolean GIVE_ITEMS_IN_GRAVE_PRIORITY;
     public static boolean DEFAULT_TO_LOCKED;
+    public static boolean ALLOW_INVENTORY_SAVES;
+    public static boolean ALLOW_INVENTORY_LISTS;
 
     // Grave placement configs
     public static int MAX_GRAVE_SEARCH_RADIUS;
@@ -51,6 +58,8 @@ public class ModConfigs {
 
     private static void handleClientConfigs()
     {
+        handleColorConfigs();
+
         FORCE_DIRT_RENDER = config.get("renderOptions", "forceDirtRender", false, "If true, all graves will " +
                 "be rendered with a dirt base instead of using the adaptive model. (Defaults to false).").getBoolean();
 
@@ -61,6 +70,30 @@ public class ModConfigs {
         if (GRAVE_SKULL_RENDER_TYPE < 0 || GRAVE_SKULL_RENDER_TYPE > 4)
         {
             GRAVE_SKULL_RENDER_TYPE = 3;
+        }
+
+        DISPLAY_GRAVE_NAME = config.get("renderOptions", "displayGraveName", true, "When true, this will display " +
+                "both the name of the grave's owner and the current mode of the grave when looking at it. " +
+                "(Defaults to true)").getBoolean();
+    }
+
+    private static void handleColorConfigs()
+    {
+        NAME_FORCE = handleColor("nameColorWhenForced", "0xFFFFFF");
+        NAME_YIELD = handleColor("nameColorWhenYielding", "0xFF0000");
+    }
+
+    private static int handleColor(String configName, String standard)
+    {
+        try
+        {
+            return Integer.decode(config.get("Colors", configName, standard, "This is one of four configs " +
+                    "for how the name/mode render when looking at a grave (assuming that config is enabled. " +
+                    "(Defaults to " + standard + ")").getString());
+        }
+        catch (Exception e)
+        {
+            return Integer.decode(standard);
         }
     }
 
@@ -83,6 +116,14 @@ public class ModConfigs {
         DEFAULT_TO_LOCKED = config.get("graveConfigs", "defaultToLocked", false, "If set to true, all graves formed " +
                 "will be locked. Graves can be toggled between locked & unlocked by the grave's owner/friends. " +
                 "(Defaults to false.)").getBoolean();
+
+        ALLOW_INVENTORY_SAVES = config.get("graveConfigs", "allowInventorySaves", true, "If set to false, " +
+                "inventory backups will not be kept. Graves can still form (if enabled), but the death " +
+                "inventory lists will not be able to be produced. (Defaults to true.)").getBoolean();
+
+        ALLOW_INVENTORY_LISTS = config.get("listConfigs", "allowInventoryLists", true, "If set to false, " +
+                "inventory lists will not be able to be spawned. Lists already in the game will not be " +
+                "affected. (Defaults to true.)").getBoolean();
     }
 
     private static void handleServerConfigs()

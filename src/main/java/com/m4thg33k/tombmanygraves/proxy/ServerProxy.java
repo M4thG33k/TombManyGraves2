@@ -1,8 +1,13 @@
 package com.m4thg33k.tombmanygraves.proxy;
 
+import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
+import com.m4thg33k.tombmanygraves.util.LogHelper;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import java.util.List;
 
 public class ServerProxy extends CommonProxy {
 
@@ -19,5 +24,11 @@ public class ServerProxy extends CommonProxy {
     @Override
     public void postinit(FMLPostInitializationEvent e) {
         super.postinit(e);
+    }
+
+    @Override
+    public List<String> probeForFiles(BlockPos pos) {
+        LogHelper.info("Probing for files!");
+        return DeathInventoryHandler.getSavedInventories();
     }
 }

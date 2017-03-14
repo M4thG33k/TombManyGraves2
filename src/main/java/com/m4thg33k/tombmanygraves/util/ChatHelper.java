@@ -9,12 +9,13 @@ public class ChatHelper {
     {
         if(!world.isRemote)
         {
-            player.addChatMessage(new TextComponentString(text));
+            player.sendMessage(new TextComponentString(text));
+//            player.addChatMessage(new TextComponentString(text));
         }
     }
 
     public static void sayMessage(EntityPlayer player, String text)
     {
-        sayMessage(player.worldObj, player, text);
+        sayMessage(player.world, player, text);
     }
 }

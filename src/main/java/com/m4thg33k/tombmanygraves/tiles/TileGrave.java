@@ -1,6 +1,10 @@
 package com.m4thg33k.tombmanygraves.tiles;
 
 import com.m4thg33k.tombmanygraves.blocks.BlockGrave;
+import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
+import com.m4thg33k.tombmanygraves.friendSystem.FriendHandler;
+import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
+import com.m4thg33k.tombmanygraves.items.ModItems;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.util.ChatHelper;
 import net.minecraft.block.Block;
@@ -50,6 +54,8 @@ public class TileGrave extends TileEntity {
     private IBlockState camoState;
     private String timestamp = "";
 
+    private InventoryHolder savedInventory;
+
     public TileGrave()
     {
 
@@ -75,7 +81,7 @@ public class TileGrave extends TileEntity {
     {
         angle = (int) player.rotationYawHead;
 
-        if (worldObj.isRemote)
+        if (world.isRemote)
         {
             return;
         }
@@ -84,8 +90,19 @@ public class TileGrave extends TileEntity {
         setPlayerID(player.getUniqueID());
 
         this.markDirty();
-        worldObj.markAndNotifyBlock(pos, null, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 1);
+        world.markAndNotifyBlock(pos, null, world.getBlockState(pos), world.getBlockState(pos), 1);
 
+    }
+
+    public InventoryHolder getSavedInventory()
+    {
+        return savedInventory;
+    }
+
+    public void setSavedInventory(InventoryHolder holder)
+    {
+        this.savedInventory = holder;
+        this.timestamp = holder.getTimestamp();
     }
 
     private void setSkull()
@@ -104,7 +121,7 @@ public class TileGrave extends TileEntity {
             ChatHelper.sayMessage(player,
                     GIVE_ITEMS_IN_GRAVE_PRIORITY ?
                             "Grave items will be forced into their original slots" :
-                            "Your current inventory will not be altered.");
+                            "Items in your inventory will not move.");
         }
         else
         {
@@ -133,6 +150,11 @@ public class TileGrave extends TileEntity {
             camoState = b.getStateFromMeta(compound.getInteger(TAG_CAMO_META));
         }
 
+        savedInventory = new InventoryHolder();
+        savedInventory.readFromNBT(compound);
+
+        timestamp = compound.getString(InventoryHolder.TIMESTAMP);
+
         setShouldGroundRender();
     }
 
@@ -157,6 +179,9 @@ public class TileGrave extends TileEntity {
             compound.setInteger(TAG_CAMO_META, camoState.getBlock().getMetaFromState(camoState));
         }
 
+        compound = savedInventory.writeToNBT(compound);
+        compound.setString(InventoryHolder.TIMESTAMP, timestamp);
+
         return compound;
     }
 
@@ -164,18 +189,52 @@ public class TileGrave extends TileEntity {
     {
         GIVE_ITEMS_IN_GRAVE_PRIORITY = !GIVE_ITEMS_IN_GRAVE_PRIORITY;
         markDirty();
-        worldObj.markAndNotifyBlock(pos, null, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+        world.markAndNotifyBlock(pos, null, world.getBlockState(pos), world.getBlockState(pos), 2);
     }
 
     public void onCollision(EntityPlayer player)
     {
-        if (worldObj.isRemote || locked || !(hasAccess(player)))
+        if (world.isRemote || locked || !(hasAccess(player)))
         {
             return;
         }
 
-        // TODO: 1/15/2017 Add logic to return items to the player
-        worldObj.setBlockToAir(pos);
+        removeCorrespondingDeathList(player);
+
+        if (GIVE_ITEMS_IN_GRAVE_PRIORITY)
+        {
+            savedInventory.forceInventory(player);
+        }
+        else
+        {
+            savedInventory.insertInventory(player);
+        }
+        world.setBlockToAir(pos);
+    }
+
+    private void removeCorrespondingDeathList(EntityPlayer player)
+    {
+        for (int i=0; i < player.inventory.getSizeInventory(); i++)
+        {
+            ItemStack stack = player.inventory.getStackInSlot(i);
+            if (!stack.isEmpty() && stack.getItem() == ModItems.itemDeathList)
+            {
+                NBTTagCompound tagCompound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+                if (tagCompound != null && tagCompound.hasKey(InventoryHolder.TAG_NAME))
+                {
+                    NBTTagCompound tag = tagCompound.getCompoundTag(InventoryHolder.TAG_NAME);
+                    if (!tag.hasKey(InventoryHolder.TIMESTAMP))
+                    {
+                        continue;
+                    }
+                    String time = tag.getString(InventoryHolder.TIMESTAMP);
+                    if (time.equals(this.timestamp))
+                    {
+                        player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -205,7 +264,10 @@ public class TileGrave extends TileEntity {
     @Nonnull
     @Override
     public NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+        NBTTagCompound compound = new NBTTagCompound();
+        this.writeToNBT(compound);
+        compound.removeTag(InventoryHolder.TAG_NAME);
+        return compound;
     }
 
     @ParametersAreNonnullByDefault
@@ -226,7 +288,7 @@ public class TileGrave extends TileEntity {
 
     public void toggleLock(EntityPlayer player)
     {
-        if (worldObj.isRemote)
+        if (world.isRemote)
         {
             return;
         }
@@ -239,7 +301,7 @@ public class TileGrave extends TileEntity {
             }
 
             markDirty();
-            worldObj.markAndNotifyBlock(pos, null, worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
+            world.markAndNotifyBlock(pos, null, world.getBlockState(pos), world.getBlockState(pos), 2);
         }
         else
         {
@@ -249,8 +311,7 @@ public class TileGrave extends TileEntity {
 
     public boolean isFriend(EntityPlayer player)
     {
-        // TODO: 1/15/2017 Implement friend interactions
-        return true;
+        return FriendHandler.hasAsFriend(playerID, player.getUniqueID());
     }
 
     public boolean hasAccess(EntityPlayer player)
@@ -287,7 +348,7 @@ public class TileGrave extends TileEntity {
 
     public void setShouldGroundRender()
     {
-        shouldRenderGround = !(camoState == null || camoState.getBlock() instanceof BlockGrave);
+        shouldRenderGround = !(camoState == null || camoState == ModBlocks.blockGrave.getDefaultState());
     }
 
     public boolean areGraveItemsForced()

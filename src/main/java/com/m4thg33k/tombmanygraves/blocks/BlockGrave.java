@@ -112,10 +112,11 @@ public class BlockGrave extends BaseBlock {
         return new TileGrave();
     }
 
+
     @ParametersAreNonnullByDefault
     @Override
     public void addCollisionBoxToList(IBlockState state,World worldIn, BlockPos pos, AxisAlignedBB entityBox,
-                                      List<AxisAlignedBB> collidingBoxes,@Nullable Entity entityIn) {
+                                      List<AxisAlignedBB> collidingBoxes,@Nullable Entity entityIn, boolean bool) {
         TileEntity tile = worldIn.getTileEntity(pos);
         if (tile != null && tile instanceof TileGrave)
         {
@@ -123,7 +124,7 @@ public class BlockGrave extends BaseBlock {
                     !(((TileGrave) tile).isLocked()) &&
                     ((TileGrave) tile).hasAccess((EntityPlayer)entityIn))
             {
-                super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn);
+                super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, bool);
             }
         }
     }
@@ -217,11 +218,6 @@ public class BlockGrave extends BaseBlock {
 
     @Override
     public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public boolean isVisuallyOpaque(IBlockState p_176214_1_) {
         return false;
     }
 

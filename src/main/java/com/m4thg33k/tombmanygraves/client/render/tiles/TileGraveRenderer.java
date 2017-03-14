@@ -39,11 +39,11 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
 
     private void initialize(TileGrave grave)
     {
-        deathAngle = grave.getAngle();
+        deathAngle = grave.getAngle()+180;
         shouldRenderGround = grave.getShouldRenderGround();
         skull = skullMeta==3 ? grave.getSkull() : defaultSkull;
         rand = new Random(grave.getPos().hashCode());
-        initialized = true;
+//        initialized = true;
     }
 
     @Override
@@ -55,10 +55,11 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
 
         TileGrave grave = (TileGrave)te;
 
-        if (!initialized)
-        {
-            this.initialize(grave);
-        }
+//        if (!initialized)
+//        {
+//            this.initialize(grave);
+//        }
+        initialize(grave);
 
         Minecraft.getMinecraft().renderEngine.bindTexture(TEX);
 
@@ -114,9 +115,9 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
         GlStateManager.translate(x+0.5,y+0.5,z+0.5);
 
         GlStateManager.pushMatrix();
-        GlStateManager.rotate(this.getNextRandomAngle(), 0, 1, 0);
-        GlStateManager.rotate(this.getNextRandomAngle(), 1, 0, 0);
-        GlStateManager.rotate(this.getNextRandomAngle(), 0, 0, 1);
+        GlStateManager.rotate(getNextRandomAngle(), 0, 1, 0);
+        GlStateManager.rotate(getNextRandomAngle(), 1, 0, 0);
+        GlStateManager.rotate(getNextRandomAngle(), 0, 0, 1);
 
         double scale = isLocked ? 0.25 : 0.75;
 
@@ -132,6 +133,6 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
 
     private float getNextRandomAngle()
     {
-        return (float) (360.0 * (System.currentTimeMillis() * 0x3FFFL) / 0x3FFFL) + rand.nextInt(360);
+        return (float) (360.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL) + rand.nextInt(360);
     }
 }

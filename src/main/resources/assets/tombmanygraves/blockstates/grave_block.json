@@ -4,9 +4,9 @@
     "model": "minecraft:half_slab",
     "transform": "forge:default-block",
     "textures": {
-      "bottom": "tombmanygraves:blocks/red",
-      "top": "tombmanygraves:blocks/red",
-      "side": "tombmanygraves:blocks/red"
+      "bottom": "minecraft:blocks/dirt",
+      "top": "minecraft:blocks/dirt",
+      "side": "minecraft:blocks/dirt"
     }
   },
   "variants": {
