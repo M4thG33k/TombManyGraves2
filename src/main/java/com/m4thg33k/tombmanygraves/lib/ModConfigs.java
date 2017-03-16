@@ -15,6 +15,10 @@ public class ModConfigs {
     public static boolean DISPLAY_GRAVE_NAME;
     public static int NAME_FORCE;
     public static int NAME_YIELD;
+    public static Color NEAR_PARTICLE;
+    public static Color FAR_PARTICLE;
+    public static boolean ALLOW_PARTICLE_PATH;
+    public static boolean REQUIRE_SNEAK_FOR_PATH;
 
     // Common configs
     public static boolean ENABLE_GRAVES;
@@ -75,6 +79,32 @@ public class ModConfigs {
         DISPLAY_GRAVE_NAME = config.get("renderOptions", "displayGraveName", true, "When true, this will display " +
                 "both the name of the grave's owner and the current mode of the grave when looking at it. " +
                 "(Defaults to true)").getBoolean();
+
+        try {
+            FAR_PARTICLE = new Color(Integer.decode(config.get("renderOptions", "farParticleColor", "0x000000",
+                    "This is the color of the path particles spawned by the death inventory list when you are more " +
+                            "than 100 blocks from the grave. (Defaults to 0x000000)").getString()));
+        } catch (Exception e)
+        {
+            FAR_PARTICLE = Color.BLACK;
+        }
+
+        try {
+            NEAR_PARTICLE = new Color(Integer.decode(config.get("renderOptions", "nearParticleColor", "0xFFFFFF",
+                    "This is the color of the path particles spawned by the inventory list when you are within 10 " +
+                            "blocks of the grave. (Defaults to 0xFFFFFF.)").getString()));
+        }
+        catch (Exception e)
+        {
+            NEAR_PARTICLE = Color.white;
+        }
+
+        ALLOW_PARTICLE_PATH = config.get("renderOptions", "allowParticlePath", true, "If set to false, the death " +
+                "inventory lists will not show particle effects leading to the grave. (Defaults to true)").getBoolean();
+
+        REQUIRE_SNEAK_FOR_PATH = config.get("renderOptions", "requireSneakForPath", false, "If set to true, the death" +
+                "inventory lists will only show their particle trail if you are sneaking (and the path is turned on). " +
+                "(Defaults to false)").getBoolean();
     }
 
     private static void handleColorConfigs()

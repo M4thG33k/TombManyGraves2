@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import org.lwjgl.util.vector.Vector3f;
 
 import java.util.List;
 
@@ -51,5 +52,16 @@ public class CommonProxy {
     {
         LogHelper.info("Probing for files in Common!");
         return DeathInventoryHandler.getSavedInventories();
+    }
+
+    public void particleStream(Vector3f start, Vector3f end)
+    {
+
+    }
+
+    public void pathFX(double x, double y, double z, float r, float g, float b, float size,
+                       float motionX, float motionY, float motionZ, float maxAge)
+    {
+
     }
 }

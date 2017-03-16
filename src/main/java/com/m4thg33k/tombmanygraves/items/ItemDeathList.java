@@ -2,17 +2,22 @@ package com.m4thg33k.tombmanygraves.items;
 
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.gui.ModGuiHandler;
+import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
+import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.lib.Names;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector3f;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -72,5 +77,70 @@ public class ItemDeathList extends Item {
         {
             tooltip.add(TextFormatting.ITALIC + "<Control for command>");
         }
+    }
+
+    private Vector3f getEndVector(ItemStack stack)
+    {
+        if (stack.isEmpty() || !stack.hasTagCompound())
+        {
+            return null;
+        }
+        else {
+            NBTTagCompound compound = stack.getTagCompound();
+
+            if (compound.hasKey(InventoryHolder.TAG_NAME)) {
+                compound = compound.getCompoundTag(InventoryHolder.TAG_NAME);
+                float x = compound.getInteger(InventoryHolder.X) + 0.5f;
+                float y = compound.getInteger(InventoryHolder.Y) + 0.5f;
+                float z = compound.getInteger(InventoryHolder.Z) + 0.5f;
+
+                if (y < 0)
+                {
+                    return null;
+                }
+
+                return new Vector3f(x, y, z);
+            }
+
+            return null;
+        }
+    }
+
+    private Vector3f getDirectionalVector(ItemStack stack, Vector3f start)
+    {
+        Vector3f end = getEndVector(stack);
+        if (end == null)
+        {
+            return null;
+        }
+
+        return Vector3f.sub(start, end, null);
+    }
+
+    @Override
+    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        if (!worldIn.isRemote || !(entityIn instanceof EntityPlayer) ||
+                (((EntityPlayer) entityIn).getHeldItemMainhand() != stack && ((EntityPlayer) entityIn).getHeldItemOffhand() != stack))
+        {
+            return;
+        }
+
+        if (ModConfigs.REQUIRE_SNEAK_FOR_PATH && !entityIn.isSneaking())
+        {
+            return;
+        }
+
+        Vector3f start = new Vector3f((float)entityIn.posX, (float)entityIn.posY + 2.5f, (float)entityIn.posZ);
+        Vector3f direction = getDirectionalVector(stack, start);
+        if (direction == null || direction.length() == 0)
+        {
+            return;
+        }
+
+        Vector3f normed = direction.normalise(null);
+        float length = Math.min(100, direction.length());
+        Vector3f end = Vector3f.add(new Vector3f(normed.x * length, normed.y * length, normed.z * length), start, null);
+
+        TombManyGraves.proxy.particleStream(start, end);
     }
 }

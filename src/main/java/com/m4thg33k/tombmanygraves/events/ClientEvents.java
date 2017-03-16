@@ -1,12 +1,16 @@
 package com.m4thg33k.tombmanygraves.events;
 
+import com.m4thg33k.tombmanygraves.client.fx.ParticleRenderDispatcher;
 import com.m4thg33k.tombmanygraves.client.render.models.AdaptiveGraveModel;
 import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.util.Utility;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IRetexturableModel;
@@ -47,5 +51,15 @@ public class ClientEvents {
     public void stitchTextures(TextureStitchEvent.Pre pre)
     {
         pre.getMap().registerSprite(new ResourceLocation(Names.MODID, "blocks/red"));
+    }
+
+    @SubscribeEvent
+    public void onRenderWorldLast(RenderWorldLastEvent event)
+    {
+        Profiler profiler = Minecraft.getMinecraft().mcProfiler;
+
+        profiler.startSection("tmg_particles");
+        ParticleRenderDispatcher.dispatch();
+        profiler.endSection();
     }
 }
