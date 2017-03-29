@@ -3,7 +3,9 @@ package com.m4thg33k.tombmanygraves.inventoryManagement;
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
+import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.WearableBackpacksHandler;
 import com.m4thg33k.tombmanygraves.items.ItemDeathList;
+import net.mcft.copy.backpacks.item.ItemBackpack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
@@ -29,6 +31,8 @@ public class InventoryHolder {
     public static final String Y = "Ycoord";
     public static final String Z = "Zcoord";
 
+    public static final String WEARABLE_BACKPACKS_INVENTORY = "WBInventory";
+
     private NBTTagCompound compound = new NBTTagCompound();
     private boolean isEmpty = true;
     private String timestamp = "";
@@ -50,8 +54,26 @@ public class InventoryHolder {
     public void grabPlayerData(EntityPlayer player)
     {
         compound = new NBTTagCompound();
+
+        // Handle Wearable Backpacks
+        if (TombManyGraves.WEARABLE_BACKPACKS)
+        {
+            List<NBTTagCompound> wback = WearableBackpacksHandler.getBackpackData(player);
+            if (wback.size() == 1)
+            {
+                compound.setTag(WEARABLE_BACKPACKS_INVENTORY, wback.get(0));
+                isEmpty = false;
+            }
+            else
+            {
+                compound.setTag(WEARABLE_BACKPACKS_INVENTORY, new NBTTagCompound());
+            }
+        }
+
+        // Get Vanilla Player Data
         compound.setTag(PLAYER_INVENTORY, getTagFromInventory(player.inventory));
 
+        // Handle Baubles
         if (TombManyGraves.BAUBLES)
         {
             List<NBTTagCompound> baubles = BaubleInventoryHandler.getBaubleData(player);
@@ -208,6 +230,11 @@ public class InventoryHolder {
         {
             BaubleInventoryHandler.insertInventory(player, compound.getCompoundTag(BAUBLE_INVENTORY));
         }
+
+        if (TombManyGraves.WEARABLE_BACKPACKS)
+        {
+            WearableBackpacksHandler.insertInventory(player, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
+        }
     }
 
     // Used to force (replace) inventory items on the player
@@ -237,6 +264,11 @@ public class InventoryHolder {
         {
             BaubleInventoryHandler.forceInventory(player, compound.getCompoundTag(BAUBLE_INVENTORY));
         }
+
+        if (TombManyGraves.WEARABLE_BACKPACKS)
+        {
+            WearableBackpacksHandler.forceInventory(player, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
+        }
     }
 
     // Used to drop all items at a specific player's location
@@ -255,6 +287,11 @@ public class InventoryHolder {
         if (TombManyGraves.BAUBLES)
         {
             BaubleInventoryHandler.dropInventory(player, compound.getCompoundTag(BAUBLE_INVENTORY));
+        }
+
+        if (TombManyGraves.WEARABLE_BACKPACKS)
+        {
+            WearableBackpacksHandler.dropInventory(player, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
         }
     }
 
@@ -301,6 +338,16 @@ public class InventoryHolder {
         if (TombManyGraves.BAUBLES)
         {
             return BaubleInventoryHandler.getListOfItemsInInventory(compound.getCompoundTag(BAUBLE_INVENTORY));
+        }
+
+        return new ArrayList<>();
+    }
+
+    public ArrayList<String> getListOfItemsInWearableBackpack()
+    {
+        if (TombManyGraves.WEARABLE_BACKPACKS)
+        {
+            return WearableBackpacksHandler.getListOfItemsInInventory(compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
         }
 
         return new ArrayList<>();

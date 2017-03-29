@@ -61,6 +61,7 @@ public class DeathInventoryHandler {
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound = inventoryHolder.writeToNBT(tagCompound);
+        String toWrite = tagCompound.toString();
         didWork = writePortion(fullFilename, tagCompound.toString());
 
         if (didWork)

@@ -18,6 +18,7 @@ import java.io.File;
 public class TombManyGraves {
 
     public static boolean BAUBLES;
+    public static boolean WEARABLE_BACKPACKS;
 
     @Mod.Instance
     public static TombManyGraves INSTANCE = new TombManyGraves();
@@ -43,8 +44,17 @@ public class TombManyGraves {
         proxy.postinit(e);
 
         BAUBLES = Loader.isModLoaded("baubles");
+        WEARABLE_BACKPACKS = Loader.isModLoaded("wearablebackpacks");
 
-        LogHelper.info("Baubles is " + (BAUBLES ? "" : "NOT ") + "installed.");
+        printModLoaded(BAUBLES, "Baubles");
+        printModLoaded(WEARABLE_BACKPACKS, "Wearable Backpacks");
+
+//        LogHelper.info("Baubles is " + (BAUBLES ? "" : "NOT ") + "installed.");
+    }
+
+    private void printModLoaded(boolean bool, String name)
+    {
+        LogHelper.info(name + " is " + (bool ? "" : "NOT ") + "installed.");
     }
 
     @Mod.EventHandler

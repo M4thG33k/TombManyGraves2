@@ -25,7 +25,7 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
     private static final ItemStack defaultSkull = new ItemStack(Items.SKULL, 1, ModConfigs.GRAVE_SKULL_RENDER_TYPE);
     private int deathAngle;
     private boolean shouldRenderGround;
-    private ItemStack skull;
+    private ItemStack skull = defaultSkull;
     private boolean initialized = false;
     private static final ResourceLocation TEX = TextureMap.LOCATION_BLOCKS_TEXTURE;
     private Random rand;
