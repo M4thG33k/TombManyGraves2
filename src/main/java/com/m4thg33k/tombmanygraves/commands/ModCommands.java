@@ -9,5 +9,6 @@ public class ModCommands {
 //        event.registerServerCommand(new CommandOpenFileManager());
         event.registerServerCommand(new CommandGetDeathList());
         event.registerServerCommand(new CommandFriends());
+        event.registerServerCommand(new CommandToggleRender());
     }
 }

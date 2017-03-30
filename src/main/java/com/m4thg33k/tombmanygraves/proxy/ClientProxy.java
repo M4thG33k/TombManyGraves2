@@ -103,4 +103,9 @@ public class ClientProxy extends CommonProxy{
         path.setSpeed(motionX, motionY, motionZ);
         Minecraft.getMinecraft().effectRenderer.addEffect(path);
     }
+
+    @Override
+    public void toggleGraveRendering() {
+        ModConfigs.GRAVE_RENDERING_ENABLED = !ModConfigs.GRAVE_RENDERING_ENABLED;
+    }
 }

@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -48,7 +49,7 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
 
     @Override
     public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
-        if (!(te instanceof TileGrave))
+        if (!(te instanceof TileGrave) || !ModConfigs.GRAVE_RENDERING_ENABLED)
         {
             return;
         }
@@ -94,7 +95,13 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
         GlStateManager.scale(0.75, 0.75, 0.75);
         GlStateManager.pushAttrib();
         RenderHelper.enableStandardItemLighting();
-        itemRenderer.renderItem(skull, ItemCameraTransforms.TransformType.FIXED);
+        try {
+            itemRenderer.renderItem(skull, ItemCameraTransforms.TransformType.FIXED);
+        }
+        catch (Exception e)
+        {
+            itemRenderer.renderItem(new ItemStack(Blocks.COMMAND_BLOCK), ItemCameraTransforms.TransformType.FIXED);
+        }
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
         GlStateManager.popMatrix();
@@ -124,7 +131,13 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
         GlStateManager.scale(scale, scale, scale);
         GlStateManager.pushAttrib();
         RenderHelper.enableStandardItemLighting();
-        itemRenderer.renderItem(skull, ItemCameraTransforms.TransformType.FIXED);
+        try {
+            itemRenderer.renderItem(skull, ItemCameraTransforms.TransformType.FIXED);
+        }
+        catch (Exception e)
+        {
+            itemRenderer.renderItem(new ItemStack(Blocks.COMMAND_BLOCK), ItemCameraTransforms.TransformType.FIXED);
+        }
         RenderHelper.disableStandardItemLighting();
         GlStateManager.popAttrib();
         GlStateManager.popMatrix();
