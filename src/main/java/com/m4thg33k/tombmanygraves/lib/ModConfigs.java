@@ -20,6 +20,7 @@ public class ModConfigs {
     public static boolean ALLOW_PARTICLE_PATH;
     public static boolean REQUIRE_SNEAK_FOR_PATH;
     public static boolean GRAVE_RENDERING_ENABLED;
+    public static boolean GRAVE_POS_ENABLED;
 
     // Common configs
     public static boolean ENABLE_GRAVES;
@@ -111,6 +112,10 @@ public class ModConfigs {
                 "will not be rendered (at all), meaning there will just be an invisible block there. This is useful if " +
                 "a rendering crash is consistently occuring and I haven't had a chance to post a fix yet. (Defaults " +
                 "to true)").getBoolean();
+
+        GRAVE_POS_ENABLED = config.get("renderOptions", "enableGravePositionRender", false, "If set to true, graves " +
+                "will display their block position when looking at them (useful for admins/mods for debugging purposes. " +
+                "There is also a command to temporarily toggle this effect in-game. (Defaults to false.)").getBoolean();
     }
 
     private static void handleColorConfigs()

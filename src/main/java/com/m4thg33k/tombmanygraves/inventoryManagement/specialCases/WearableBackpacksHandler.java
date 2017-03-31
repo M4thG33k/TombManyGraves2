@@ -16,6 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -130,6 +132,21 @@ public class WearableBackpacksHandler{
         }
     }
 
+    public static void dropInventory(World world, BlockPos pos, NBTTagCompound compound)
+    {
+        if (compound.hasKey(STACK))
+        {
+            ItemStack stack = new ItemStack(compound.getCompoundTag(STACK));
+            NBTTagCompound base = (NBTTagCompound)compound.getCompoundTag(BASE);
+            BackpackSize size = BackpackSize.parse(base.getTag("size"));
+
+            IBackpackData data = new BackpackDataItems(size);
+            data.deserializeNBT(base);
+
+            dropBackpackAndInventoryOnGround(world, pos, stack, data);
+        }
+    }
+
     public static void dropBackpackAndInventoryOnGround(EntityPlayer player, ItemStack packStack, IBackpackData data)
     {
         if (packStack.isEmpty() || data == null)
@@ -151,6 +168,29 @@ public class WearableBackpacksHandler{
         }
 
         InventoryHolder.dropItem(player, packStack);
+    }
+
+    public static void dropBackpackAndInventoryOnGround(World world, BlockPos pos, ItemStack packStack, IBackpackData data)
+    {
+        if (packStack.isEmpty() || data == null)
+        {
+            return;
+        }
+
+        ItemStackHandler items = ((BackpackDataItems)data).items;
+
+        for (int i=0; i < items.getSlots(); i++)
+        {
+            ItemStack stack = items.getStackInSlot(i);
+            if (stack.isEmpty())
+            {
+                continue;
+            }
+
+            InventoryHolder.dropItem(world, pos, stack);
+        }
+
+        InventoryHolder.dropItem(world, pos, packStack);
     }
 
     public static ArrayList<String> getListOfItemsInInventory(NBTTagCompound compound)

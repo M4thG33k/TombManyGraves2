@@ -68,4 +68,9 @@ public class CommonProxy {
     public void toggleGraveRendering()
     {
     }
+
+    public void toggleGravePositionRendering()
+    {
+
+    }
 }

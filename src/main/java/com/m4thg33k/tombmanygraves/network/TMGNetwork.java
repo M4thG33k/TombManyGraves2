@@ -1,10 +1,7 @@
 package com.m4thg33k.tombmanygraves.network;
 
 import com.m4thg33k.tombmanygraves.lib.Names;
-import com.m4thg33k.tombmanygraves.network.packets.BasePacket;
-import com.m4thg33k.tombmanygraves.network.packets.BasePacketHandler;
-import com.m4thg33k.tombmanygraves.network.packets.GraveRenderTogglePacket;
-import com.m4thg33k.tombmanygraves.network.packets.PacketProbeFiles;
+import com.m4thg33k.tombmanygraves.network.packets.*;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -54,6 +51,7 @@ public class TMGNetwork {
         //register packets here
         registerPacketServer(PacketProbeFiles.class);
         registerPacketClient(GraveRenderTogglePacket.class);
+        registerPacketClient(GravePosTogglePacket.class);
     }
 
     public static void sendToAll(BasePacket packet)

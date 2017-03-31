@@ -77,6 +77,14 @@ public class TileGrave extends TileEntity {
         this.playerID = id;
     }
 
+    public void setPlayer(EntityPlayer player)
+    {
+        this.setPlayerName(player.getName());
+        this.setPlayerID(player.getUniqueID());
+        this.markDirty();
+        world.markAndNotifyBlock(pos, null, world.getBlockState(pos), world.getBlockState(pos), 2);
+    }
+
     public void getPlayerData(@Nonnull EntityPlayer player)
     {
         angle = (int) player.rotationYawHead;
@@ -90,7 +98,7 @@ public class TileGrave extends TileEntity {
         setPlayerID(player.getUniqueID());
 
         this.markDirty();
-        world.markAndNotifyBlock(pos, null, world.getBlockState(pos), world.getBlockState(pos), 1);
+        world.markAndNotifyBlock(pos, null, world.getBlockState(pos), world.getBlockState(pos), 2);
 
     }
 
@@ -210,6 +218,22 @@ public class TileGrave extends TileEntity {
             savedInventory.insertInventory(player);
         }
         world.setBlockToAir(pos);
+    }
+
+    public void dropGraveContentsAt(World worldIn, BlockPos posIn)
+    {
+        if (worldIn.isRemote)
+        {
+            return;
+        }
+
+        savedInventory.dropInventory(worldIn, posIn);
+        world.setBlockToAir(pos);
+    }
+
+    public void dropGraveContentsHere()
+    {
+        dropGraveContentsAt(world, pos);
     }
 
     private void removeCorrespondingDeathList(EntityPlayer player)

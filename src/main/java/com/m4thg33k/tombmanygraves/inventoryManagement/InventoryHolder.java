@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -295,9 +296,39 @@ public class InventoryHolder {
         }
     }
 
+    // Used to drop all items at a specific position in a world
+    public void dropInventory(World world, BlockPos pos)
+    {
+        TransitionInventory saved = getSavedPlayerInventory();
+        for (int i=0; i < saved.getSizeInventory(); i++)
+        {
+            ItemStack stack = saved.getStackInSlot(i);
+            if (!stack.isEmpty())
+            {
+                dropItem(world, pos, stack);
+            }
+        }
+
+        if (TombManyGraves.BAUBLES)
+        {
+            BaubleInventoryHandler.dropInventory(world, pos, compound.getCompoundTag(BAUBLE_INVENTORY));
+        }
+
+        if (TombManyGraves.WEARABLE_BACKPACKS)
+        {
+            WearableBackpacksHandler.dropInventory(world, pos, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
+        }
+
+    }
+
     public static void dropItem(EntityPlayer player, ItemStack stack)
     {
         InventoryHelper.spawnItemStack(player.getEntityWorld(), player.posX, player.posY, player.posZ, stack);
+    }
+
+    public static void dropItem(World world, BlockPos pos, ItemStack stack)
+    {
+        InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
     }
 
     private TransitionInventory getSavedPlayerInventory(EntityPlayer player)

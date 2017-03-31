@@ -108,4 +108,9 @@ public class ClientProxy extends CommonProxy{
     public void toggleGraveRendering() {
         ModConfigs.GRAVE_RENDERING_ENABLED = !ModConfigs.GRAVE_RENDERING_ENABLED;
     }
+
+    @Override
+    public void toggleGravePositionRendering() {
+        ModConfigs.GRAVE_POS_ENABLED = !ModConfigs.GRAVE_POS_ENABLED;
+    }
 }

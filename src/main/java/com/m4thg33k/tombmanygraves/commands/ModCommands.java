@@ -10,5 +10,8 @@ public class ModCommands {
         event.registerServerCommand(new CommandGetDeathList());
         event.registerServerCommand(new CommandFriends());
         event.registerServerCommand(new CommandToggleRender());
+        event.registerServerCommand(new CommandPopGrave());
+        event.registerServerCommand(new CommandGainOwnership());
+        event.registerServerCommand(new CommandToggleGravePos());
     }
 }

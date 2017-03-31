@@ -84,13 +84,22 @@ public class RenderEvents {
 
 
         this.renderLabel(name, x - dx, y -dy, z - dz, angleH, angleV, giveGravePriority);
-        if (giveGravePriority) {
-            this.renderLabel("force", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
-        }
-        else
+        this.renderLabel(giveGravePriority ? "force" : "yield", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
+//        if (giveGravePriority) {
+//            this.renderLabel("force", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
+//        }
+//        else {
+//            this.renderLabel("yield", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
+//        }
+        if (ModConfigs.GRAVE_POS_ENABLED)
         {
-            this.renderLabel("yield", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
+            this.renderLabel(posToString(pos), x - dx, y - dy - 0.5, z - dz, angleH, angleV, giveGravePriority);
         }
+    }
+
+    private String posToString(BlockPos pos)
+    {
+        return "(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")";
     }
 
     protected void renderLabel(String name, double x, double y, double z, float angleH, float angleV, boolean giveGravePriority)
