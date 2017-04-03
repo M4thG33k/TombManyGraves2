@@ -21,6 +21,7 @@ public class GuiDeathItems extends ModBaseGui{
     private List<String> playerItems;
     private List<String> baubleItems;
     private List<String> wearableBackpackItems;
+    private List<String> cosmeticArmorItems;
     private List<String> EOF;
 
     private Scrollbar scrollbar;
@@ -45,6 +46,8 @@ public class GuiDeathItems extends ModBaseGui{
         numLines += baubleItems.size();
         this.wearableBackpackItems = this.inventoryHolder.getListOfItemsInWearableBackpack();
         numLines += wearableBackpackItems.size();
+        this.cosmeticArmorItems = this.inventoryHolder.getListOfItemsInCosmeticArmor();
+        numLines += cosmeticArmorItems.size();
 
         EOF = new ArrayList<>();
         EOF.add(BREAK);
@@ -78,6 +81,7 @@ public class GuiDeathItems extends ModBaseGui{
         text_height = drawPortion(playerItems, text_height);
         text_height = drawPortion(baubleItems, text_height, 0x5E8FFF);
         text_height = drawPortion(wearableBackpackItems, text_height, 0x87703A);
+        text_height = drawPortion(cosmeticArmorItems, text_height, 0x228800);
 
         drawPortion(EOF, text_height, 0xFF0000);
     }

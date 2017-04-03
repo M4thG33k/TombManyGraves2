@@ -153,38 +153,39 @@ public class BaubleInventoryHandler {
 
     public static ArrayList<String> getListOfItemsInInventory(NBTTagCompound compound)
     {
-        ArrayList<String> ret = new ArrayList<>();
-
-        if (compound.hasKey(INVENTORY)) {
-            ret.add(GuiDeathItems.BREAK);
-            ret.add("Baubles");
-            ret.add(GuiDeathItems.BREAK);
-
-            int itemNumber = 1;
-
-            NBTTagList list = compound.getTagList(INVENTORY, 10);
-
-            for (int i=0; i < list.tagCount(); i++)
-            {
-                NBTTagCompound tag = list.getCompoundTagAt(i);
-                ItemStack stack = new ItemStack(tag);
-                String name = stack.getDisplayName();
-
-                if (name.length() > 28)
-                {
-                    name = name.substring(0, 25) + "...";
-                }
-
-                ret.add(itemNumber + ") " + name + (stack.getCount() > 1 ? " x" + stack.getCount() : ""));
-                Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
-                ret.addAll(enchants.keySet().stream()
-                        .map(e -> "  -> " + e.getTranslatedName(enchants.get(e)))
-                        .collect(Collectors.toList()));
-
-                itemNumber += 1;
-            }
-        }
-
-        return ret;
+        return InventoryHolder.getListOfItemsInInventory(compound, "Baubles");
+//        ArrayList<String> ret = new ArrayList<>();
+//
+//        if (compound.hasKey(INVENTORY)) {
+//            ret.add(GuiDeathItems.BREAK);
+//            ret.add("Baubles");
+//            ret.add(GuiDeathItems.BREAK);
+//
+//            int itemNumber = 1;
+//
+//            NBTTagList list = compound.getTagList(INVENTORY, 10);
+//
+//            for (int i=0; i < list.tagCount(); i++)
+//            {
+//                NBTTagCompound tag = list.getCompoundTagAt(i);
+//                ItemStack stack = new ItemStack(tag);
+//                String name = stack.getDisplayName();
+//
+//                if (name.length() > 28)
+//                {
+//                    name = name.substring(0, 25) + "...";
+//                }
+//
+//                ret.add(itemNumber + ") " + name + (stack.getCount() > 1 ? " x" + stack.getCount() : ""));
+//                Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(stack);
+//                ret.addAll(enchants.keySet().stream()
+//                        .map(e -> "  -> " + e.getTranslatedName(enchants.get(e)))
+//                        .collect(Collectors.toList()));
+//
+//                itemNumber += 1;
+//            }
+//        }
+//
+//        return ret;
     }
 }
