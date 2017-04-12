@@ -18,7 +18,7 @@ repositories {
 // end for JEI
 
 
-version = "1.11.2-3.0.5"
+version = "1.11.2-3.0.6"
 group= "com.m4thg33k.tombmanygraves" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TombManyGraves"
 
@@ -28,7 +28,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.11.2-13.20.0.2255"
+    version = "1.11.2-13.20.0.2279"
     runDir = "run"
 
     replace "@VERSION@", project.version
@@ -39,7 +39,7 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20170227"
+    mappings = "snapshot_20170401"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // for JEI

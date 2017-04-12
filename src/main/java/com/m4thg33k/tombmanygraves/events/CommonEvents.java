@@ -67,14 +67,20 @@ public class CommonEvents {
 
     private void handleGraveLogic(EntityPlayer player)
     {
-        ChatHelper.sayMessage(player, "Place of death: " + player.getPosition().toString());
+        if (ModConfigs.ENABLE_CHAT_MESSAGE_ON_DEATH)
+        {
+            ChatHelper.sayMessage(player, "Place of death: " + player.getPosition().toString());
+        }
 
         // check to make sure there are actually items in the grave
         InventoryHolder inventoryHolder = new InventoryHolder();
         inventoryHolder.grabPlayerData(player);
         if (inventoryHolder.isInventoryEmpty())
         {
-            ChatHelper.sayMessage(player, "But there were no valid items for the grave!");
+            if (ModConfigs.ENABLE_CHAT_MESSAGE_ON_DEATH)
+            {
+                ChatHelper.sayMessage(player, "But there were no valid items for the grave!");
+            }
             if (ModConfigs.PRINT_DEATH_LOG)
             {
                 LogHelper.info(player.getName() + " died without valid items for a grave.");
@@ -100,7 +106,7 @@ public class CommonEvents {
 
             if (posToPlace.getY() == -1)
             {
-                ChatHelper.sayMessage(player, "But a suitable location for the grave wasn't found.");
+                ChatHelper.sayMessage(player, "A suitable location for the grave wasn't found.");
             }
             else
             {

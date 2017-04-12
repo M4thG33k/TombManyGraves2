@@ -29,6 +29,7 @@ public class ModConfigs {
     public static boolean DEFAULT_TO_LOCKED;
     public static boolean ALLOW_INVENTORY_SAVES;
     public static boolean ALLOW_INVENTORY_LISTS;
+    public static boolean ENABLE_CHAT_MESSAGE_ON_DEATH;
 
     // Grave placement configs
     public static int MAX_GRAVE_SEARCH_RADIUS;
@@ -165,6 +166,10 @@ public class ModConfigs {
         ALLOW_INVENTORY_LISTS = config.get("listConfigs", "allowInventoryLists", true, "If set to false, " +
                 "inventory lists will not be able to be spawned. Lists already in the game will not be " +
                 "affected. (Defaults to true.)").getBoolean();
+
+        ENABLE_CHAT_MESSAGE_ON_DEATH = config.get("chatConfigs", "enableChatMessageOnDeath", false, "If set to true, " +
+                "a chat message with the player's grave coordinates will be displayed in chat upon their death. " +
+                "(Defaults to false.)").getBoolean();
     }
 
     private static void handleServerConfigs()
