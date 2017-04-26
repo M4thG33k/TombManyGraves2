@@ -95,7 +95,7 @@ public class InventoryHolder {
         }
 
         // Handle Baubles
-        if (TombManyGraves.BAUBLES && !gravePetCollecting)
+        if (TombManyGraves.BAUBLES)
         {
             List<NBTTagCompound> baubles = BaubleInventoryHandler.getBaubleData(player);
             if (baubles.size() == 1)
