@@ -4,9 +4,9 @@ import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
 import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.CosmeticArmorHandler;
+import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.InventoryPetsHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.WearableBackpacksHandler;
 import com.m4thg33k.tombmanygraves.items.ItemDeathList;
-import net.mcft.copy.backpacks.item.ItemBackpack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -63,6 +63,15 @@ public class InventoryHolder {
     public void grabPlayerData(EntityPlayer player)
     {
         compound = new NBTTagCompound();
+        boolean gravePetCollecting = false;
+
+        if (TombManyGraves.INVENTORY_PETS) {
+            if (InventoryPetsHandler.isGravePetActive(player)) {
+                gravePetCollecting = true;
+            } else {
+                InventoryPetsHandler.resetGravePet(player);
+            }
+        }
 
         // Handle Wearable Backpacks
         if (TombManyGraves.WEARABLE_BACKPACKS)
@@ -80,10 +89,13 @@ public class InventoryHolder {
         }
 
         // Get Vanilla Player Data
-        compound.setTag(PLAYER_INVENTORY, getTagFromInventory(player.inventory));
+        if (!gravePetCollecting)
+        {
+            compound.setTag(PLAYER_INVENTORY, getTagFromInventory(player.inventory));
+        }
 
         // Handle Baubles
-        if (TombManyGraves.BAUBLES)
+        if (TombManyGraves.BAUBLES && !gravePetCollecting)
         {
             List<NBTTagCompound> baubles = BaubleInventoryHandler.getBaubleData(player);
             if (baubles.size() == 1)
@@ -187,6 +199,11 @@ public class InventoryHolder {
         {
             return false;
         }
+
+//        if (TombManyGraves.INVENTORY_PETS && stack.getItem() == InventoryPets.petGrave)
+//        {
+//            return false;
+//        }
         return true;
     }
 
