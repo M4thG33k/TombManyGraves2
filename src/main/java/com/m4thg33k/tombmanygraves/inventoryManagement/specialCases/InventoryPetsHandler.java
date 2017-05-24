@@ -1,8 +1,8 @@
 package com.m4thg33k.tombmanygraves.inventoryManagement.specialCases;
 
-import com.inventorypets.CapabilityRefs;
-import com.inventorypets.ICapabilityPlayer;
 import com.inventorypets.InventoryPets;
+import com.inventorypets.capabilities.CapabilityRefs;
+import com.inventorypets.capabilities.ICapabilityPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
