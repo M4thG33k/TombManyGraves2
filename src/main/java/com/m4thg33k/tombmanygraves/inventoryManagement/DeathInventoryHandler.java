@@ -180,4 +180,22 @@ public class DeathInventoryHandler {
         }
         return didWork;
     }
+
+    public static NBTTagCompound getSavedInventoryAsNBT(String playerName, String timestamp)
+    {
+        String filename = FILE_PREFIX + "/" + playerName + "#" + timestamp + ".json";
+
+        BufferedReader reader;
+
+        try
+        {
+            reader = new BufferedReader(new FileReader(filename));
+            String fileData = reader.readLine();
+            NBTTagCompound allNBT = JsonToNBT.getTagFromJson(fileData);
+            return allNBT;
+        } catch (Exception e)
+        {
+            return null;
+        }
+    }
 }

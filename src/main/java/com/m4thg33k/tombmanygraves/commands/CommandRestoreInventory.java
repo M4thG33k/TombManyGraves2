@@ -1,0 +1,104 @@
+package com.m4thg33k.tombmanygraves.commands;
+
+import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
+import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
+import com.m4thg33k.tombmanygraves.lib.ModConfigs;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This command is used to restore an inventory from a save file. It will attempt to put items back in their
+ * original slots, dropping any items alread in those slots on the ground in the process.
+ */
+public class CommandRestoreInventory extends CommandBase {
+
+    public CommandRestoreInventory()
+    {
+        super("tmg_restore", 2, false);
+    }
+
+    @Override
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public String getUsage(ICommandSender sender) {
+        return COMMAND_NAME + " <player> <timestamp or latest> [receiving player]";
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+        if (sender.getEntityWorld().isRemote)
+        {
+            return;
+        }
+
+        if (! ModConfigs.ALLOW_INVENTORY_SAVES)
+        {
+            sender.sendMessage(new TextComponentString("This command has been disabled."));
+            return;
+        }
+
+        if (args.length < 2)
+        {
+            sender.sendMessage(new TextComponentString(getUsage(sender)));
+            return;
+        }
+
+        EntityPlayer receiver = args.length > 2 ?
+                sender.getEntityWorld().getPlayerEntityByName(args[2]) :
+                sender.getEntityWorld().getPlayerEntityByName(args[0]);
+
+        if (receiver == null)
+        {
+            sender.sendMessage(new TextComponentString("Either the owning or receiving player is offline."));
+            return;
+        }
+
+        NBTTagCompound savedData = DeathInventoryHandler.getSavedInventoryAsNBT(args[0], args[1]);
+        if (savedData == null)
+        {
+            sender.sendMessage(new TextComponentString("Either the owning player is misspelled or the timestamp is invalid"));
+            return;
+        }
+
+        InventoryHolder holder = new InventoryHolder();
+        holder.readFromNBT(savedData);
+
+        holder.forceInventory(receiver);
+        sender.sendMessage(new TextComponentString("Inventory restored."));
+    }
+
+    @Override
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
+        if (args.length == 1 || args.length == 3)
+        {
+            return getListOfStringMatchingLastWord(args, server.getOnlinePlayerNames());
+        }
+
+        if (args.length == 2)
+        {
+            return getListOfStringMatchingLastWord(args, DeathInventoryHandler.getFilenames(args[0]));
+        }
+
+        return new ArrayList<>();
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
+    public boolean isUsernameIndex(String[] args, int index) {
+        return index == 0 || index == 2;
+    }
+}
