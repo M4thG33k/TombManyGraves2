@@ -143,6 +143,11 @@ public class CommonEvents {
                 }
             }
         }
+        else
+        {
+            // if graves aren't allowed, we need to give the player their items back
+            inventoryHolder.insertInventory(player);
+        }
 
         if (ModConfigs.ALLOW_INVENTORY_SAVES)
         {
