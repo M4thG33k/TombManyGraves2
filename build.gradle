@@ -18,7 +18,7 @@ repositories {
 // end for JEI
 
 
-version = "1.11.2-3.0.7"
+version = "1.11.2-3.0.8"
 group= "com.m4thg33k.tombmanygraves" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TombManyGraves"
 
@@ -70,8 +70,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     // for JEI
-    deobfCompile "mezz.jei:jei_1.11:4.1.1.208:api"
-    runtime "mezz.jei:jei_1.11:4.1.1.208"
+    deobfCompile "mezz.jei:jei_1.11.2:4.5.0.287:api"
+    runtime "mezz.jei:jei_1.11.2:4.5.0.287"
     // end for JEI
 
 }

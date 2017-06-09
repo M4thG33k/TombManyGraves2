@@ -124,7 +124,7 @@ public class InventoryHolder {
             }
             else
             {
-                compound.setTag(BAUBLE_INVENTORY, new NBTTagCompound());
+                compound.setTag(COSMETIC_ARMOR_INVENTORY, new NBTTagCompound());
             }
         }
 
