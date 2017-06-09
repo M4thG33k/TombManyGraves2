@@ -18,7 +18,7 @@ repositories {
 // end for JEI
 
 
-version = "1.11.2-3.0.8"
+version = "1.11.2-3.0.9"
 group= "com.m4thg33k.tombmanygraves" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TombManyGraves"
 
