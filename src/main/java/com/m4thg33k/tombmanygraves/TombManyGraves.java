@@ -21,6 +21,7 @@ public class TombManyGraves {
     public static boolean WEARABLE_BACKPACKS;
     public static boolean COSMETIC_ARMOR;
     public static boolean INVENTORY_PETS;
+    public static boolean CYBERWARE;
 
     @Mod.Instance
     public static TombManyGraves INSTANCE = new TombManyGraves();
@@ -49,11 +50,13 @@ public class TombManyGraves {
         WEARABLE_BACKPACKS = Loader.isModLoaded("wearablebackpacks");
         COSMETIC_ARMOR = Loader.isModLoaded("cosmeticarmorreworked");
         INVENTORY_PETS = Loader.isModLoaded("inventorypets");
+        CYBERWARE = Loader.isModLoaded("cyberware");
 
         printModLoaded(BAUBLES, "Baubles");
         printModLoaded(WEARABLE_BACKPACKS, "Wearable Backpacks");
         printModLoaded(COSMETIC_ARMOR, "Cosmetic Armor Reworked");
         printModLoaded(INVENTORY_PETS, "Inventory Pets");
+        printModLoaded(CYBERWARE, "CyberWare");
 
 //        LogHelper.info("Baubles is " + (BAUBLES ? "" : "NOT ") + "installed.");
     }

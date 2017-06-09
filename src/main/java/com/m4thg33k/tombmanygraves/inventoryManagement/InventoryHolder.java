@@ -4,6 +4,7 @@ import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
 import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.CosmeticArmorHandler;
+import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.CyberwareHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.InventoryPetsHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.WearableBackpacksHandler;
 import com.m4thg33k.tombmanygraves.items.ItemDeathList;
@@ -64,6 +65,15 @@ public class InventoryHolder {
     {
         compound = new NBTTagCompound();
         boolean gravePetCollecting = false;
+
+        // if cyberware is installed, check if the defrib is installed & able to be used
+        if (TombManyGraves.CYBERWARE)
+        {
+            if (CyberwareHandler.willCyberHandleDeath(player))
+            {
+                return;
+            }
+        }
 
         if (TombManyGraves.INVENTORY_PETS) {
             if (InventoryPetsHandler.isGravePetActive(player)) {
