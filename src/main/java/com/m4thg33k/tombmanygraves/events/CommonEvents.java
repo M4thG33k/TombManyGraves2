@@ -107,6 +107,9 @@ public class CommonEvents {
             if (posToPlace.getY() == -1)
             {
                 ChatHelper.sayMessage(player, "A suitable location for the grave wasn't found.");
+
+                // we need to give them their items back in this case so they can be dropped like normal
+                inventoryHolder.insertInventory(player);
             }
             else
             {
