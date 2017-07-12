@@ -15,7 +15,6 @@ import com.m4thg33k.tombmanygraves.items.ModItems;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.util.ChatHelper;
 
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
@@ -159,8 +158,7 @@ public class DeathInventoryHandler {
             {
                 ItemStack theList = new ItemStack(ModItems.itemDeathList, 1);
                 theList.setTagCompound(allNBT);
-                EntityItem entityItem = new EntityItem(player.world, player.posX, player.posY, player.posZ, theList);
-                player.world.spawnEntity(entityItem);
+                player.addItemStackToInventory(theList);
             }
             else
             {
