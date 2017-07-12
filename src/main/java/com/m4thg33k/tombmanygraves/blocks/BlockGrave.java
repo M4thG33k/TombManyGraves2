@@ -212,7 +212,7 @@ public class BlockGrave extends BaseBlock {
     }
 
     @Override
-    public boolean isFullyOpaque(IBlockState state) {
+    public boolean isTopSolid(IBlockState state) {
         return false;
     }
 

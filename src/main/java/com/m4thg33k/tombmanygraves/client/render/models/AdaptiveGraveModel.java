@@ -27,7 +27,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.Attributes;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -42,12 +41,12 @@ import java.util.Map;
 public class AdaptiveGraveModel implements IBakedModel {
 
     private final IBakedModel standard;
-    private final IRetexturableModel retexturableModel;
+    private final IModel retexturableModel;
     private static final IBlockState dirtState = Blocks.DIRT.getDefaultState();
 
     private final Map<String, IBakedModel> model_cache = Maps.newHashMap();
 
-    public AdaptiveGraveModel(IBakedModel standard, IRetexturableModel retexturableModel)
+    public AdaptiveGraveModel(IBakedModel standard, IModel retexturableModel)
     {
         this.standard = standard;
         this.retexturableModel = retexturableModel;

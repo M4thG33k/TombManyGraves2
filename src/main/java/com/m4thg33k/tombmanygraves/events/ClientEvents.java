@@ -13,7 +13,6 @@ import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,13 +32,10 @@ public class ClientEvents {
         try
         {
             IModel model = ModelLoaderRegistry.getModel(graveModel);
-            if (model instanceof IRetexturableModel)
-            {
-                IRetexturableModel gModel = (IRetexturableModel) model;
+            
                 IBakedModel standard = event.getModelRegistry().getObject(graveModelLocation);
-                IBakedModel finalModel = new AdaptiveGraveModel(standard, gModel);
+                IBakedModel finalModel = new AdaptiveGraveModel(standard, model);
                 event.getModelRegistry().putObject(graveModelLocation, finalModel);
-            }
         }
         catch (Exception e)
         {

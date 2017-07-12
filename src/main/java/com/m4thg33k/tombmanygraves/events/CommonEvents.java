@@ -8,7 +8,6 @@ import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
 import com.m4thg33k.tombmanygraves.util.ChatHelper;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
-import com.sun.jmx.mbeanserver.MBeanInstantiator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -266,7 +265,7 @@ public class CommonEvents {
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void itemToss(ItemTossEvent event)
     {
-        Item item = event.getEntityItem().getEntityItem().getItem();
+        Item item = event.getEntityItem().getItem().getItem();
         if (item == Item.getItemFromBlock(ModBlocks.blockGrave) ||
                 item == ModItems.itemDeathList)
         {
@@ -279,8 +278,8 @@ public class CommonEvents {
     {
         for (EntityItem entityItem : event.getDrops())
         {
-            if (entityItem.getEntityItem().getItem() == Item.getItemFromBlock(ModBlocks.blockGrave) ||
-                    entityItem.getEntityItem().getItem() == ModItems.itemDeathList)
+            if (entityItem.getItem().getItem() == Item.getItemFromBlock(ModBlocks.blockGrave) ||
+                    entityItem.getItem().getItem() == ModItems.itemDeathList)
             {
                 entityItem.setDead();
             }

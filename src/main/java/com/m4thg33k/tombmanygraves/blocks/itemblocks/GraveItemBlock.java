@@ -2,6 +2,7 @@ package com.m4thg33k.tombmanygraves.blocks.itemblocks;
 
 import com.m4thg33k.tombmanygraves.lib.Names;
 import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -35,8 +36,7 @@ public class GraveItemBlock extends ItemBlock{
     }
 
     @Override
-    public void addInformation(@Nullable ItemStack stack,@Nullable EntityPlayer playerIn,
-                               @Nullable List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (tooltip == null){
             return;
         }

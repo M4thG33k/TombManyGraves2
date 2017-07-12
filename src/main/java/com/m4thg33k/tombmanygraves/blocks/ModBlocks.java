@@ -1,6 +1,6 @@
 package com.m4thg33k.tombmanygraves.blocks;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class ModBlocks {
 
@@ -8,6 +8,6 @@ public class ModBlocks {
 
     public static void preInit()
     {
-        GameRegistry.register(blockGrave);
+        ForgeRegistries.BLOCKS.register(blockGrave);
     }
 }

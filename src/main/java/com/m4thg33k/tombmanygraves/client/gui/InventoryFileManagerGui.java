@@ -63,7 +63,7 @@ public class InventoryFileManagerGui extends ModBaseContainerGui {
         for (GuiButton button : this.buttonList)
         {
             button.visible = true;
-            button.drawButton(mc, mouseX, mouseY);
+            button.drawButton(mc, mouseX, mouseY, partialTicks);
         }
     }
 }

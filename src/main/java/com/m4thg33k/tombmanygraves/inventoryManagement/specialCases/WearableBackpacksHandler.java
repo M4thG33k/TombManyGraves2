@@ -154,7 +154,7 @@ public class WearableBackpacksHandler{
             return;
         }
 
-        ItemStackHandler items = ((BackpackDataItems)data).items;
+        ItemStackHandler items = ((BackpackDataItems)data).getItems();
 
         for (int i=0; i < items.getSlots(); i++)
         {
@@ -177,7 +177,7 @@ public class WearableBackpacksHandler{
             return;
         }
 
-        ItemStackHandler items = ((BackpackDataItems)data).items;
+        ItemStackHandler items = ((BackpackDataItems)data).getItems();
 
         for (int i=0; i < items.getSlots(); i++)
         {
@@ -224,7 +224,7 @@ public class WearableBackpacksHandler{
             ret.add(packName);
             ret.add(" ");
 
-            ItemStackHandler items = ((BackpackDataItems) data).items;
+            ItemStackHandler items = ((BackpackDataItems) data).getItems();
 
             for (int i=0; i < items.getSlots(); i++)
             {
