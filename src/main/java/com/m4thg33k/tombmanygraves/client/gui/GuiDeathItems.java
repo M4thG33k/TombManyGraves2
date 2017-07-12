@@ -1,14 +1,13 @@
 package com.m4thg33k.tombmanygraves.client.gui;
 
-import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
-import com.m4thg33k.tombmanygraves.lib.Names;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 
 public class GuiDeathItems extends ModBaseGui{
 

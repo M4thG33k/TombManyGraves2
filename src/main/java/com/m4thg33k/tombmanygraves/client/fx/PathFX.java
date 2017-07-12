@@ -1,20 +1,22 @@
 package com.m4thg33k.tombmanygraves.client.fx;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
+import org.lwjgl.opengl.GL11;
+
 import com.m4thg33k.tombmanygraves.lib.Names;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import org.lwjgl.opengl.GL11;
-
-import java.util.ArrayDeque;
-import java.util.Queue;
 
 public class PathFX extends Particle {
 

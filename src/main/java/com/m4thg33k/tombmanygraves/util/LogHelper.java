@@ -1,8 +1,10 @@
 package com.m4thg33k.tombmanygraves.util;
 
-import com.m4thg33k.tombmanygraves.lib.Names;
-import net.minecraftforge.fml.common.FMLLog;
 import org.apache.logging.log4j.Level;
+
+import com.m4thg33k.tombmanygraves.lib.Names;
+
+import net.minecraftforge.fml.common.FMLLog;
 
 public class LogHelper {
 

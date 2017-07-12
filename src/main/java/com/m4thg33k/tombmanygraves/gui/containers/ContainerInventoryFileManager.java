@@ -1,10 +1,10 @@
 package com.m4thg33k.tombmanygraves.gui.containers;
 
-import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
-import net.minecraft.entity.player.EntityPlayer;
-
 import java.util.List;
+
+import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
+
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerInventoryFileManager extends BaseContainer {
 

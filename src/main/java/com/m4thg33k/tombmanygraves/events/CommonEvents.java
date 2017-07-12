@@ -8,6 +8,7 @@ import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
 import com.m4thg33k.tombmanygraves.util.ChatHelper;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

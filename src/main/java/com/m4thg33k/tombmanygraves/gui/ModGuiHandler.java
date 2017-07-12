@@ -1,10 +1,8 @@
 package com.m4thg33k.tombmanygraves.gui;
 
 import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
-import com.m4thg33k.tombmanygraves.client.gui.InventoryFileManagerGui;
-import com.m4thg33k.tombmanygraves.gui.containers.ContainerInventoryFileManager;
 import com.m4thg33k.tombmanygraves.items.ModItems;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;

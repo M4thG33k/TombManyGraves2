@@ -1,11 +1,11 @@
 package com.m4thg33k.tombmanygraves.client.fx;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.pathfinding.PathFinder;
 import net.minecraft.profiler.Profiler;
-import org.lwjgl.opengl.GL11;
 
 public class ParticleRenderDispatcher {
     public static int pathFXCount = 0;

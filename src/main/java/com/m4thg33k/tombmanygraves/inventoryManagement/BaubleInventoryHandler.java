@@ -1,5 +1,8 @@
 package com.m4thg33k.tombmanygraves.inventoryManagement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import baubles.api.BaublesApi;
 import baubles.api.cap.BaublesContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,9 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BaubleInventoryHandler {
 

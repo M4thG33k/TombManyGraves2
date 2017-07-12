@@ -1,7 +1,11 @@
 package com.m4thg33k.tombmanygraves.network.packets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.m4thg33k.tombmanygraves.client.gui.InventoryFileManagerGui;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -9,9 +13,6 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PacketFileNames extends BaseThreadsafePacket {
 

@@ -1,20 +1,20 @@
 package com.m4thg33k.tombmanygraves.network.packets;
 
+import java.util.List;
+import java.util.UUID;
+
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.network.TMGNetwork;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
-
-import java.util.List;
-import java.util.UUID;
 
 public class PacketProbeFiles extends BaseThreadsafePacket{
 

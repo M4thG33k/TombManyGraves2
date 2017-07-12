@@ -1,5 +1,9 @@
 package com.m4thg33k.tombmanygraves.proxy;
 
+import java.awt.Color;
+
+import org.lwjgl.util.vector.Vector3f;
+
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.client.fx.PathFX;
 import com.m4thg33k.tombmanygraves.client.render.ItemRenderRegister;
@@ -7,15 +11,13 @@ import com.m4thg33k.tombmanygraves.client.render.ModRenders;
 import com.m4thg33k.tombmanygraves.events.ClientEvents;
 import com.m4thg33k.tombmanygraves.events.RenderEvents;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.lwjgl.util.vector.Vector3f;
-
-import java.awt.*;
 
 public class ClientProxy extends CommonProxy{
 

@@ -4,6 +4,7 @@ import com.m4thg33k.tombmanygraves.client.fx.ParticleRenderDispatcher;
 import com.m4thg33k.tombmanygraves.client.render.models.AdaptiveGraveModel;
 import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.util.Utility;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

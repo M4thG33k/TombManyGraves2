@@ -1,20 +1,16 @@
 package com.m4thg33k.tombmanygraves.commands;
 
-import com.m4thg33k.tombmanygraves.TombManyGraves;
-import com.m4thg33k.tombmanygraves.gui.ModGuiHandler;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
+
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 
 public class CommandOpenFileManager extends CommandBase{
 
