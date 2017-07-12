@@ -11,9 +11,6 @@ import net.minecraft.util.math.BlockPos;
 
 public class GuiDeathItems extends ModBaseGui{
 
-    private EntityPlayer player;
-
-    private ItemStack deathList;
     private InventoryHolder inventoryHolder;
 
     private List<String> header;
@@ -31,9 +28,6 @@ public class GuiDeathItems extends ModBaseGui{
     public GuiDeathItems(EntityPlayer player, ItemStack deathList)
     {
         super(200, 150);
-        this.player = player;
-        this.deathList = deathList.copy();
-
         this.inventoryHolder = new InventoryHolder();
         this.inventoryHolder.readFromNBT(deathList.getTagCompound());
 

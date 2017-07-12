@@ -23,7 +23,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientEvents {
 
     private static final ResourceLocation graveModel = Utility.getResource("block/grave");
-    private static final String graveLocation = Utility.resource(Names.GRAVE_BLOCK);
     private static final ModelResourceLocation graveModelLocation =
             Utility.getModelResource(Names.GRAVE_BLOCK, "normal");
 

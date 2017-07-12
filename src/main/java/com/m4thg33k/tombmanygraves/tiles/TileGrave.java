@@ -28,7 +28,6 @@ import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
 public class TileGrave extends TileEntity {
-    private static boolean DROP_ITEMS = ModConfigs.DROP_ITEMS_ON_GROUND;
 
     // static final Strings for use as NBT tags (keep it consistent yo!)
     private static final String TAG_CAMO = "camo";

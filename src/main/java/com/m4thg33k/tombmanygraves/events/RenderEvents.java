@@ -21,7 +21,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class RenderEvents {
 
-    private static RenderEvents INSTANCE;
     public Minecraft mc;
 
     private static final int FORCE = ModConfigs.NAME_FORCE;
@@ -30,7 +29,6 @@ public class RenderEvents {
     public RenderEvents()
     {
         this.mc = Minecraft.getMinecraft();
-        INSTANCE = this;
     }
 
     @SubscribeEvent

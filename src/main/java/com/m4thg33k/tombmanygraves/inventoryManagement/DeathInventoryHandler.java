@@ -56,7 +56,6 @@ public class DeathInventoryHandler {
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound = inventoryHolder.writeToNBT(tagCompound);
-        String toWrite = tagCompound.toString();
         didWork = writePortion(fullFilename, tagCompound.toString());
 
         if (didWork)
@@ -187,6 +186,7 @@ public class DeathInventoryHandler {
             reader = new BufferedReader(new FileReader(filename));
             String fileData = reader.readLine();
             NBTTagCompound allNBT = JsonToNBT.getTagFromJson(fileData);
+            reader.close();
             return allNBT;
         } catch (Exception e)
         {

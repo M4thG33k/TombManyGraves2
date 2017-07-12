@@ -1,16 +1,18 @@
 package com.m4thg33k.tombmanygraves.util;
 
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.m4thg33k.tombmanygraves.lib.Names;
 
-import net.minecraftforge.fml.common.FMLLog;
-
 public class LogHelper {
+	
+	private static final Logger LOGGER = LogManager.getLogger(Names.MODID);
 
     public static void log(Level logLevel, Object object)
     {
-        FMLLog.log(Names.MODNAME, logLevel, "[" + Names.MODNAME + "]: " + String.valueOf(object));
+    	LOGGER.log(logLevel, "[" + Names.MODNAME + "]: " + String.valueOf(object));
     }
 
     public static void all(Object object)

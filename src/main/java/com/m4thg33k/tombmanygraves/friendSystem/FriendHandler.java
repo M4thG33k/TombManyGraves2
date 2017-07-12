@@ -25,7 +25,8 @@ public class FriendHandler {
     private static String FILE = "./TombManyGraves/friends.fdat";
     private static HashMap<UUID, HashSet<UUID>> friendList;
 
-    public static void importFriendsList()
+    @SuppressWarnings("unchecked")
+	public static void importFriendsList()
     {
         friendList = null;
         try

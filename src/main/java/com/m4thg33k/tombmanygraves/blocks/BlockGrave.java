@@ -197,12 +197,6 @@ public class BlockGrave extends BaseBlock {
 
     @ParametersAreNonnullByDefault
     @Override
-    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-        return false;
-    }
-
-    @ParametersAreNonnullByDefault
-    @Override
     public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
 
     }

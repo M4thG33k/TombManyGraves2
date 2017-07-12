@@ -409,13 +409,6 @@ public class InventoryHolder {
         return saved;
     }
 
-    private TransitionInventory getSavedPlayerInventory(int size)
-    {
-        TransitionInventory saved = new TransitionInventory(size);
-        saved.readFromTagList(compound.getTagList(PLAYER_INVENTORY, 10));
-        return saved;
-    }
-
     private TransitionInventory getSavedPlayerInventory()
     {
         NBTTagList list = compound.getTagList(PLAYER_INVENTORY, 10);
