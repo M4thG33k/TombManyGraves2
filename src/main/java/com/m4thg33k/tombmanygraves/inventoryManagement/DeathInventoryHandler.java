@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.server.FMLServerHandler;
@@ -148,7 +149,7 @@ public class DeathInventoryHandler {
         return saved;
     }
 
-    public static boolean getDeathList(EntityPlayer player, String playerName, String timestamp)
+    public static boolean getDeathList(EntityPlayer player, String playerName, String timestamp, boolean didDie)
     {
         boolean didWork = true;
 
@@ -165,7 +166,16 @@ public class DeathInventoryHandler {
             {
                 ItemStack theList = new ItemStack(ModItems.itemDeathList, 1);
                 theList.setTagCompound(allNBT);
-                EntityItem entityItem = new EntityItem(player.world, player.posX, player.posY, player.posZ, theList);
+                BlockPos pos = player.getPosition();
+                if (didDie)
+                {
+                    BlockPos bedPos = player.getBedLocation(player.getSpawnDimension());
+                    if (bedPos != null)
+                    {
+                        pos = bedPos;
+                    }
+                }
+                EntityItem entityItem = new EntityItem(player.world, pos.getX(), pos.getY(), pos.getZ(), theList);
                 player.world.spawnEntity(entityItem);
             }
             else
