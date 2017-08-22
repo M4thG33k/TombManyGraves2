@@ -49,8 +49,8 @@ public abstract class CommandBase implements ICommand {
     @ParametersAreNonnullByDefault
     @Override
     public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return sender.canUseCommand(this.requiredPermissionLevel, this.getName()) &&
-                (!requireRealPlayer || sender instanceof EntityPlayer);
+        return (!requireRealPlayer || sender instanceof EntityPlayer) &&
+                (this.requiredPermissionLevel == 0 || sender.canUseCommand(this.requiredPermissionLevel, this.getName()));
     }
 
     @Override

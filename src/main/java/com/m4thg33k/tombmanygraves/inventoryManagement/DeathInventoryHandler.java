@@ -141,7 +141,7 @@ public class DeathInventoryHandler {
         return saved;
     }
 
-    public static boolean getDeathList(EntityPlayer player, String playerName, String timestamp)
+    public static boolean getDeathList(EntityPlayer player, String playerName, String timestamp, boolean didDie)
     {
         boolean didWork = true;
 

@@ -76,7 +76,7 @@ public class CommandGetDeathList extends CommandBase {
             return;
         }
 
-        boolean worked = DeathInventoryHandler.getDeathList((EntityPlayer)sender, args[0], args[1]);
+        boolean worked = DeathInventoryHandler.getDeathList((EntityPlayer)sender, args[0], args[1], false);
         if (!worked)
         {
             sender.sendMessage(new TextComponentString("Failed to retrieve list."));

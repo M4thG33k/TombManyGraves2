@@ -297,7 +297,9 @@ public class CommonEvents {
                 !(event.getEntityLiving().world.isRemote) &&
                 event.isWasDeath())
         {
-            DeathInventoryHandler.getDeathList(event.getEntityPlayer(), event.getEntityPlayer().getName(), "latest");
+            LogHelper.info(event.getEntityPlayer().getBedLocation());
+            LogHelper.info(event.getOriginal().getBedLocation());
+            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getOriginal().getName(), "latest", true);
         }
     }
 }
