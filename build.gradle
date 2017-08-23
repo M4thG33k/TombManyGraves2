@@ -20,9 +20,9 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12-14.21.1.2400"
+    version = "1.12.1-14.22.0.2460"
     runDir = "run"
-    mappings = "snapshot_20170706"
+    mappings = "snapshot_20170821"
 }
 
 repositories {
@@ -36,15 +36,16 @@ repositories {
         url "http://maven.amadornes.com/"
     }
 	maven {
-		url  "http://tehnut.info/maven"
+		url "http://tehnut.info/maven"
+	}
+	maven {
+		url "http://maven.ic2.player.to"
 	}
 }
 
 dependencies {
-	deobfCompile "mezz.jei:jei_1.12:4.7.0.68:api"
-    runtime "mezz.jei:jei_1.12:4.7.0.68"
-	deobfCompile "mcp.mobius.waila:Hwyla:1.8.18-B32_1.12:api"
-	runtime "mcp.mobius.waila:Hwyla:1.8.18-B32_1.12"
+	deobfCompile "mezz.jei:jei_1.12.1:+"
+	deobfCompile "mcp.mobius.waila:Hwyla:+"
 }
 
 processResources
