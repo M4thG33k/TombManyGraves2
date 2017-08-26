@@ -1,12 +1,14 @@
 package com.m4thg33k.tombmanygraves.api.state;
 
+import java.util.Objects;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import net.minecraftforge.common.property.IUnlistedProperty;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
+import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class PropertyObject<T> implements IUnlistedProperty<T> {
 

@@ -1,8 +1,16 @@
 package com.m4thg33k.tombmanygraves.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
+
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,12 +18,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CommandDropInventory extends CommandBase {
 

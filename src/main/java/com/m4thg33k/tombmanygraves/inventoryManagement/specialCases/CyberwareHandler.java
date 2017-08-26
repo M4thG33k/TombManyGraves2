@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.inventoryManagement.specialCases;
+/*package com.m4thg33k.tombmanygraves.inventoryManagement.specialCases;
 
 import com.m4thg33k.tombmanygraves.util.LogHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
@@ -36,3 +36,4 @@ public class CyberwareHandler {
         return false;
     }
 }
+*/

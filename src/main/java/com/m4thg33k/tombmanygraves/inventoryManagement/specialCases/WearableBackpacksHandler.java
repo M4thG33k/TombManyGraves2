@@ -1,7 +1,13 @@
 package com.m4thg33k.tombmanygraves.inventoryManagement.specialCases;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
 import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
+
 import net.mcft.copy.backpacks.api.BackpackHelper;
 import net.mcft.copy.backpacks.api.IBackpack;
 import net.mcft.copy.backpacks.api.IBackpackData;
@@ -11,20 +17,13 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.ISaveHandler;
 import net.minecraftforge.items.ItemStackHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class WearableBackpacksHandler{
 
@@ -154,7 +153,7 @@ public class WearableBackpacksHandler{
             return;
         }
 
-        ItemStackHandler items = ((BackpackDataItems)data).items;
+        ItemStackHandler items = ((BackpackDataItems)data).getItems();
 
         for (int i=0; i < items.getSlots(); i++)
         {
@@ -177,7 +176,7 @@ public class WearableBackpacksHandler{
             return;
         }
 
-        ItemStackHandler items = ((BackpackDataItems)data).items;
+        ItemStackHandler items = ((BackpackDataItems)data).getItems();
 
         for (int i=0; i < items.getSlots(); i++)
         {
@@ -224,7 +223,7 @@ public class WearableBackpacksHandler{
             ret.add(packName);
             ret.add(" ");
 
-            ItemStackHandler items = ((BackpackDataItems) data).items;
+            ItemStackHandler items = ((BackpackDataItems) data).getItems();
 
             for (int i=0; i < items.getSlots(); i++)
             {

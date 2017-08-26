@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.inventoryManagement.specialCases;
+/*package com.m4thg33k.tombmanygraves.inventoryManagement.specialCases;
 
 import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
 import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
@@ -171,4 +171,4 @@ public class CosmeticArmorHandler {
     {
         return InventoryHolder.getListOfItemsInInventory(compound, "Cosmetic Armor");
     }
-}
+}*/

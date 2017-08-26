@@ -3,12 +3,13 @@ package com.m4thg33k.tombmanygraves.events;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +21,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class RenderEvents {
 
-    private static RenderEvents INSTANCE;
     public Minecraft mc;
 
     private static final int FORCE = ModConfigs.NAME_FORCE;
@@ -29,7 +29,6 @@ public class RenderEvents {
     public RenderEvents()
     {
         this.mc = Minecraft.getMinecraft();
-        INSTANCE = this;
     }
 
     @SubscribeEvent
@@ -124,7 +123,7 @@ public class RenderEvents {
         GlStateManager.disableTexture2D();
 
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexBuffer = tessellator.getBuffer();
+        BufferBuilder vertexBuffer = tessellator.getBuffer();
         int strLenHalved = fontRenderer.getStringWidth(name) / 2;
 
         vertexBuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);

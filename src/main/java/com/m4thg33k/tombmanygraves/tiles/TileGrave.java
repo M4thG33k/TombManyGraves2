@@ -1,12 +1,18 @@
 package com.m4thg33k.tombmanygraves.tiles;
 
-import com.m4thg33k.tombmanygraves.blocks.BlockGrave;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.friendSystem.FriendHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
 import com.m4thg33k.tombmanygraves.items.ModItems;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.util.ChatHelper;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,14 +26,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.UUID;
-
 @SuppressWarnings("deprecation")
 public class TileGrave extends TileEntity {
-    private static boolean DROP_ITEMS = ModConfigs.DROP_ITEMS_ON_GROUND;
 
     // static final Strings for use as NBT tags (keep it consistent yo!)
     private static final String TAG_CAMO = "camo";

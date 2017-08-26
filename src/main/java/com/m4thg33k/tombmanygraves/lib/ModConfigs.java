@@ -1,9 +1,9 @@
 package com.m4thg33k.tombmanygraves.lib;
 
+import java.awt.Color;
+
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
-import java.awt.*;
 
 public class ModConfigs {
 

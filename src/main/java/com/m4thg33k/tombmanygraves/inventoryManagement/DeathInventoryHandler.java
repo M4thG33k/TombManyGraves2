@@ -1,21 +1,5 @@
 package com.m4thg33k.tombmanygraves.inventoryManagement;
 
-import com.m4thg33k.tombmanygraves.items.ModItems;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
-import com.m4thg33k.tombmanygraves.util.ChatHelper;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.server.FMLServerHandler;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,6 +10,15 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.m4thg33k.tombmanygraves.items.ModItems;
+import com.m4thg33k.tombmanygraves.lib.ModConfigs;
+import com.m4thg33k.tombmanygraves.util.ChatHelper;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class DeathInventoryHandler {
 
@@ -62,7 +55,6 @@ public class DeathInventoryHandler {
 
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound = inventoryHolder.writeToNBT(tagCompound);
-        String toWrite = tagCompound.toString();
         didWork = writePortion(fullFilename, tagCompound.toString());
 
         if (didWork)
@@ -166,17 +158,7 @@ public class DeathInventoryHandler {
             {
                 ItemStack theList = new ItemStack(ModItems.itemDeathList, 1);
                 theList.setTagCompound(allNBT);
-                BlockPos pos = player.getPosition();
-                if (didDie)
-                {
-                    BlockPos bedPos = player.getBedLocation(player.getSpawnDimension());
-                    if (bedPos != null)
-                    {
-                        pos = bedPos;
-                    }
-                }
-                EntityItem entityItem = new EntityItem(player.world, pos.getX(), pos.getY(), pos.getZ(), theList);
-                player.world.spawnEntity(entityItem);
+                player.addItemStackToInventory(theList);
             }
             else
             {
@@ -202,6 +184,7 @@ public class DeathInventoryHandler {
             reader = new BufferedReader(new FileReader(filename));
             String fileData = reader.readLine();
             NBTTagCompound allNBT = JsonToNBT.getTagFromJson(fileData);
+            reader.close();
             return allNBT;
         } catch (Exception e)
         {

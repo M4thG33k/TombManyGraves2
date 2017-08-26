@@ -1,15 +1,16 @@
 package com.m4thg33k.tombmanygraves.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.m4thg33k.tombmanygraves.gui.containers.ContainerInventoryFileManager;
 import com.m4thg33k.tombmanygraves.network.TMGNetwork;
 import com.m4thg33k.tombmanygraves.network.packets.PacketProbeFiles;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class InventoryFileManagerGui extends ModBaseContainerGui {
 
@@ -63,7 +64,7 @@ public class InventoryFileManagerGui extends ModBaseContainerGui {
         for (GuiButton button : this.buttonList)
         {
             button.visible = true;
-            button.drawButton(mc, mouseX, mouseY);
+            button.drawButton(mc, mouseX, mouseY, partialTicks);
         }
     }
 }

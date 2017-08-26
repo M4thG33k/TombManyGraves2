@@ -4,6 +4,7 @@ import com.m4thg33k.tombmanygraves.commands.ModCommands;
 import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.proxy.CommonProxy;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
+
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -11,8 +12,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-
-import java.io.File;
 
 @Mod(modid = Names.MODID, name = Names.MODNAME, version = Names.VERSION)
 public class TombManyGraves {

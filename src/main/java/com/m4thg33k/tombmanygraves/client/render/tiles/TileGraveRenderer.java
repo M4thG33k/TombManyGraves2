@@ -1,25 +1,24 @@
 package com.m4thg33k.tombmanygraves.client.render.tiles;
 
+import java.util.Random;
+
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.Random;
 
-
-public class TileGraveRenderer extends TileEntitySpecialRenderer {
+public class TileGraveRenderer extends TileEntitySpecialRenderer<TileGrave> {
 
     RenderItem itemRenderer;
     private int skullMeta = ModConfigs.GRAVE_SKULL_RENDER_TYPE;
@@ -27,7 +26,6 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
     private int deathAngle;
     private boolean shouldRenderGround;
     private ItemStack skull = defaultSkull;
-    private boolean initialized = false;
     private static final ResourceLocation TEX = TextureMap.LOCATION_BLOCKS_TEXTURE;
     private Random rand;
 
@@ -48,29 +46,20 @@ public class TileGraveRenderer extends TileEntitySpecialRenderer {
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
-        if (!(te instanceof TileGrave) || !ModConfigs.GRAVE_RENDERING_ENABLED)
-        {
-            return;
-        }
-
-        TileGrave grave = (TileGrave)te;
-
-//        if (!initialized)
-//        {
-//            this.initialize(grave);
-//        }
-        initialize(grave);
+    public void render(TileGrave te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+        if (!ModConfigs.GRAVE_RENDERING_ENABLED) return;
+        
+        initialize(te);
 
         Minecraft.getMinecraft().renderEngine.bindTexture(TEX);
 
         if (this.shouldRenderGround)
         {
-            this.renderGround(x, y, z, grave.isLocked());
+            this.renderGround(x, y, z, te.isLocked());
         }
         else
         {
-            this.renderFloatingHead(x, y, z, grave.isLocked());
+            this.renderFloatingHead(x, y, z, te.isLocked());
         }
     }
 

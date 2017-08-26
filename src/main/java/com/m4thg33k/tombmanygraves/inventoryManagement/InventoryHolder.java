@@ -1,13 +1,21 @@
 package com.m4thg33k.tombmanygraves.inventoryManagement;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
-import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.CosmeticArmorHandler;
-import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.CyberwareHandler;
-import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.InventoryPetsHandler;
+//import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.CosmeticArmorHandler;
+//import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.CyberwareHandler;
+//import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.InventoryPetsHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.WearableBackpacksHandler;
 import com.m4thg33k.tombmanygraves.items.ItemDeathList;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,13 +27,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class InventoryHolder {
     public static final String TAG_NAME = "InventoryHolder";
@@ -66,7 +67,7 @@ public class InventoryHolder {
         compound = new NBTTagCompound();
         boolean gravePetCollecting = false;
 
-        // if cyberware is installed, check if the defrib is installed & able to be used
+        /*/ if cyberware is installed, check if the defrib is installed & able to be used
         if (TombManyGraves.CYBERWARE)
         {
             if (CyberwareHandler.willCyberHandleDeath(player))
@@ -81,7 +82,7 @@ public class InventoryHolder {
             } else {
                 InventoryPetsHandler.resetGravePet(player);
             }
-        }
+        }*/
 
         // Handle Wearable Backpacks
         if (TombManyGraves.WEARABLE_BACKPACKS)
@@ -123,7 +124,7 @@ public class InventoryHolder {
             compound.setTag(BAUBLE_INVENTORY, new NBTTagCompound());
         }
 
-        // Handle Cosmetic Armor
+        /*/ Handle Cosmetic Armor
         if (TombManyGraves.COSMETIC_ARMOR)
         {
             List<NBTTagCompound> cosmetic = CosmeticArmorHandler.getCosmeticData(player);
@@ -136,7 +137,7 @@ public class InventoryHolder {
             {
                 compound.setTag(COSMETIC_ARMOR_INVENTORY, new NBTTagCompound());
             }
-        }
+        }*/
 
 
         playerName = player.getName();
@@ -289,7 +290,7 @@ public class InventoryHolder {
 
         if (TombManyGraves.COSMETIC_ARMOR)
         {
-            CosmeticArmorHandler.insertInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
+        //   CosmeticArmorHandler.insertInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
         }
     }
 
@@ -328,7 +329,7 @@ public class InventoryHolder {
 
         if (TombManyGraves.COSMETIC_ARMOR)
         {
-            CosmeticArmorHandler.forceInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
+         //   CosmeticArmorHandler.forceInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
         }
     }
 
@@ -357,7 +358,7 @@ public class InventoryHolder {
 
         if (TombManyGraves.COSMETIC_ARMOR)
         {
-            CosmeticArmorHandler.dropInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
+         //   CosmeticArmorHandler.dropInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
         }
     }
 
@@ -386,7 +387,7 @@ public class InventoryHolder {
 
         if (TombManyGraves.COSMETIC_ARMOR)
         {
-            CosmeticArmorHandler.dropInventory(world, pos, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
+         //   CosmeticArmorHandler.dropInventory(world, pos, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
         }
 
     }
@@ -404,13 +405,6 @@ public class InventoryHolder {
     private TransitionInventory getSavedPlayerInventory(EntityPlayer player)
     {
         TransitionInventory saved = new TransitionInventory(player.inventory.getSizeInventory());
-        saved.readFromTagList(compound.getTagList(PLAYER_INVENTORY, 10));
-        return saved;
-    }
-
-    private TransitionInventory getSavedPlayerInventory(int size)
-    {
-        TransitionInventory saved = new TransitionInventory(size);
         saved.readFromTagList(compound.getTagList(PLAYER_INVENTORY, 10));
         return saved;
     }
@@ -458,7 +452,7 @@ public class InventoryHolder {
     {
         if (TombManyGraves.COSMETIC_ARMOR)
         {
-            return CosmeticArmorHandler.getListOfItemsInInventory(compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
+        //    return CosmeticArmorHandler.getListOfItemsInInventory(compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
         }
         return new ArrayList<>();
     }

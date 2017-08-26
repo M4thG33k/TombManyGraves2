@@ -1,6 +1,6 @@
 package com.m4thg33k.tombmanygraves.items;
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class ModItems {
 
@@ -10,6 +10,6 @@ public class ModItems {
     public static void createItems()
     {
 //        GameRegistry.register(itemFileControl);
-        GameRegistry.register(itemDeathList);
+       ForgeRegistries.ITEMS.register(itemDeathList);
     }
 }

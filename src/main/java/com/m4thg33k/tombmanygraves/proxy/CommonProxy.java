@@ -1,5 +1,9 @@
 package com.m4thg33k.tombmanygraves.proxy;
 
+import java.util.List;
+
+import org.lwjgl.util.vector.Vector3f;
+
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.blocks.itemblocks.ModItemBlocks;
@@ -12,15 +16,13 @@ import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.network.TMGNetwork;
 import com.m4thg33k.tombmanygraves.tiles.ModTiles;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import org.lwjgl.util.vector.Vector3f;
-
-import java.util.List;
 
 public class CommonProxy {
 

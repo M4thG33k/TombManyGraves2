@@ -1,5 +1,12 @@
 package com.m4thg33k.tombmanygraves.client.render.models;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -9,6 +16,7 @@ import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -27,27 +35,20 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.Attributes;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.IExtendedBlockState;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class AdaptiveGraveModel implements IBakedModel {
 
     private final IBakedModel standard;
-    private final IRetexturableModel retexturableModel;
+    private final IModel retexturableModel;
     private static final IBlockState dirtState = Blocks.DIRT.getDefaultState();
 
     private final Map<String, IBakedModel> model_cache = Maps.newHashMap();
 
-    public AdaptiveGraveModel(IBakedModel standard, IRetexturableModel retexturableModel)
+    public AdaptiveGraveModel(IBakedModel standard, IModel retexturableModel)
     {
         this.standard = standard;
         this.retexturableModel = retexturableModel;

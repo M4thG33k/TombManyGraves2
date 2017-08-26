@@ -1,21 +1,32 @@
 package com.m4thg33k.tombmanygraves.friendSystem;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
+
 import com.m4thg33k.tombmanygraves.util.LogHelper;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.io.*;
-import java.util.*;
-
 public class FriendHandler {
     private static String PREFIX = "./TombManyGraves";
     private static String FILE = "./TombManyGraves/friends.fdat";
     private static HashMap<UUID, HashSet<UUID>> friendList;
 
-    public static void importFriendsList()
+    @SuppressWarnings("unchecked")
+	public static void importFriendsList()
     {
         friendList = null;
         try

@@ -1,6 +1,7 @@
 package com.m4thg33k.tombmanygraves.client.gui;
 
 import com.m4thg33k.tombmanygraves.lib.Names;
+
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 

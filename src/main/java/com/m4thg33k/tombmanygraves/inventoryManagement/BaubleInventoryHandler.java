@@ -1,22 +1,16 @@
 package com.m4thg33k.tombmanygraves.inventoryManagement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import baubles.api.BaublesApi;
 import baubles.api.cap.BaublesContainer;
-import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class BaubleInventoryHandler {
 

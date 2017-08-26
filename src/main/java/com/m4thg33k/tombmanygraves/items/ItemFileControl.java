@@ -1,18 +1,8 @@
 package com.m4thg33k.tombmanygraves.items;
 
-import com.m4thg33k.tombmanygraves.TombManyGraves;
-import com.m4thg33k.tombmanygraves.gui.ModGuiHandler;
 import com.m4thg33k.tombmanygraves.lib.Names;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import net.minecraft.item.Item;
 
 public class ItemFileControl extends Item {
 
