@@ -96,7 +96,7 @@ public class TMGNetwork {
             EntityPlayerMP playerMP = (EntityPlayerMP) player;
             if (world.getPlayerChunkMap().isPlayerWatchingChunk(playerMP, chunk.x, chunk.z))
             {
-                LogHelper.info("Sending packet to: " + player.getName());
+//                LogHelper.info("Sending packet to: " + player.getName());
                 TMGNetwork.sendTo(packet, playerMP);
             }
         }

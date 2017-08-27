@@ -52,7 +52,7 @@ public class CommonProxy {
 
     public List<String> probeForFiles(BlockPos pos)
     {
-        LogHelper.info("Probing for files in Common!");
+//        LogHelper.info("Probing for files in Common!");
         return DeathInventoryHandler.getSavedInventories();
     }
 

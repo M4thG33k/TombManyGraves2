@@ -29,7 +29,7 @@ public class ServerProxy extends CommonProxy {
 
     @Override
     public List<String> probeForFiles(BlockPos pos) {
-        LogHelper.info("Probing for files!");
+//        LogHelper.info("Probing for files!");
         return DeathInventoryHandler.getSavedInventories();
     }
 }

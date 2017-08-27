@@ -12,7 +12,8 @@ import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
 //import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.CosmeticArmorHandler;
 //import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.CyberwareHandler;
-//import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.InventoryPetsHandler;
+//import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.InventoryPetsHandler.java;
+import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.InventoryPetsHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.specialCases.WearableBackpacksHandler;
 import com.m4thg33k.tombmanygraves.items.ItemDeathList;
 
@@ -74,7 +75,7 @@ public class InventoryHolder {
             {
                 return;
             }
-        }
+        }*/
 
         if (TombManyGraves.INVENTORY_PETS) {
             if (InventoryPetsHandler.isGravePetActive(player)) {
@@ -82,7 +83,7 @@ public class InventoryHolder {
             } else {
                 InventoryPetsHandler.resetGravePet(player);
             }
-        }*/
+        }
 
         // Handle Wearable Backpacks
         if (TombManyGraves.WEARABLE_BACKPACKS)

@@ -27,7 +27,7 @@ public class InventoryFileManagerGui extends ModBaseContainerGui {
 //        files = container.getFileNames();
         files = new ArrayList<>();
 
-        LogHelper.info("Sending packet to server");
+//        LogHelper.info("Sending packet to server");
         TMGNetwork.sendToServer(new PacketProbeFiles(player.dimension, player.getUniqueID(), player.getPosition()));
 
         this.buttonList.add(new GuiButton(0, getGuiLeft()+1, getGuiTop()+1, "Button"));

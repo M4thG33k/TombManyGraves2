@@ -1,4 +1,4 @@
-/*package com.m4thg33k.tombmanygraves.inventoryManagement.specialCases;
+package com.m4thg33k.tombmanygraves.inventoryManagement.specialCases;
 
 import com.inventorypets.InventoryPets;
 import com.inventorypets.capabilities.CapabilityRefs;
@@ -28,4 +28,3 @@ public class InventoryPetsHandler {
         props.setRestoreItems(false);
     }
 }
-*/
