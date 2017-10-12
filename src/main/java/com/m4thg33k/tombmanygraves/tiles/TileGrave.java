@@ -54,7 +54,7 @@ public class TileGrave extends TileEntity {
     private IBlockState camoState;
     private String timestamp = "";
 
-    private InventoryHolder savedInventory;
+    private InventoryHolder savedInventory = new InventoryHolder();
 
     public TileGrave()
     {

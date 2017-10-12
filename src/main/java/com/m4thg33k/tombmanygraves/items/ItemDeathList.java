@@ -40,8 +40,8 @@ public class ItemDeathList extends Item {
     @Nonnull
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull  EnumHand hand) {
-        ItemStack held = playerIn.getHeldItem(EnumHand.MAIN_HAND);
-        if (held.getItem() != this)
+        ItemStack held = playerIn.getHeldItem(hand);
+        if (held.getItem() != this || EnumHand.OFF_HAND == hand)
         {
             return new ActionResult<>(EnumActionResult.PASS, held);
         }
