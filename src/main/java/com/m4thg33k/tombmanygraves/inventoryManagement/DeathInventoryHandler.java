@@ -15,8 +15,11 @@ import com.m4thg33k.tombmanygraves.items.ModItems;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.util.ChatHelper;
 
+import com.m4thg33k.tombmanygraves.util.LogHelper;
+import com.m4thg33k.tombmanygraves.util.Utility;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTTagCompound;
@@ -143,7 +146,7 @@ public class DeathInventoryHandler {
         return saved;
     }
 
-    public static boolean getDeathList(EntityPlayer player, String playerName, String timestamp, boolean didDie)
+    public static boolean getDeathList(EntityPlayer playerOld, EntityPlayer playerNew, String playerName, String timestamp, boolean didDie)
     {
         boolean didWork = true;
 
@@ -161,25 +164,41 @@ public class DeathInventoryHandler {
                 ItemStack theList = new ItemStack(ModItems.itemDeathList, 1);
                 theList.setTagCompound(allNBT);
 
-                BlockPos pos = player.getPosition();
+                BlockPos pos = playerOld.getPosition();
+                EntityPlayer thePlayer = playerOld;
                 if (didDie)
                 {
-                    BlockPos bedPos = player.getBedLocation(player.getSpawnDimension());
+                    thePlayer = playerNew;
+                    LogHelper.info("Player respawn dimension: " + playerOld.getSpawnDimension());
+                    LogHelper.info("Player respawn dimension: " + playerOld.world.provider.getRespawnDimension((EntityPlayerMP)playerOld));
+                    LogHelper.info(playerOld.hasSpawnDimension());
+//                    BlockPos bedPos = player.getBedLocation(player.getSpawnDimension());
+                    BlockPos bedPos = playerOld.getBedLocation(playerOld.world.provider.getDimension());
                     if (bedPos != null)
                     {
+                        LogHelper.info("A " + bedPos.toString());
                         pos = bedPos;
                     }
                     else
                     {
-                        pos = player.world.getSpawnPoint();
+                        bedPos = playerOld.getBedLocation(playerOld.getSpawnDimension());
+                        if (bedPos != null){
+                            LogHelper.info("B " + bedPos.toString());
+                            pos = bedPos;
+                        } else {
+                            pos = playerOld.world.getSpawnPoint();
+                        }
                     }
                 }
-                EntityItem entityItem = new EntityItem(player.world, pos.getX(), pos.getY(), pos.getZ(), theList);
-                player.world.spawnEntity(entityItem);
+                EntityItem entityItem = new EntityItem(thePlayer.world, pos.getX(), pos.getY(), pos.getZ(), theList);
+                thePlayer.world.spawnEntity(entityItem);
+//                EntityItem entityItem = new EntityItem(playerOld.world, pos.getX(), pos.getY(), pos.getZ(), theList);
+//                playerOld.world.spawnEntity(entityItem);
+                LogHelper.info("Spawning Death List in world: " + thePlayer.world.provider.getDimension() + " at location: " + pos.toString());
             }
             else
             {
-                ChatHelper.sayMessage(player.world, player, playerName + " had no items upon death!");
+                ChatHelper.sayMessage(playerOld.world, playerOld, playerName + " had no items upon death!");
             }
             reader.close();
         }

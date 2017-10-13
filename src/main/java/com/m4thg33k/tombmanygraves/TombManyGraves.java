@@ -47,7 +47,7 @@ public class TombManyGraves {
 
         BAUBLES = Loader.isModLoaded("baubles");
         WEARABLE_BACKPACKS = Loader.isModLoaded("wearablebackpacks");
-        COSMETIC_ARMOR = Loader.isModLoaded("cosmeticarmorreworked");
+        COSMETIC_ARMOR = Loader.isModLoaded("cosmeticarmorreworked"); //Version 1.12.1-v1
         INVENTORY_PETS = Loader.isModLoaded("inventorypets");
         CYBERWARE = Loader.isModLoaded("cyberware");
 

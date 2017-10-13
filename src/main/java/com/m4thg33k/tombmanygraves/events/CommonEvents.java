@@ -299,7 +299,14 @@ public class CommonEvents {
         {
 //            LogHelper.info(event.getEntityPlayer().getBedLocation());
 //            LogHelper.info(event.getOriginal().getBedLocation());
-            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getOriginal().getName(), "latest", true);
+            LogHelper.info("Dimensions:");
+            LogHelper.info(event.getOriginal().world.provider.getDimension() + "\t" + event.getOriginal().posX + ", " + event.getOriginal().posY + ", " + event.getOriginal().posZ);
+            LogHelper.info(event.getOriginal().getBedLocation());
+            LogHelper.info(event.getEntityPlayer().world.provider.getDimension() + "\t" + event.getEntityPlayer().posX + ", " + event.getEntityPlayer().posY + ", " + event.getEntityPlayer().posZ);
+            LogHelper.info(event.getEntityPlayer().getBedLocation());
+//            LogHelper.info(event.getEntityPlayer().world.provider.getDimension());
+            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getEntityPlayer(), event.getEntityPlayer().getName(), "latest", true);
+//            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getOriginal().getName(), "latest", true);
         }
     }
 }
