@@ -14,19 +14,24 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.ListIterator;
 
 public class CommonEvents {
 
@@ -277,14 +282,47 @@ public class CommonEvents {
     @SubscribeEvent(priority = EventPriority.HIGH)
     public void itemDrop(PlayerDropsEvent event)
     {
-        for (EntityItem entityItem : event.getDrops())
-        {
-            if (entityItem.getItem().getItem() == Item.getItemFromBlock(ModBlocks.blockGrave) ||
-                    entityItem.getItem().getItem() == ModItems.itemDeathList)
-            {
-                entityItem.setDead();
+        if (event.getEntityPlayer() == null || event.getEntityPlayer() instanceof FakePlayer || event.isCanceled()){
+            return;
+        }
+
+        if (event.getEntityPlayer().world.getGameRules().getBoolean("keepInventory")){
+            return;
+        }
+
+        ListIterator<EntityItem> iter = event.getDrops().listIterator();
+
+        // Remove any lists from the inventory upon death
+        while (iter.hasNext()){
+            EntityItem ei = iter.next();
+            ItemStack item = ei.getItem();
+
+            if (item.getItem() == ModItems.itemDeathList){
+                iter.remove();
             }
         }
+
+        // Get the death list from the current death
+        ItemStack newList = DeathInventoryHandler.getDeathListFromFile(event.getEntityPlayer().getName(), "latest");
+        if (newList != null){
+            InventoryPlayer inv = event.getEntityPlayer().inventory;
+            for (int i=0; i < inv.mainInventory.size(); i++){
+                if (inv.mainInventory.get(i).isEmpty()){
+                    inv.mainInventory.set(i, newList.copy());
+                    break;
+                }
+            }
+        }
+
+
+//        for (EntityItem entityItem : event.getDrops())
+//        {
+//            if (entityItem.getItem().getItem() == Item.getItemFromBlock(ModBlocks.blockGrave) ||
+//                    entityItem.getItem().getItem() == ModItems.itemDeathList)
+//            {
+//                entityItem.setDead();
+//            }
+//        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -297,16 +335,31 @@ public class CommonEvents {
                 !(event.getEntityLiving().world.isRemote) &&
                 event.isWasDeath())
         {
+
+            // Get the death list from the current death
+            for (int i=0; i<event.getOriginal().inventory.mainInventory.size(); i++){
+                ItemStack item = event.getOriginal().inventory.mainInventory.get(i);
+
+                if (!item.isEmpty() && item.getItem() == ModItems.itemDeathList){
+                    for (int j=0; j<event.getEntityPlayer().inventory.mainInventory.size(); j++){
+                        if (event.getEntityPlayer().inventory.mainInventory.get(j).isEmpty()){
+                            event.getEntityPlayer().inventory.mainInventory.set(j, item.copy());
+                            break;
+                        }
+                    }
+                }
+            }
+
 //            LogHelper.info(event.getEntityPlayer().getBedLocation());
 //            LogHelper.info(event.getOriginal().getBedLocation());
-            LogHelper.info("Dimensions:");
-            LogHelper.info(event.getOriginal().world.provider.getDimension() + "\t" + event.getOriginal().posX + ", " + event.getOriginal().posY + ", " + event.getOriginal().posZ);
-            LogHelper.info(event.getOriginal().getBedLocation());
-            LogHelper.info(event.getEntityPlayer().world.provider.getDimension() + "\t" + event.getEntityPlayer().posX + ", " + event.getEntityPlayer().posY + ", " + event.getEntityPlayer().posZ);
-            LogHelper.info(event.getEntityPlayer().getBedLocation());
-//            LogHelper.info(event.getEntityPlayer().world.provider.getDimension());
-            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getEntityPlayer(), event.getEntityPlayer().getName(), "latest", true);
-//            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getOriginal().getName(), "latest", true);
+//            LogHelper.info("Dimensions:");
+//            LogHelper.info(event.getOriginal().world.provider.getDimension() + "\t" + event.getOriginal().posX + ", " + event.getOriginal().posY + ", " + event.getOriginal().posZ);
+//            LogHelper.info(event.getOriginal().getBedLocation());
+//            LogHelper.info(event.getEntityPlayer().world.provider.getDimension() + "\t" + event.getEntityPlayer().posX + ", " + event.getEntityPlayer().posY + ", " + event.getEntityPlayer().posZ);
+//            LogHelper.info(event.getEntityPlayer().getBedLocation());
+////            LogHelper.info(event.getEntityPlayer().world.provider.getDimension());
+//            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getEntityPlayer(), event.getEntityPlayer().getName(), "latest", true);
+////            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getOriginal().getName(), "latest", true);
         }
     }
 }

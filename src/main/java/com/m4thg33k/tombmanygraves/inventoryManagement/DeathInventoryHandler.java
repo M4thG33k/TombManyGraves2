@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -144,6 +145,28 @@ public class DeathInventoryHandler {
         }
 
         return saved;
+    }
+
+    public static ItemStack getDeathListFromFile(String playerName, String timestamp){
+        String filename = FILE_PREFIX + "/" + playerName + "#" + timestamp + ".json";
+
+        BufferedReader reader;
+
+        try{
+            reader = new BufferedReader(new FileReader(filename));
+            String fileData = reader.readLine();
+            NBTTagCompound allNBT = JsonToNBT.getTagFromJson(fileData);
+            if (allNBT.getKeySet().size() > 0){
+                ItemStack theList = new ItemStack(ModItems.itemDeathList, 1);
+                theList.setTagCompound(allNBT);
+
+                return theList;
+            }
+
+            return null;
+        } catch (Exception e){
+            return null;
+        }
     }
 
     public static boolean getDeathList(EntityPlayer playerOld, EntityPlayer playerNew, String playerName, String timestamp, boolean didDie)
