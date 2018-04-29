@@ -290,17 +290,7 @@ public class CommonEvents {
             return;
         }
 
-        ListIterator<EntityItem> iter = event.getDrops().listIterator();
-
-        // Remove any lists from the inventory upon death
-        while (iter.hasNext()){
-            EntityItem ei = iter.next();
-            ItemStack item = ei.getItem();
-
-            if (item.getItem() == ModItems.itemDeathList){
-                iter.remove();
-            }
-        }
+        event.getDrops().removeIf(ei -> ei.getItem().getItem() == ModItems.itemDeathList);
 
         // Get the death list from the current death
         ItemStack newList = DeathInventoryHandler.getDeathListFromFile(event.getEntityPlayer().getName(), "latest");
