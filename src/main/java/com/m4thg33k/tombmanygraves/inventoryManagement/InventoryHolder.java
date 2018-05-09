@@ -26,6 +26,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -63,88 +64,103 @@ public class InventoryHolder {
         return isEmpty;
     }
 
-    public void grabPlayerData(EntityPlayer player)
-    {
-        compound = new NBTTagCompound();
-        boolean gravePetCollecting = false;
-
-        /*/ if cyberware is installed, check if the defrib is installed & able to be used
-        if (TombManyGraves.CYBERWARE)
-        {
-            if (CyberwareHandler.willCyberHandleDeath(player))
-            {
-                return;
-            }
-        }*/
-
-        if (TombManyGraves.INVENTORY_PETS) {
-            if (InventoryPetsHandler.isGravePetActive(player)) {
-                gravePetCollecting = true;
-            } else {
-                InventoryPetsHandler.resetGravePet(player);
-            }
+    private void tempGrabPlayerData(EntityPlayer player){
+        compound = SpecialInventoryManager.getInstance().grabItemsFromPlayer(player);
+        isEmpty = compound == null;
+        if (isEmpty){
+            compound = new NBTTagCompound();
         }
-
-        // Handle Wearable Backpacks
-        if (TombManyGraves.WEARABLE_BACKPACKS)
-        {
-            List<NBTTagCompound> wback = WearableBackpacksHandler.getBackpackData(player);
-            if (wback.size() == 1)
-            {
-                compound.setTag(WEARABLE_BACKPACKS_INVENTORY, wback.get(0));
-                isEmpty = false;
-            }
-            else
-            {
-                compound.setTag(WEARABLE_BACKPACKS_INVENTORY, new NBTTagCompound());
-            }
-        }
-
-        // Get Vanilla Player Data
-        if (!gravePetCollecting)
-        {
-            compound.setTag(PLAYER_INVENTORY, getTagFromInventory(player.inventory));
-        }
-
-        // Handle Baubles
-        if (TombManyGraves.BAUBLES)
-        {
-            List<NBTTagCompound> baubles = BaubleInventoryHandler.getBaubleData(player);
-            if (baubles.size() == 1)
-            {
-                compound.setTag(BAUBLE_INVENTORY, baubles.get(0));
-                isEmpty = false;
-            }
-            else
-            {
-                compound.setTag(BAUBLE_INVENTORY, new NBTTagCompound());
-            }
-        }
-        else
-        {
-            compound.setTag(BAUBLE_INVENTORY, new NBTTagCompound());
-        }
-
-        /*/ Handle Cosmetic Armor
-        if (TombManyGraves.COSMETIC_ARMOR)
-        {
-            List<NBTTagCompound> cosmetic = CosmeticArmorHandler.getCosmeticData(player);
-            if (cosmetic.size() == 1)
-            {
-                compound.setTag(COSMETIC_ARMOR_INVENTORY, cosmetic.get(0));
-                isEmpty = false;
-            }
-            else
-            {
-                compound.setTag(COSMETIC_ARMOR_INVENTORY, new NBTTagCompound());
-            }
-        }*/
-
 
         playerName = player.getName();
         compound.setString(PLAYER_NAME, playerName);
 
         setTimestamp(new SimpleDateFormat("MM_dd_YYYY_HH_mm_ss").format(new Date()));
+    }
+
+    public void grabPlayerData(EntityPlayer player)
+    {
+        tempGrabPlayerData(player);
+//
+//        compound = new NBTTagCompound();
+//        boolean gravePetCollecting = false;
+//
+//        /*/ if cyberware is installed, check if the defrib is installed & able to be used
+//        if (TombManyGraves.CYBERWARE)
+//        {
+//            if (CyberwareHandler.willCyberHandleDeath(player))
+//            {
+//                return;
+//            }
+//        }*/
+//
+//        if (TombManyGraves.INVENTORY_PETS) {
+//            if (InventoryPetsHandler.isGravePetActive(player)) {
+//                gravePetCollecting = true;
+//            } else {
+//                InventoryPetsHandler.resetGravePet(player);
+//            }
+//        }
+//
+//        // Handle Wearable Backpacks
+//        if (TombManyGraves.WEARABLE_BACKPACKS)
+//        {
+//            List<NBTTagCompound> wback = WearableBackpacksHandler.getBackpackData(player);
+//            if (wback.size() == 1)
+//            {
+//                compound.setTag(WEARABLE_BACKPACKS_INVENTORY, wback.get(0));
+//                isEmpty = false;
+//            }
+//            else
+//            {
+//                compound.setTag(WEARABLE_BACKPACKS_INVENTORY, new NBTTagCompound());
+//            }
+//        }
+//
+//        // Get Vanilla Player Data
+//        if (!gravePetCollecting)
+//        {
+//            compound.setTag(PLAYER_INVENTORY, getTagFromInventory(player.inventory));
+//        }
+//
+//        // Handle Baubles
+//        if (TombManyGraves.BAUBLES)
+//        {
+//            List<NBTTagCompound> baubles = BaubleInventoryHandler.getBaubleData(player);
+//            if (baubles.size() == 1)
+//            {
+//                compound.setTag(BAUBLE_INVENTORY, baubles.get(0));
+//                isEmpty = false;
+//            }
+//            else
+//            {
+//                compound.setTag(BAUBLE_INVENTORY, new NBTTagCompound());
+//            }
+//        }
+//        else
+//        {
+//            compound.setTag(BAUBLE_INVENTORY, new NBTTagCompound());
+//        }
+//
+//        /*/ Handle Cosmetic Armor
+//        if (TombManyGraves.COSMETIC_ARMOR)
+//        {
+//            List<NBTTagCompound> cosmetic = CosmeticArmorHandler.getCosmeticData(player);
+//            if (cosmetic.size() == 1)
+//            {
+//                compound.setTag(COSMETIC_ARMOR_INVENTORY, cosmetic.get(0));
+//                isEmpty = false;
+//            }
+//            else
+//            {
+//                compound.setTag(COSMETIC_ARMOR_INVENTORY, new NBTTagCompound());
+//            }
+//        }*/
+//
+//
+//        playerName = player.getName();
+//        compound.setString(PLAYER_NAME, playerName);
+//
+//        setTimestamp(new SimpleDateFormat("MM_dd_YYYY_HH_mm_ss").format(new Date()));
     }
 
     public void grabPlayerData(EntityPlayer player, BlockPos pos)
@@ -262,37 +278,39 @@ public class InventoryHolder {
             return;
         }
 
-        TransitionInventory saved = getSavedPlayerInventory(player);
-        for (int i=0; i<saved.getSizeInventory(); i++)
-        {
-            ItemStack inSaved = saved.getStackInSlot(i);
-            if (!inSaved.isEmpty())
-            {
-                if (player.inventory.getStackInSlot(i).isEmpty())
-                {
-                    player.inventory.setInventorySlotContents(i, inSaved);
-                }
-                else
-                {
-                    dropItem(player, inSaved);
-                }
-            }
-        }
+        SpecialInventoryManager.getInstance().insertInventory(player, compound, false);
 
-        if (TombManyGraves.BAUBLES)
-        {
-            BaubleInventoryHandler.insertInventory(player, compound.getCompoundTag(BAUBLE_INVENTORY));
-        }
-
-        if (TombManyGraves.WEARABLE_BACKPACKS)
-        {
-            WearableBackpacksHandler.insertInventory(player, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
-        }
-
-        if (TombManyGraves.COSMETIC_ARMOR)
-        {
-        //   CosmeticArmorHandler.insertInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
-        }
+//        TransitionInventory saved = getSavedPlayerInventory(player);
+//        for (int i=0; i<saved.getSizeInventory(); i++)
+//        {
+//            ItemStack inSaved = saved.getStackInSlot(i);
+//            if (!inSaved.isEmpty())
+//            {
+//                if (player.inventory.getStackInSlot(i).isEmpty())
+//                {
+//                    player.inventory.setInventorySlotContents(i, inSaved);
+//                }
+//                else
+//                {
+//                    dropItem(player, inSaved);
+//                }
+//            }
+//        }
+//
+//        if (TombManyGraves.BAUBLES)
+//        {
+//            BaubleInventoryHandler.insertInventory(player, compound.getCompoundTag(BAUBLE_INVENTORY));
+//        }
+//
+//        if (TombManyGraves.WEARABLE_BACKPACKS)
+//        {
+//            WearableBackpacksHandler.insertInventory(player, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
+//        }
+//
+//        if (TombManyGraves.COSMETIC_ARMOR)
+//        {
+//        //   CosmeticArmorHandler.insertInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
+//        }
     }
 
     // Used to force (replace) inventory items on the player
@@ -303,93 +321,103 @@ public class InventoryHolder {
             return;
         }
 
-        TransitionInventory saved = getSavedPlayerInventory(player);
-        for (int i=0; i<saved.getSizeInventory(); i++)
-        {
-            ItemStack inSaved = saved.getStackInSlot(i);
-            if (!inSaved.isEmpty())
-            {
-                ItemStack onPlayer = player.inventory.getStackInSlot(i).copy();
-                player.inventory.setInventorySlotContents(i, inSaved);
-                if (!onPlayer.isEmpty())
-                {
-                    dropItem(player, onPlayer);
-                }
-            }
-        }
+        SpecialInventoryManager.getInstance().insertInventory(player, compound, true);
 
-        if (TombManyGraves.BAUBLES)
-        {
-            BaubleInventoryHandler.forceInventory(player, compound.getCompoundTag(BAUBLE_INVENTORY));
-        }
-
-        if (TombManyGraves.WEARABLE_BACKPACKS)
-        {
-            WearableBackpacksHandler.forceInventory(player, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
-        }
-
-        if (TombManyGraves.COSMETIC_ARMOR)
-        {
-         //   CosmeticArmorHandler.forceInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
-        }
+//        TransitionInventory saved = getSavedPlayerInventory(player);
+//        for (int i=0; i<saved.getSizeInventory(); i++)
+//        {
+//            ItemStack inSaved = saved.getStackInSlot(i);
+//            if (!inSaved.isEmpty())
+//            {
+//                ItemStack onPlayer = player.inventory.getStackInSlot(i).copy();
+//                player.inventory.setInventorySlotContents(i, inSaved);
+//                if (!onPlayer.isEmpty())
+//                {
+//                    dropItem(player, onPlayer);
+//                }
+//            }
+//        }
+//
+//        if (TombManyGraves.BAUBLES)
+//        {
+//            BaubleInventoryHandler.forceInventory(player, compound.getCompoundTag(BAUBLE_INVENTORY));
+//        }
+//
+//        if (TombManyGraves.WEARABLE_BACKPACKS)
+//        {
+//            WearableBackpacksHandler.forceInventory(player, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
+//        }
+//
+//        if (TombManyGraves.COSMETIC_ARMOR)
+//        {
+//         //   CosmeticArmorHandler.forceInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
+//        }
     }
 
     // Used to drop all items at a specific player's location
     public void dropInventory(EntityPlayer player)
     {
-        TransitionInventory saved = getSavedPlayerInventory(player);
-        for (int i=0; i <saved.getSizeInventory(); i++)
-        {
-            ItemStack stack = saved.getStackInSlot(i);
-            if (!stack.isEmpty())
-            {
-                dropItem(player, stack);
-            }
-        }
-
-        if (TombManyGraves.BAUBLES)
-        {
-            BaubleInventoryHandler.dropInventory(player, compound.getCompoundTag(BAUBLE_INVENTORY));
-        }
-
-        if (TombManyGraves.WEARABLE_BACKPACKS)
-        {
-            WearableBackpacksHandler.dropInventory(player, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
-        }
-
-        if (TombManyGraves.COSMETIC_ARMOR)
-        {
-         //   CosmeticArmorHandler.dropInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
-        }
+        dropInventory(player.getEntityWorld(), player.getPosition());
+//        TransitionInventory saved = getSavedPlayerInventory(player);
+//        for (int i=0; i <saved.getSizeInventory(); i++)
+//        {
+//            ItemStack stack = saved.getStackInSlot(i);
+//            if (!stack.isEmpty())
+//            {
+//                dropItem(player, stack);
+//            }
+//        }
+//
+//        if (TombManyGraves.BAUBLES)
+//        {
+//            BaubleInventoryHandler.dropInventory(player, compound.getCompoundTag(BAUBLE_INVENTORY));
+//        }
+//
+//        if (TombManyGraves.WEARABLE_BACKPACKS)
+//        {
+//            WearableBackpacksHandler.dropInventory(player, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
+//        }
+//
+//        if (TombManyGraves.COSMETIC_ARMOR)
+//        {
+//         //   CosmeticArmorHandler.dropInventory(player, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
+//        }
     }
 
     // Used to drop all items at a specific position in a world
     public void dropInventory(World world, BlockPos pos)
     {
-        TransitionInventory saved = getSavedPlayerInventory();
-        for (int i=0; i < saved.getSizeInventory(); i++)
-        {
-            ItemStack stack = saved.getStackInSlot(i);
-            if (!stack.isEmpty())
-            {
-                dropItem(world, pos, stack);
-            }
-        }
+        SpecialInventoryManager
+                .getInstance()
+                .generateDrops(compound)
+                .forEach(
+                        itemStack -> InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack)
+                );
 
-        if (TombManyGraves.BAUBLES)
-        {
-            BaubleInventoryHandler.dropInventory(world, pos, compound.getCompoundTag(BAUBLE_INVENTORY));
-        }
-
-        if (TombManyGraves.WEARABLE_BACKPACKS)
-        {
-            WearableBackpacksHandler.dropInventory(world, pos, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
-        }
-
-        if (TombManyGraves.COSMETIC_ARMOR)
-        {
-         //   CosmeticArmorHandler.dropInventory(world, pos, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
-        }
+//        TransitionInventory saved = getSavedPlayerInventory();
+//        for (int i=0; i < saved.getSizeInventory(); i++)
+//        {
+//            ItemStack stack = saved.getStackInSlot(i);
+//            if (!stack.isEmpty())
+//            {
+//                dropItem(world, pos, stack);
+//            }
+//        }
+//
+//        if (TombManyGraves.BAUBLES)
+//        {
+//            BaubleInventoryHandler.dropInventory(world, pos, compound.getCompoundTag(BAUBLE_INVENTORY));
+//        }
+//
+//        if (TombManyGraves.WEARABLE_BACKPACKS)
+//        {
+//            WearableBackpacksHandler.dropInventory(world, pos, compound.getCompoundTag(WEARABLE_BACKPACKS_INVENTORY));
+//        }
+//
+//        if (TombManyGraves.COSMETIC_ARMOR)
+//        {
+//         //   CosmeticArmorHandler.dropInventory(world, pos, compound.getCompoundTag(COSMETIC_ARMOR_INVENTORY));
+//        }
 
     }
 
@@ -401,6 +429,10 @@ public class InventoryHolder {
     public static void dropItem(World world, BlockPos pos, ItemStack stack)
     {
         InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+    }
+
+    public Map<String, Tuple<String, List<String>>> getItemStackStringsForGui(){
+        return SpecialInventoryManager.getInstance().createItemListForGui(compound);
     }
 
     private TransitionInventory getSavedPlayerInventory(EntityPlayer player)

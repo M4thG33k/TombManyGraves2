@@ -1,10 +1,13 @@
 package com.m4thg33k.tombmanygraves;
 
 import com.m4thg33k.tombmanygraves.commands.ModCommands;
+import com.m4thg33k.tombmanygraves.api.events.EventRegisterSpecialInventory;
+import com.m4thg33k.tombmanygraves.inventoryManagement.SpecialInventoryManager;
 import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.proxy.CommonProxy;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -51,11 +54,19 @@ public class TombManyGraves {
         INVENTORY_PETS = Loader.isModLoaded("inventorypets");
         CYBERWARE = Loader.isModLoaded("cyberware");
 
+
         printModLoaded(BAUBLES, "Baubles");
         printModLoaded(WEARABLE_BACKPACKS, "Wearable Backpacks");
         printModLoaded(COSMETIC_ARMOR, "Cosmetic Armor Reworked");
         printModLoaded(INVENTORY_PETS, "Inventory Pets");
         printModLoaded(CYBERWARE, "CyberWare");
+
+        LogHelper.info("Sending special inventory event!");
+        MinecraftForge.EVENT_BUS.post(new EventRegisterSpecialInventory());
+        LogHelper.info("Finished special inventory event!");
+        SpecialInventoryManager.getInstance().finalizeListeners();
+
+
 
 //        LogHelper.info("Baubles is " + (BAUBLES ? "" : "NOT ") + "installed.");
     }

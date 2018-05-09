@@ -1,5 +1,9 @@
 package com.m4thg33k.tombmanygraves.events;
 
+import com.m4thg33k.tombmanygraves.TombManyGraves;
+import com.m4thg33k.tombmanygraves.api.events.EventRegisterSpecialInventory;
+import com.m4thg33k.tombmanygraves.api.inventory.specialInventoryImplementations.BaublesInventory;
+import com.m4thg33k.tombmanygraves.api.inventory.specialInventoryImplementations.VanillaMinecraftInventory;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
@@ -12,7 +16,6 @@ import com.m4thg33k.tombmanygraves.util.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -348,6 +351,15 @@ public class CommonEvents {
 ////            LogHelper.info(event.getEntityPlayer().world.provider.getDimension());
 //            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getEntityPlayer(), event.getEntityPlayer().getName(), "latest", true);
 ////            DeathInventoryHandler.getDeathList(event.getOriginal(), event.getOriginal().getName(), "latest", true);
+        }
+    }
+
+    @SubscribeEvent
+    public void registerSpecialInventories(EventRegisterSpecialInventory event) throws Exception{
+        LogHelper.info("Subscribed to registering special inventories!");
+        event.registerSpecialInventory(new VanillaMinecraftInventory());
+        if (TombManyGraves.BAUBLES) {
+            event.registerSpecialInventory(new BaublesInventory());
         }
     }
 }
