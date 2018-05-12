@@ -116,7 +116,7 @@ public class SpecialInventoryManager {
         Iterator<Map.Entry<String, ISpecialInventory>> iter = getSpecialInventoryStream().iterator();
         boolean shouldContinue = true;
         while (iter.hasNext()){
-            shouldContinue = iter.next().getValue().pregrabLogic();
+            shouldContinue = iter.next().getValue().pregrabLogic(player);
             if (!shouldContinue){
                 break;
             }
