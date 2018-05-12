@@ -48,7 +48,7 @@ public interface ISpecialInventory {
     // to form. Inventories should not be modified at this time!!
     // This method should return false if and only if grave logic should cease (meaning a grave will not form and
     // all items in inventories will be handled elsewhere)
-    default boolean pregrabLogic() {
+    default boolean pregrabLogic(EntityPlayer player) {
         return true;
     }
 

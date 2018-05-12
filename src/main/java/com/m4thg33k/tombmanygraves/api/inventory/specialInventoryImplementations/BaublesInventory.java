@@ -30,8 +30,8 @@ public class BaublesInventory implements ISpecialInventory {
     }
 
     @Override
-    public boolean pregrabLogic() {
-        return false;
+    public boolean pregrabLogic(EntityPlayer player) {
+        return true;
     }
 
     @Override
