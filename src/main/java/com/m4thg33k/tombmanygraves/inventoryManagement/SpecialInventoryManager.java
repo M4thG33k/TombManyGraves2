@@ -8,10 +8,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Tuple;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -115,6 +112,21 @@ public class SpecialInventoryManager {
     }
 
     public NBTTagCompound grabItemsFromPlayer(EntityPlayer player) {
+
+        Iterator<Map.Entry<String, ISpecialInventory>> iter = getSpecialInventoryStream().iterator();
+        boolean shouldContinue = true;
+        while (iter.hasNext()){
+            shouldContinue = iter.next().getValue().pregrabLogic();
+            if (!shouldContinue){
+                break;
+            }
+        }
+
+        if (!shouldContinue){
+            // a special inventory decided that the grave should not form!
+            return null;
+        }
+
         NBTTagCompound compound = new NBTTagCompound();
         AtomicInteger numAdded = new AtomicInteger(0);
 
