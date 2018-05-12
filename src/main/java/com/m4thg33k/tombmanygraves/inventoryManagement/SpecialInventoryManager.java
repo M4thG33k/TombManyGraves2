@@ -114,15 +114,15 @@ public class SpecialInventoryManager {
     public NBTTagCompound grabItemsFromPlayer(EntityPlayer player) {
 
         Iterator<Map.Entry<String, ISpecialInventory>> iter = getSpecialInventoryStream().iterator();
-        boolean shouldContinue = true;
+        boolean shouldStopLogic = true;
         while (iter.hasNext()){
-            shouldContinue = iter.next().getValue().pregrabLogic(player);
-            if (!shouldContinue){
+            shouldStopLogic = iter.next().getValue().pregrabLogic(player);
+            if (shouldStopLogic){
                 break;
             }
         }
 
-        if (!shouldContinue){
+        if (shouldStopLogic){
             // a special inventory decided that the grave should not form!
             return null;
         }
