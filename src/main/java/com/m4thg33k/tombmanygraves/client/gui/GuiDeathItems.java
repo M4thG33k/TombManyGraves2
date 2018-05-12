@@ -100,14 +100,16 @@ public class GuiDeathItems extends ModBaseGui {
                 .forEach(
                         name -> {
                             Tuple<String, List<String>> entry = dataMap.get(name);
-                            text_height.set(
-                                    drawInventoryItems(
-                                            text_height.get(),
-                                            entry.getFirst(),
-                                            entry.getSecond(),
-                                            SpecialInventoryManager.getGuiColorForInventory(name)
-                                    )
-                            );
+                            if (entry != null) {
+                                text_height.set(
+                                        drawInventoryItems(
+                                                text_height.get(),
+                                                entry.getFirst(),
+                                                entry.getSecond(),
+                                                SpecialInventoryManager.getGuiColorForInventory(name)
+                                        )
+                                );
+                            }
                         }
                 );
 
