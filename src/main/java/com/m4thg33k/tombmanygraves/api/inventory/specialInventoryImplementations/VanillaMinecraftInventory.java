@@ -25,7 +25,7 @@ public class VanillaMinecraftInventory implements ISpecialInventory {
     @Override
     public boolean pregrabLogic(EntityPlayer player) {
         // Vanilla Minecraft always allows graves to form
-        return false;
+        return true;
     }
 
     @Override
