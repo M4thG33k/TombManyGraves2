@@ -83,7 +83,7 @@ public class TransitionInventory extends InventoryBasic {
                     EnchantmentHelper.getEnchantments(stack)
                     .entrySet()
                     .stream()
-                    .map(entry -> entry.getKey().getTranslatedName(entry.getValue()))
+                    .map(entry -> "    " + entry.getKey().getTranslatedName(entry.getValue()))
                     .collect(Collectors.toList())
             );
 
