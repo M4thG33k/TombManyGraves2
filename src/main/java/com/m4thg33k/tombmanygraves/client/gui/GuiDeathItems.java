@@ -1,19 +1,16 @@
 package com.m4thg33k.tombmanygraves.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import com.m4thg33k.tombmanygraves.api.inventory.ISpecialInventory;
 import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
-
 import com.m4thg33k.tombmanygraves.inventoryManagement.SpecialInventoryManager;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GuiDeathItems extends ModBaseGui {
 
@@ -22,10 +19,6 @@ public class GuiDeathItems extends ModBaseGui {
     private Map<String, Tuple<String, List<String>>> dataMap = null;
 
     private List<String> header;
-    private List<String> playerItems;
-    private List<String> baubleItems;
-    private List<String> wearableBackpackItems;
-    private List<String> cosmeticArmorItems;
     private List<String> EOF;
 
     private Scrollbar scrollbar;
@@ -58,15 +51,6 @@ public class GuiDeathItems extends ModBaseGui {
             // add the linesWithin total to the total number of lines
             numLines += linesWithin.get();
         }
-//        this.playerItems = this.inventoryHolder.createListOfItemsInMainInventory();
-//        numLines += playerItems.size();
-//        this.baubleItems = this.inventoryHolder.getListOfBaubles();
-//        numLines += baubleItems.size();
-//        this.wearableBackpackItems = this.inventoryHolder.getListOfItemsInWearableBackpack();
-//        numLines += wearableBackpackItems.size();
-//        this.cosmeticArmorItems = this.inventoryHolder.getListOfItemsInCosmeticArmor();
-//        numLines += cosmeticArmorItems.size();
-
         EOF = new ArrayList<>();
         EOF.add(BREAK);
         EOF.add("End Of File");
@@ -113,38 +97,7 @@ public class GuiDeathItems extends ModBaseGui {
                         }
                 );
 
-//        dataMap.entrySet()
-//                .forEach(
-//                        entry -> text_height.set(
-//                                drawInventoryItems(
-//                                        text_height.get(),
-//                                        entry.getValue().getFirst(),
-//                                        entry.getValue().getSecond(),
-//                                        SpecialInventoryManager.getGuiColorForInventory(entry.getKey())
-//                                )
-//                        )
-//                );
-//
-
-//        text_height = drawPortion(playerItems, text_height);
-//        text_height = drawPortion(baubleItems, text_height, 0x5E8FFF);
-//        text_height = drawPortion(wearableBackpackItems, text_height, 0x87703A);
-//        text_height = drawPortion(cosmeticArmorItems, text_height, 0x228800);
-//        LogHelper.info(text_height.get());
         drawStringList(text_height.get(), EOF, 0xFF0000);
-//        for (int i=0; i<3; i++){
-//            if (text_height.get() >= ySize - 12){
-//                break;
-//            } else if (text_height.get() >= 4)
-//            {
-////                LogHelper.info(text_height.get());
-//                drawString(EOF.get(i), calcHeight(text_height.getAndAdd(10), 0), 0xFF0000);
-////                drawString(EOF.get(i), text_height.getAndAdd(10), 0xFF0000);
-//            } else {
-//                text_height.addAndGet(10);
-//            }
-//        }
-//        drawPortion(EOF, text_height.get(), 0xFF0000);
     }
 
     private int drawPortion(List<String> lines, int startHeight) {
@@ -206,9 +159,6 @@ public class GuiDeathItems extends ModBaseGui {
         int height;
         int returnHeight = startHeight + 10 * (3 + itemStrings.size());// calcHeight(startHeight, 2 + itemStrings.size());
 
-//        LogHelper.info(inventoryName);
-//        LogHelper.info(itemStrings.size());
-//        LogHelper.info(startHeight);
 
         height = calcHeight(startHeight, 0);
         if (height >= ySize - 12) {
@@ -236,14 +186,6 @@ public class GuiDeathItems extends ModBaseGui {
 
         drawStringList(startHeight + 30, itemStrings);
 
-//        for (int i = 0; i < itemStrings.size(); i++) {
-//            height = calcHeight(startHeight, 3 + i);
-//            if (height >= ySize - 12) {
-//                return height;
-//            } else if (height >= 4) {
-//                drawString(itemStrings.get(i), height, 0);
-//            }
-//        }
         return returnHeight;
     }
 
