@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 @Mod(modid = Names.MODID, name = Names.MODNAME, version = Names.VERSION, dependencies = TombManyGraves.DEPENDENCIES)
 public class TombManyGraves {
 
-    public static final String DEPENDENCIES = "required-after:forge@[14.23.3.2655,);required-after:tombmanygraves2api";
+    public static final String DEPENDENCIES = "required-after:forge@[14.23.3.2655,);required-after:tombmanygraves2api@[1.12.2-1.0.0,)";
 
     public static boolean BAUBLES;
 
