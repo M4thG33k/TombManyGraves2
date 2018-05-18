@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import com.m4thg33k.tombmanygraves2api.api.inventory.IInvalidGraveItem;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -25,7 +26,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemDeathList extends Item {
+public class ItemDeathList extends Item implements IInvalidGraveItem{
 
     public ItemDeathList()
     {

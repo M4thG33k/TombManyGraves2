@@ -2,8 +2,8 @@ package com.m4thg33k.tombmanygraves.api.inventory.specialInventoryImplementation
 
 import baubles.api.BaublesApi;
 import baubles.api.cap.BaublesContainer;
-import com.m4thg33k.tombmanygraves.api.inventory.ISpecialInventory;
-import com.m4thg33k.tombmanygraves.api.inventory.SpecialInventoryHelper;
+import com.m4thg33k.tombmanygraves2api.api.inventory.AbstractSpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.inventory.SpecialInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaublesInventory implements ISpecialInventory {
+public class BaublesInventory extends AbstractSpecialInventory {
 
     public static final String SLOT = "Slot";
     public static final String INVENTORY = "Inventory";

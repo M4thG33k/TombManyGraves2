@@ -1,8 +1,9 @@
 package com.m4thg33k.tombmanygraves.inventoryManagement;
 
-import com.m4thg33k.tombmanygraves.api.inventory.ISpecialInventory;
 import com.m4thg33k.tombmanygraves.api.inventory.specialInventoryImplementations.VanillaMinecraftInventory;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
+import com.m4thg33k.tombmanygraves2api.api.inventory.ISpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.inventory.TransitionInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -213,7 +214,7 @@ public class SpecialInventoryManager {
                                             entry.getKey(),
                                             new Tuple<>(
                                                     entry.getValue().getInventoryDisplayNameForGui(),
-                                                    com.m4thg33k.tombmanygraves.api.inventory.TransitionInventory.getGuiStringsForItemStackList(drops)
+                                                    TransitionInventory.getGuiStringsForItemStackList(drops)
                                             )
                                     );
                                 }
