@@ -42,7 +42,7 @@ public class PacketProbeFiles extends BaseThreadsafePacket{
     @Override
     public void handleServerSafe(NetHandlerPlayServer netHandler) {
         List<String> files = TombManyGraves.proxy.probeForFiles(pos);
-        LogHelper.info("I've received the files in PacketProbeFiles");
+//        LogHelper.info("I've received the files in PacketProbeFiles");
         WorldServer server = DimensionManager.getWorld(dimension);
         TMGNetwork.sendTo(new PacketFileNames(pos, files), (EntityPlayerMP)server.getPlayerEntityByUUID(uuid));
     }

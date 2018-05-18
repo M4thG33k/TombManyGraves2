@@ -20,10 +20,6 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 public class TombManyGraves {
 
     public static boolean BAUBLES;
-    public static boolean WEARABLE_BACKPACKS;
-    public static boolean COSMETIC_ARMOR;
-    public static boolean INVENTORY_PETS;
-    public static boolean CYBERWARE;
 
     @Mod.Instance
     public static TombManyGraves INSTANCE = new TombManyGraves();
@@ -49,26 +45,14 @@ public class TombManyGraves {
         proxy.postinit(e);
 
         BAUBLES = Loader.isModLoaded("baubles");
-        WEARABLE_BACKPACKS = Loader.isModLoaded("wearablebackpacks");
-        COSMETIC_ARMOR = Loader.isModLoaded("cosmeticarmorreworked"); //Version 1.12.1-v1
-        INVENTORY_PETS = Loader.isModLoaded("inventorypets");
-        CYBERWARE = Loader.isModLoaded("cyberware");
-
 
         printModLoaded(BAUBLES, "Baubles");
-        printModLoaded(WEARABLE_BACKPACKS, "Wearable Backpacks");
-        printModLoaded(COSMETIC_ARMOR, "Cosmetic Armor Reworked");
-        printModLoaded(INVENTORY_PETS, "Inventory Pets");
-        printModLoaded(CYBERWARE, "CyberWare");
 
-        LogHelper.info("Sending special inventory event!");
+//        LogHelper.info("Sending special inventory event!");
         MinecraftForge.EVENT_BUS.post(new EventRegisterSpecialInventory());
-        LogHelper.info("Finished special inventory event!");
+//        LogHelper.info("Finished special inventory event!");
+
         SpecialInventoryManager.getInstance().finalizeListeners();
-
-
-
-//        LogHelper.info("Baubles is " + (BAUBLES ? "" : "NOT ") + "installed.");
     }
 
     private void printModLoaded(boolean bool, String name)

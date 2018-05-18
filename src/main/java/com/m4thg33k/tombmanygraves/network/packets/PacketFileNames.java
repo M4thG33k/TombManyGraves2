@@ -26,7 +26,7 @@ public class PacketFileNames extends BaseThreadsafePacket {
 
     public PacketFileNames(BlockPos pos, List<String> fileNames)
     {
-        LogHelper.info("Created PacketFileName with " + fileNames.size() + " file names!");
+//        LogHelper.info("Created PacketFileName with " + fileNames.size() + " file names!");
         this.pos = pos;
         this.files.addAll(fileNames);
     }
@@ -34,10 +34,10 @@ public class PacketFileNames extends BaseThreadsafePacket {
     @Override
     public void handleClientSafe(NetHandlerPlayClient netHandler) {
         GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
-        if (currentScreen instanceof InventoryFileManagerGui)
-        {
-            LogHelper.info("Received information on the client!");
-        }
+//        if (currentScreen instanceof InventoryFileManagerGui)
+//        {
+//            LogHelper.info("Received information on the client!");
+//        }
     }
 
     @Override
@@ -47,7 +47,7 @@ public class PacketFileNames extends BaseThreadsafePacket {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        LogHelper.info("reading PFN from buffer");
+//        LogHelper.info("reading PFN from buffer");
         pos = readPos(buf);
         int size = buf.readInt();
         files = new ArrayList<>();
@@ -60,7 +60,7 @@ public class PacketFileNames extends BaseThreadsafePacket {
 
     @Override
     public void toBytes(ByteBuf buf) {
-        LogHelper.info("writing PFN to buffer");
+//        LogHelper.info("writing PFN to buffer");
         writePos(pos, buf);
         buf.writeInt(files.size());
         for (String file : files)

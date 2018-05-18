@@ -356,7 +356,6 @@ public class CommonEvents {
 
     @SubscribeEvent
     public void registerSpecialInventories(EventRegisterSpecialInventory event) throws Exception{
-        LogHelper.info("Subscribed to registering special inventories!");
         event.registerSpecialInventory(new VanillaMinecraftInventory());
         if (TombManyGraves.BAUBLES) {
             event.registerSpecialInventory(new BaublesInventory());

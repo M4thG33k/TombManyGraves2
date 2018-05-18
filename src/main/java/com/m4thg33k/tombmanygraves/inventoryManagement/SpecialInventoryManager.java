@@ -2,12 +2,14 @@ package com.m4thg33k.tombmanygraves.inventoryManagement;
 
 import com.m4thg33k.tombmanygraves.api.inventory.ISpecialInventory;
 import com.m4thg33k.tombmanygraves.api.inventory.specialInventoryImplementations.VanillaMinecraftInventory;
+import com.m4thg33k.tombmanygraves.util.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Tuple;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -36,9 +38,7 @@ public class SpecialInventoryManager {
 
 
     private Stream<Map.Entry<String, ISpecialInventory>> getSpecialInventoryStream() {
-        // todo use priorities with cache eventually
         return this.sortedListeners.stream();
-//        return this.listenerMap.entrySet().stream();
     }
 
     public static int getGuiColorForInventory(String key) {
@@ -48,39 +48,56 @@ public class SpecialInventoryManager {
         return 0; // default to black
     }
 
+    private int clampPriority(int priority) {
+        if (priority < - 10) {
+            return - 10;
+        } else if (priority > 10) {
+            return 10;
+        } else {
+            return priority;
+        }
+    }
+
+    @ParametersAreNonnullByDefault
     public void registerListener(ISpecialInventory iSpecialInventory) throws Exception {
         String uniqueId = iSpecialInventory.getUniqueIdentifier();
+
+        LogHelper.info("Attempting to register special inventory: " + uniqueId);
 
         if (listenerMap.containsKey(uniqueId)) {
             // Already exists
 
-            if (!iSpecialInventory.isOverwritable()){
+            if (! iSpecialInventory.isOverwritable()) {
                 // We can't overwrite the new one
 
-                if (listenerMap.get(uniqueId).isOverwritable()){
+                if (listenerMap.get(uniqueId).isOverwritable()) {
                     // The current one *is* overwritable, so replace it
                     listenerMap.put(uniqueId, iSpecialInventory);
+
+                    LogHelper.info("Special inventory with id (" + uniqueId + ") already exists, but is able to be overwritten. Replacing existing inventory.");
                 } else {
                     // Neither is overwritable
                     throw new Exception("Unable to register listener for TombManyGraves with unique id: " + uniqueId + ". A listener with that id has already been registered and cannot be overwritten!");
                 }
             }
-            // No "else" - if the new one is overwritable, we use the one that's already in the map!
+            // No "else" really - if the new one is overwritable, we use the one that's already in the map!
+            else {
+                LogHelper.info("Special inventory with id (" + uniqueId + ") already exists, but the new one is able to be overwritten. Ignoring new inventory.");
 
-//            throw new Exception("Unable to register listener for TombManyGraves with unique id: " + uniqueId + ". A listener with that id has already been registered!");
+            }
         } else {
+            LogHelper.info("Added special inventory with id (" + uniqueId + ") to TombManyGraves.");
             listenerMap.put(uniqueId, iSpecialInventory);
         }
     }
 
     public void finalizeListeners() {
-        // todo handle priorities
         sortedListeners = this.listenerMap
                 .entrySet()
                 .stream()
                 .sorted(
                         (x, y) -> {
-                            int flag = -Integer.compare(x.getValue().getPriority(), y.getValue().getPriority());
+                            int flag = - Integer.compare(clampPriority(x.getValue().getPriority()), clampPriority(y.getValue().getPriority()));
                             if (flag == 0) {
                                 flag = x.getKey().compareTo(y.getKey());
                             }
@@ -107,7 +124,7 @@ public class SpecialInventoryManager {
                 .collect(Collectors.toList());
     }
 
-    public List<String> getSortedGuiNames(){
+    public List<String> getSortedGuiNames() {
         return sortedGuiNames;
     }
 
@@ -115,14 +132,14 @@ public class SpecialInventoryManager {
 
         Iterator<Map.Entry<String, ISpecialInventory>> iter = getSpecialInventoryStream().iterator();
         boolean shouldContinue = true;
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             shouldContinue = iter.next().getValue().pregrabLogic(player);
-            if (!shouldContinue){
+            if (! shouldContinue) {
                 break;
             }
         }
 
-        if (!shouldContinue){
+        if (! shouldContinue) {
             // a special inventory decided that the grave should not form!
             return null;
         }
@@ -171,9 +188,7 @@ public class SpecialInventoryManager {
                             entry -> {
                                 if (compound.hasKey(entry.getKey())) {
                                     List<ItemStack> dropParts = entry.getValue().getDrops(compound.getTag(entry.getKey()));
-                                    if (dropParts != null) {
-                                        drops.addAll(dropParts);
-                                    }
+                                    drops.addAll(dropParts);
                                 }
                             }
                     );
