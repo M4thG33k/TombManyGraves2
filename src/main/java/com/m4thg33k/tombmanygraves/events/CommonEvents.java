@@ -3,13 +3,12 @@ package com.m4thg33k.tombmanygraves.events;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
-import com.m4thg33k.tombmanygraves.inventoryManagement.SpecialInventoryManager;
 import com.m4thg33k.tombmanygraves.items.ModItems;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
 import com.m4thg33k.tombmanygraves.util.ChatHelper;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
-import com.m4thg33k.tombmanygraves2api.api.events.EventRegisterMySpecialInventory;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -351,9 +350,9 @@ public class CommonEvents {
         }
     }
 
-    @SubscribeEvent
-    public void listenForSpecialInventories(EventRegisterMySpecialInventory event) throws Exception{
-        SpecialInventoryManager.getInstance().registerListener(event.getInventory());
-    }
+//    @SubscribeEvent
+//    public void listenForSpecialInventories(EventRegisterMySpecialInventory event) throws Exception{
+//        SpecialInventoryManager.getInstance().registerListener(event.getInventory());
+//    }
 
 }

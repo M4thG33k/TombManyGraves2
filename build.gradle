@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
-version = "1.12-4.1.0"
+version = "1.12-4.2.0"
 group= "com.m4thg33k.tombmanygraves" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TombManyGraves"
 
@@ -20,7 +20,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.3.2655"
+    version = "1.12.2-14.23.4.2759"
     runDir = "run"
     mappings = "snapshot_20171010"
 
@@ -43,10 +43,15 @@ repositories {
 	maven {
 		url "http://maven.ic2.player.to"
 	}
+	maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
 }
 
 dependencies {
 	deobfCompile "mezz.jei:jei_1.12:+"
+	deobfCompile 'baubles:Baubles:1.12:1.5.2'
 //	deobfCompile "mcp.mobius.waila:Hwyla:+"
 }
 

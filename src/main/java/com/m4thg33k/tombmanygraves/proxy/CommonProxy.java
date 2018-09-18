@@ -15,7 +15,6 @@ import com.m4thg33k.tombmanygraves.items.ModItems;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.network.TMGNetwork;
 import com.m4thg33k.tombmanygraves.tiles.ModTiles;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;

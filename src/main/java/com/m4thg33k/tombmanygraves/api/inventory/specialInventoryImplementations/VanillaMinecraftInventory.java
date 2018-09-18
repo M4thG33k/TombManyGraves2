@@ -1,37 +1,30 @@
 package com.m4thg33k.tombmanygraves.api.inventory.specialInventoryImplementations;
 
-import com.m4thg33k.tombmanygraves2api.api.inventory.AbstractSpecialInventory;
-import com.m4thg33k.tombmanygraves2api.api.inventory.SpecialInventoryHelper;
-import com.m4thg33k.tombmanygraves2api.api.inventory.TransitionInventory;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import com.m4thg33k.tombmanygraves2api.api.ISpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.SpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.SpecialInventoryHelper;
+import com.m4thg33k.tombmanygraves2api.api.TransitionInventory;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
+@SpecialInventory(id = VanillaMinecraftInventory.UNIQUE_IDENTIFIER, name = "Main Inventory")
+public class VanillaMinecraftInventory implements ISpecialInventory {
 
-public class VanillaMinecraftInventory extends AbstractSpecialInventory {
-
-    public static final String UNIQUE_IDENTIFIER = "PlayerInventory";
-
-    @Override
-    public String getUniqueIdentifier() {
-        return UNIQUE_IDENTIFIER;
-    }
-
+	public static final String UNIQUE_IDENTIFIER = "PlayerInventory";
+	
     @Override
     public boolean pregrabLogic(EntityPlayer player) {
         // Vanilla Minecraft always allows graves to form
         return true;
-    }
-
-    @Override
-    public int getPriority() {
-        // Vanilla Minecraft has priority 0
-        return 0;
     }
 
     @Override
@@ -76,20 +69,5 @@ public class VanillaMinecraftInventory extends AbstractSpecialInventory {
         } else {
             return new ArrayList<>();
         }
-    }
-
-    @Override
-    public String getInventoryDisplayNameForGui() {
-        return "Main Inventory";
-    }
-
-    @Override
-    public int getInventoryDisplayNameColorForGui() {
-        return 0;
-    }
-
-    @Override
-    public boolean isOverwritable() {
-        return false;
     }
 }

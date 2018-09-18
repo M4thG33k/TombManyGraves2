@@ -6,7 +6,6 @@ import com.m4thg33k.tombmanygraves.network.packets.BasePacketHandler;
 import com.m4thg33k.tombmanygraves.network.packets.GravePosTogglePacket;
 import com.m4thg33k.tombmanygraves.network.packets.GraveRenderTogglePacket;
 import com.m4thg33k.tombmanygraves.network.packets.PacketProbeFiles;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

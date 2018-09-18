@@ -1,33 +1,27 @@
 package com.m4thg33k.tombmanygraves.api.inventory.specialInventoryImplementations;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import com.m4thg33k.tombmanygraves2api.api.ISpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.SpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.SpecialInventoryHelper;
+
 import baubles.api.BaublesApi;
 import baubles.api.cap.BaublesContainer;
-import com.m4thg33k.tombmanygraves2api.api.inventory.AbstractSpecialInventory;
-import com.m4thg33k.tombmanygraves2api.api.inventory.SpecialInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-
-public class BaublesInventory extends AbstractSpecialInventory {
+@SpecialInventory(id = "BaubleInventory", reqMod = "baubles", color = 0x5E8FFF, name = "Baubles")
+public class BaublesInventory implements ISpecialInventory {
 
     public static final String SLOT = "Slot";
     public static final String INVENTORY = "Inventory";
-
-    @Override
-    public String getUniqueIdentifier() {
-        return "BaubleInventory";
-    }
-
-    @Override
-    public int getPriority() {
-        return 0;
-    }
 
     @Override
     public boolean pregrabLogic(EntityPlayer player) {
@@ -104,21 +98,5 @@ public class BaublesInventory extends AbstractSpecialInventory {
             }
         }
         return drops;
-    }
-
-    @Override
-    public String getInventoryDisplayNameForGui() {
-        return
-                "Baubles";
-    }
-
-    @Override
-    public int getInventoryDisplayNameColorForGui() {
-        return 0x5E8FFF;
-    }
-
-    @Override
-    public boolean isOverwritable() {
-        return false;
     }
 }

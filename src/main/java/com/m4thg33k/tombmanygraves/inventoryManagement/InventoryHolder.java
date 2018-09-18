@@ -1,7 +1,13 @@
 package com.m4thg33k.tombmanygraves.inventoryManagement;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.items.ItemDeathList;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
@@ -10,11 +16,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class InventoryHolder {
     public static final String TAG_NAME = "InventoryHolder";

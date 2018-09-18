@@ -3,9 +3,6 @@ package com.m4thg33k.tombmanygraves.network.packets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.m4thg33k.tombmanygraves.client.gui.InventoryFileManagerGui;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

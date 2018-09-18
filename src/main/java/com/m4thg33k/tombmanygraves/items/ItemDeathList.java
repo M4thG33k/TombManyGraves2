@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.m4thg33k.tombmanygraves2api.api.inventory.IInvalidGraveItem;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -13,6 +12,7 @@ import com.m4thg33k.tombmanygraves.gui.ModGuiHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.lib.Names;
+import com.m4thg33k.tombmanygraves2api.api.IInvalidGraveItem;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;

@@ -3,7 +3,6 @@ package com.m4thg33k.tombmanygraves.proxy;
 import java.util.List;
 
 import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

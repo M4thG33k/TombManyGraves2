@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.network.TMGNetwork;
-import com.m4thg33k.tombmanygraves.util.LogHelper;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.network.NetHandlerPlayClient;
