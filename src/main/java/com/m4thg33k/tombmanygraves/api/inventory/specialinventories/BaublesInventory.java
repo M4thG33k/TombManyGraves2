@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.api.inventory.specialInventoryImplementations;
+package com.m4thg33k.tombmanygraves.api.inventory.specialinventories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-@SpecialInventory(id = "BaubleInventory", reqMod = "baubles", color = 0x5E8FFF, name = "Baubles")
+@SpecialInventory(id = "bauble", reqMod = "baubles", color = 0x5E8FFF, name = "Baubles")
 public class BaublesInventory implements ISpecialInventory {
 
     public static final String SLOT = "Slot";

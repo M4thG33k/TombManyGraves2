@@ -2,7 +2,7 @@ package com.m4thg33k.tombmanygraves.lib;
 
 public class Names {
     public static final String MODID = "tombmanygraves";
-    public static final String VERSION = "@VERSION@";
+    public static final String VERSION = "999";
     public static final String MODNAME = "TombManyGraves";
 
     public static final String GRAVE_BLOCK = "grave_block";

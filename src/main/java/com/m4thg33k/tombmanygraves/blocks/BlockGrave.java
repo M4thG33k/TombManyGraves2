@@ -38,7 +38,7 @@ public class BlockGrave extends BaseBlock {
         super(Names.GRAVE_BLOCK, Material.WOOD, 100.0f, 100.0f);
 
         this.setBlockUnbreakable();
-
+        
         this.setRegistryName(Names.MODID, Names.GRAVE_BLOCK);
 
         this.setDefaultState(((IExtendedBlockState) blockState.getBaseState())

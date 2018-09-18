@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.m4thg33k.tombmanygraves.api.inventory.specialInventoryImplementations.VanillaMinecraftInventory;
+import com.m4thg33k.tombmanygraves.api.inventory.specialinventories.VanillaInventory;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
 import com.m4thg33k.tombmanygraves2api.api.ISpecialInventory;
 import com.m4thg33k.tombmanygraves2api.api.SpecialInventory;
@@ -110,9 +110,9 @@ public class SpecialInventoryManager {
 
 		// also create the gui order (alphabetical apart from Main Inventory)
 		sortedGuiNames = this.listenerMap.keySet().stream().sorted((x, y) -> {
-			if (VanillaMinecraftInventory.UNIQUE_IDENTIFIER.equals(x)) {
+			if (VanillaInventory.UNIQUE_IDENTIFIER.equals(x)) {
 				return -1;
-			} else if (VanillaMinecraftInventory.UNIQUE_IDENTIFIER.equals(y)) {
+			} else if (VanillaInventory.UNIQUE_IDENTIFIER.equals(y)) {
 				return 1;
 			} else {
 				return (annotationMap.get(listenerMap.get(x)).name()).compareToIgnoreCase((annotationMap.get(listenerMap.get(y)).name()));
@@ -196,7 +196,7 @@ public class SpecialInventoryManager {
 			if (compound.hasKey(entry.getKey())) {
 				List<ItemStack> drops = entry.getValue().getDrops(compound.getTag(entry.getKey()));
 				if (drops.size() > 0) {
-					theMap.put(entry.getKey(), new Tuple<>(annotationMap.get(listenerMap.get(entry.getValue())).name(), TransitionInventory.getGuiStringsForItemStackList(drops)));
+					theMap.put(entry.getKey(), new Tuple<>(annotationMap.get(entry.getValue()).name(), TransitionInventory.getGuiStringsForItemStackList(drops)));
 				}
 			}
 		});
