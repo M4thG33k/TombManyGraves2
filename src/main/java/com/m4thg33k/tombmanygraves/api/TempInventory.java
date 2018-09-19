@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves2api.api;
+package com.m4thg33k.tombmanygraves.api;
 
 import java.util.ArrayList;
 import java.util.List;

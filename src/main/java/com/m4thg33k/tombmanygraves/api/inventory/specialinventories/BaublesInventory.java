@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
-import com.m4thg33k.tombmanygraves2api.api.SpecialInventoryHelper;
+import com.m4thg33k.tombmanygraves.api.GraveRegistry;
+import com.m4thg33k.tombmanygraves.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
 
 import baubles.api.BaublesApi;
 import baubles.api.cap.BaublesContainer;

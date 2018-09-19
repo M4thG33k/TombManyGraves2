@@ -1,9 +1,9 @@
 package com.m4thg33k.tombmanygraves.api.inventory.specialinventories;
 
-import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
-import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves2api.api.SpecialInventoryHelper;
-import com.m4thg33k.tombmanygraves2api.api.TempInventory;
+import com.m4thg33k.tombmanygraves.api.GraveRegistry;
+import com.m4thg33k.tombmanygraves.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
+import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

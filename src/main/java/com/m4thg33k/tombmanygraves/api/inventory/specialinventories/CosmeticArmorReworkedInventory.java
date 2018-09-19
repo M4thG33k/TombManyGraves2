@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
-import com.m4thg33k.tombmanygraves2api.api.SpecialInventoryHelper;
-import com.m4thg33k.tombmanygraves2api.api.TempInventory;
+import com.m4thg33k.tombmanygraves.api.GraveRegistry;
+import com.m4thg33k.tombmanygraves.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
+import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import lain.mods.cos.CosmeticArmorReworked;
 import net.minecraft.entity.player.EntityPlayer;

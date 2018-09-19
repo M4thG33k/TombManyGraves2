@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves2api.api;
+package com.m4thg33k.tombmanygraves.api;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

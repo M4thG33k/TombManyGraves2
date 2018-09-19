@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
-import com.m4thg33k.tombmanygraves2api.api.SpecialInventoryHelper;
-import com.m4thg33k.tombmanygraves2api.api.TempInventory;
+import com.m4thg33k.tombmanygraves.api.GraveRegistry;
+import com.m4thg33k.tombmanygraves.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
+import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import micdoodle8.mods.galacticraft.api.inventory.AccessInventoryGC;
 import micdoodle8.mods.galacticraft.api.inventory.IInventoryGC;

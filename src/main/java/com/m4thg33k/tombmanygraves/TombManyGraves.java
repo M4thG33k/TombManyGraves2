@@ -3,12 +3,12 @@ package com.m4thg33k.tombmanygraves;
 import java.util.Map;
 import java.util.Set;
 
+import com.m4thg33k.tombmanygraves.api.GraveRegistry;
+import com.m4thg33k.tombmanygraves.api.IGraveInventory;
 import com.m4thg33k.tombmanygraves.commands.ModCommands;
 import com.m4thg33k.tombmanygraves.inventoryManagement.SpecialInventoryManager;
 import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.proxy.CommonProxy;
-import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
 
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;

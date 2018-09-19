@@ -8,8 +8,8 @@ import javax.annotation.Nonnull;
 import com.inventorypets.InventoryPets;
 import com.inventorypets.capabilities.CapabilityRefs;
 import com.inventorypets.capabilities.ICapabilityPlayer;
-import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
+import com.m4thg33k.tombmanygraves.api.GraveRegistry;
+import com.m4thg33k.tombmanygraves.api.IGraveInventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

@@ -11,11 +11,11 @@ import java.util.stream.Stream;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.m4thg33k.tombmanygraves.api.GraveRegistry;
+import com.m4thg33k.tombmanygraves.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves.api.TempInventory;
 import com.m4thg33k.tombmanygraves.api.inventory.specialinventories.VanillaInventory;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
-import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
-import com.m4thg33k.tombmanygraves2api.api.TempInventory;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
