@@ -8,15 +8,15 @@ import javax.annotation.Nonnull;
 import com.inventorypets.InventoryPets;
 import com.inventorypets.capabilities.CapabilityRefs;
 import com.inventorypets.capabilities.ICapabilityPlayer;
-import com.m4thg33k.tombmanygraves2api.api.ISpecialInventory;
-import com.m4thg33k.tombmanygraves2api.api.SpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 
-@SpecialInventory(id = "inventorypets", name = "Inventory Pets", overridable = true, reqMod = "inventorypets")
-public class InventoryPetsInventory implements ISpecialInventory {
+@GraveRegistry(id = "inventorypets", name = "Inventory Pets", overridable = true, reqMod = "inventorypets")
+public class InventoryPetsInventory implements IGraveInventory {
 
 	@Override
 	public boolean pregrabLogic(EntityPlayer player) {

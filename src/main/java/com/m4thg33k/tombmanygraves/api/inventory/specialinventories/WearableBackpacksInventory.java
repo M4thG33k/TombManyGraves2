@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.m4thg33k.tombmanygraves2api.api.ISpecialInventory;
-import com.m4thg33k.tombmanygraves2api.api.SpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves2api.api.SpecialInventoryHelper;
 
 import net.mcft.copy.backpacks.api.BackpackHelper;
@@ -22,8 +22,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.ItemStackHandler;
 
-@SpecialInventory(id = "wearablebackpacks", name = "Wearable Backpacks", overridable = true, priority = 1, color = 0x87703A, reqMod = "wearablebackpacks")
-public class WearableBackpacksInventory implements ISpecialInventory{
+@GraveRegistry(id = "wearablebackpacks", name = "Wearable Backpacks", overridable = true, priority = 1, color = 0x87703A, reqMod = "wearablebackpacks")
+public class WearableBackpacksInventory implements IGraveInventory{
 
 	private static final String BASE = "Base";
     private static final String STACK = "Stack";

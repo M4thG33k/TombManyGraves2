@@ -12,7 +12,6 @@ import com.m4thg33k.tombmanygraves.gui.ModGuiHandler;
 import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
 import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.lib.Names;
-import com.m4thg33k.tombmanygraves2api.api.IInvalidGraveItem;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -26,7 +25,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class ItemDeathList extends Item implements IInvalidGraveItem{
+public class ItemDeathList extends Item{
 
     public ItemDeathList()
     {

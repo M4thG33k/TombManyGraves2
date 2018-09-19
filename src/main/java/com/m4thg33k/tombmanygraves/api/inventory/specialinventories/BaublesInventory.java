@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.m4thg33k.tombmanygraves2api.api.ISpecialInventory;
-import com.m4thg33k.tombmanygraves2api.api.SpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves2api.api.SpecialInventoryHelper;
 
 import baubles.api.BaublesApi;
@@ -17,8 +17,8 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-@SpecialInventory(id = "bauble", reqMod = "baubles", color = 0x5E8FFF, name = "Baubles")
-public class BaublesInventory implements ISpecialInventory {
+@GraveRegistry(id = "bauble", reqMod = "baubles", color = 0x5E8FFF, name = "Baubles")
+public class BaublesInventory implements IGraveInventory {
 
     public static final String SLOT = "Slot";
     public static final String INVENTORY = "Inventory";

@@ -11,13 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class TransitionInventory extends InventoryBasic {
+public class TempInventory extends InventoryBasic {
 
-    public TransitionInventory(int slotCount) {
+    public TempInventory(int slotCount) {
         super("Temp", false, slotCount);
     }
 
-    public TransitionInventory(NBTTagList tagList) {
+    public TempInventory(NBTTagList tagList) {
         this(getMaxSlotInTagList(tagList));
 
         this.readFromTagList(tagList);

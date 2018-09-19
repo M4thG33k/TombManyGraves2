@@ -1,18 +1,24 @@
 package com.m4thg33k.tombmanygraves.inventoryManagement;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.items.ItemDeathList;
+import com.m4thg33k.tombmanygraves2api.api.TempInventory;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -44,10 +50,13 @@ public class InventoryHolder {
 
 
     public void grabPlayerData(EntityPlayer player) {
-        compound = SpecialInventoryManager.getInstance().grabItemsFromPlayer(player);
-        isEmpty = compound == null;
-        if (isEmpty) {
-            compound = new NBTTagCompound();
+    	HashMap<String, TempInventory> map = SpecialInventoryManager.getInstance().grabItemsFromPlayer(player);
+        isEmpty = map.isEmpty();
+        compound = new NBTTagCompound();
+        for(Entry<String, TempInventory> entry : map.entrySet()){
+        	NBTTagList list = new NBTTagList();
+        	entry.getValue().writeToTagList(list);
+        	compound.setTag(entry.getKey(), list);
         }
 
         playerName = player.getName();
@@ -55,10 +64,41 @@ public class InventoryHolder {
 
         setTimestamp(new SimpleDateFormat("MM_dd_YYYY_HH_mm_ss").format(new Date()));
     }
+    
+    public List<ItemStack> getAllItems(){
+    	List<ItemStack> list = new ArrayList<>();
+    	for(String key : compound.getKeySet()){
+    		TempInventory inv = new TempInventory(compound.getTagList(key, 10));
+    		list.addAll(inv.getListOfNonEmptyItemStacks());
+    	}
+    	return list;
+    }
+    
+    public void ensure(List<EntityItem> drops){
+    	for(String key : compound.getKeySet()){
+    		TempInventory inv = new TempInventory(compound.getTagList(key, 10));
+    		for(int i = 0; i < inv.getSizeInventory(); i++){
+    			boolean contains = false;
+    			for(EntityItem itm : drops){
+    				if(ItemStack.areItemStacksEqual(inv.getStackInSlot(i), itm.getItem())){
+    					contains = true;
+    					drops.remove(itm);
+    					break;
+    				}
+    			}
+    			if(!contains){
+    				inv.setInventorySlotContents(i, ItemStack.EMPTY);
+    			}
+    		}
+    		NBTTagList list = new NBTTagList();
+    		inv.writeToTagList(list);
+    		compound.setTag(key, list);
+    	}
+    	isEmpty = getAllItems().isEmpty();
+    }
 
     public void grabPlayerData(EntityPlayer player, BlockPos pos) {
         grabPlayerData(player);
-
         setPosition(pos);
     }
 

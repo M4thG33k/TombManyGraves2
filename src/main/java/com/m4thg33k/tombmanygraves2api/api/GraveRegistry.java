@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 @Target(TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SpecialInventory {
+public @interface GraveRegistry {
 	/**
 	 * Returns the unique identifier for the inventory in question; Unique
 	 * identifiers should be alphanumeric (including underscore "_"). Failure to

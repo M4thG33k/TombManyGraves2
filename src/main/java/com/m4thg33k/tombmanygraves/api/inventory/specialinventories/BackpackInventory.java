@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.m4thg33k.tombmanygraves2api.api.ISpecialInventory;
-import com.m4thg33k.tombmanygraves2api.api.SpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves2api.api.SpecialInventoryHelper;
-import com.m4thg33k.tombmanygraves2api.api.TransitionInventory;
+import com.m4thg33k.tombmanygraves2api.api.TempInventory;
 
 import de.eydamos.backpack.data.PlayerSave;
 import de.eydamos.backpack.helper.BackpackHelper;
@@ -18,8 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagList;
 
-@SpecialInventory(id = "eydamosbackpacks", name = "Backpacks", overridable = true, reqMod = "backpack")
-public class BackpackInventory implements ISpecialInventory {
+@GraveRegistry(id = "eydamosbackpacks", name = "Backpacks", overridable = true, reqMod = "backpack")
+public class BackpackInventory implements IGraveInventory {
 
     @Override
     public boolean pregrabLogic(EntityPlayer player) {
@@ -39,7 +39,7 @@ public class BackpackInventory implements ISpecialInventory {
     @Override
     public void insertInventory(EntityPlayer player, NBTBase compound, boolean shouldForce) {
         if (compound instanceof NBTTagList) {
-            TransitionInventory graveItems = new TransitionInventory((NBTTagList) compound);
+            TempInventory graveItems = new TempInventory((NBTTagList) compound);
             IInventory currentInventory = PlayerSave.loadPlayer(player.getEntityWorld(), player);
 
             for (int i = 0; i < graveItems.getSizeInventory(); i++) {
@@ -67,7 +67,7 @@ public class BackpackInventory implements ISpecialInventory {
     @Override
     public List<ItemStack> getDrops(NBTBase compound) {
         if (compound instanceof NBTTagList) {
-            return (new TransitionInventory((NBTTagList) compound)).getListOfNonEmptyItemStacks();
+            return (new TempInventory((NBTTagList) compound)).getListOfNonEmptyItemStacks();
         } else {
             return new ArrayList<ItemStack>();
         }

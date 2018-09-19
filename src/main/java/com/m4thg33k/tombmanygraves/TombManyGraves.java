@@ -7,8 +7,8 @@ import com.m4thg33k.tombmanygraves.commands.ModCommands;
 import com.m4thg33k.tombmanygraves.inventoryManagement.SpecialInventoryManager;
 import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.proxy.CommonProxy;
-import com.m4thg33k.tombmanygraves2api.api.ISpecialInventory;
-import com.m4thg33k.tombmanygraves2api.api.SpecialInventory;
+import com.m4thg33k.tombmanygraves2api.api.IGraveInventory;
+import com.m4thg33k.tombmanygraves2api.api.GraveRegistry;
 
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -34,7 +34,7 @@ public class TombManyGraves {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
 		proxy.preinit(e);
-		moduleASM = e.getAsmData().getAll(SpecialInventory.class.getName());
+		moduleASM = e.getAsmData().getAll(GraveRegistry.class.getName());
 	}
 
 	@Mod.EventHandler
@@ -43,11 +43,12 @@ public class TombManyGraves {
 		for (ASMData data : moduleASM) {
 			try {
 				Class<?> c = Class.forName(data.getClassName());
-				if (ISpecialInventory.class.isAssignableFrom(c)) {
+				if (IGraveInventory.class.isAssignableFrom(c)) {
 					Map<String, Object> annotation = data.getAnnotationInfo();
 					String reqMod = (String) annotation.get("reqMod");
-					if (reqMod == null || Loader.isModLoaded(reqMod)){
-						SpecialInventoryManager.getInstance().registerListener((ISpecialInventory) c.newInstance(), annotation);
+					if (reqMod == null){
+					//if (reqMod == null || Loader.isModLoaded(reqMod)){
+						SpecialInventoryManager.getInstance().registerListener((IGraveInventory) c.newInstance(), annotation);
 					}
 				}
 			} catch (Exception ex) {

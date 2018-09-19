@@ -4,44 +4,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class SpecialInventoryHelper {
 
-    public static boolean isItemValidForGrave(ItemStack stack){
-        if (stack.isEmpty()
-                || stack.getItem() instanceof IInvalidGraveItem
-                ){
-            return false;
-        }
+	public static TempInventory storeInventory(IInventory inventory) {
+		TempInventory copy = new TempInventory(inventory.getSizeInventory());
 
-        return true;
-    }
+		for (int i = 0; i < inventory.getSizeInventory(); i++) {
+			ItemStack stack = inventory.getStackInSlot(i);
+			copy.setInventorySlotContents(i, stack.copy());
+		}
+		return copy;
+	}
 
-    public static NBTTagList getTagListFromIInventory(IInventory inventory){
-        TransitionInventory copy = new TransitionInventory(inventory.getSizeInventory());
-        boolean isEmpty = true;
+	public static void dropItem(EntityPlayer player, ItemStack stack) {
+		dropItem(player.getEntityWorld(), player.getPosition(), stack);
+	}
 
-        for (int i=0; i < inventory.getSizeInventory(); i++){
-            ItemStack stack = inventory.getStackInSlot(i);
-
-            if (isItemValidForGrave(stack)){
-                copy.setInventorySlotContents(i, stack.copy());
-                inventory.setInventorySlotContents(i, ItemStack.EMPTY);
-                isEmpty = false;
-            }
-        }
-
-        return isEmpty ? null : copy.writeToTagList(new NBTTagList());
-    }
-
-    public static void dropItem(EntityPlayer player, ItemStack stack){
-        dropItem(player.getEntityWorld(), player.getPosition(), stack);
-    }
-
-    public static void dropItem(World world, BlockPos pos, ItemStack stack){
-        InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-    }
+	public static void dropItem(World world, BlockPos pos, ItemStack stack) {
+		InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+	}
 }
