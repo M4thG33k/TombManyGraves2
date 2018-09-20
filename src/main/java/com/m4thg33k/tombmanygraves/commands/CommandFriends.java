@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.m4thg33k.tombmanygraves.friendSystem.FriendHandler;
+import com.m4thg33k.tombmanygraves.friends.FriendHandler;
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.command.CommandException;

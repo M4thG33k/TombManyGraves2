@@ -4,15 +4,14 @@ import java.util.List;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import com.m4thg33k.tombmanygraves.ModConfigs;
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
-import com.m4thg33k.tombmanygraves.blocks.itemblocks.ModItemBlocks;
 import com.m4thg33k.tombmanygraves.events.CommonEvents;
-import com.m4thg33k.tombmanygraves.friendSystem.FriendHandler;
+import com.m4thg33k.tombmanygraves.friends.FriendHandler;
 import com.m4thg33k.tombmanygraves.gui.ModGuiHandler;
-import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
+import com.m4thg33k.tombmanygraves.invman.DeathInventoryHandler;
 import com.m4thg33k.tombmanygraves.items.ModItems;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.network.TMGNetwork;
 import com.m4thg33k.tombmanygraves.tiles.ModTiles;
 
@@ -32,7 +31,6 @@ public class CommonProxy {
         TMGNetwork.setup();
         ModItems.createItems();
         ModBlocks.preInit();
-        ModItemBlocks.createItemblocks();
     }
 
     public void init(FMLInitializationEvent e)

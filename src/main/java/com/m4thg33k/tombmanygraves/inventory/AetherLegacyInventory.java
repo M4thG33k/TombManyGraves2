@@ -1,10 +1,10 @@
-package com.m4thg33k.tombmanygraves.inventory.specialinventories;
+package com.m4thg33k.tombmanygraves.inventory;
 
 import com.legacy.aether.containers.inventory.InventoryAccessories;
 import com.legacy.aether.player.PlayerAether;
+import com.m4thg33k.tombmanygraves.api.GraveInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +28,7 @@ public class AetherLegacyInventory implements IGraveInventory {
 		for(int i = 0; i < ac.getSizeInventory(); i++){
 			System.out.println(ac.getStackInSlot(i));
 		}
-		return SpecialInventoryHelper.storeInventory(PlayerAether.get(player).accessories);
+		return GraveInventoryHelper.storeInventory(PlayerAether.get(player).accessories);
 	}
 
 	@Override
@@ -46,10 +46,10 @@ public class AetherLegacyInventory implements IGraveInventory {
 				} else if (shouldForce) {
 					// Slot is blocked, but we're forcing it
 					inventory.setInventorySlotContents(i, graveItem);
-					SpecialInventoryHelper.dropItem(player, playerItem);
+					GraveInventoryHelper.dropItem(player, playerItem);
 				} else {
 					// Slot is blocked, but not forcing
-					SpecialInventoryHelper.dropItem(player, graveItem);
+					GraveInventoryHelper.dropItem(player, graveItem);
 				}
 			}
 		}

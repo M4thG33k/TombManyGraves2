@@ -1,7 +1,7 @@
 package com.m4thg33k.tombmanygraves.events;
 
+import com.m4thg33k.tombmanygraves.ModConfigs;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
 
 import net.minecraft.block.state.IBlockState;

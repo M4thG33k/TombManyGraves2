@@ -1,8 +1,8 @@
-package com.m4thg33k.tombmanygraves.inventory.specialinventories;
+package com.m4thg33k.tombmanygraves.inventory;
 
+import com.m4thg33k.tombmanygraves.api.GraveInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import micdoodle8.mods.galacticraft.api.inventory.AccessInventoryGC;
@@ -21,7 +21,7 @@ public class GalacticraftInventory implements IGraveInventory {
 
 	@Override
 	public TempInventory getItems(EntityPlayer player) {
-		return SpecialInventoryHelper.storeInventory(AccessInventoryGC.getGCInventoryForPlayer((EntityPlayerMP) player));
+		return GraveInventoryHelper.storeInventory(AccessInventoryGC.getGCInventoryForPlayer((EntityPlayerMP) player));
 	}
 
 	@Override
@@ -39,10 +39,10 @@ public class GalacticraftInventory implements IGraveInventory {
 				} else if (shouldForce) {
 					// Slot is blocked, but we're forcing it
 					inventoryGC.setInventorySlotContents(i, graveItem);
-					SpecialInventoryHelper.dropItem(player, playerItem);
+					GraveInventoryHelper.dropItem(player, playerItem);
 				} else {
 					// Slot is blocked, but not forcing
-					SpecialInventoryHelper.dropItem(player, graveItem);
+					GraveInventoryHelper.dropItem(player, graveItem);
 				}
 			}
 		}

@@ -1,8 +1,8 @@
-package com.m4thg33k.tombmanygraves.inventory.specialinventories;
+package com.m4thg33k.tombmanygraves.inventory;
 
+import com.m4thg33k.tombmanygraves.api.GraveInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +20,7 @@ public class TechgunsInventory implements IGraveInventory {
 
 	@Override
 	public TempInventory getItems(EntityPlayer player) {
-		return SpecialInventoryHelper.storeInventory(TGExtendedPlayer.get(player).getTGInventory());
+		return GraveInventoryHelper.storeInventory(TGExtendedPlayer.get(player).getTGInventory());
 	}
 
 	@Override
@@ -36,9 +36,9 @@ public class TechgunsInventory implements IGraveInventory {
 					currentItems.setInventorySlotContents(i, graveItem);
 				} else if (shouldForce) {
 					currentItems.setInventorySlotContents(i, graveItem);
-					SpecialInventoryHelper.dropItem(player, playerItem);
+					GraveInventoryHelper.dropItem(player, playerItem);
 				} else {
-					SpecialInventoryHelper.dropItem(player, graveItem);
+					GraveInventoryHelper.dropItem(player, graveItem);
 				}
 			}
 		}

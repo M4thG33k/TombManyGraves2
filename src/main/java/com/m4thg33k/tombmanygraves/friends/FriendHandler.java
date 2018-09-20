@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.friendSystem;
+package com.m4thg33k.tombmanygraves.friends;
 
 import java.io.File;
 import java.io.FileInputStream;

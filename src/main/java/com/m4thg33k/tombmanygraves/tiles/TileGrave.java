@@ -6,11 +6,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.m4thg33k.tombmanygraves.ModConfigs;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
-import com.m4thg33k.tombmanygraves.friendSystem.FriendHandler;
-import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
+import com.m4thg33k.tombmanygraves.friends.FriendHandler;
+import com.m4thg33k.tombmanygraves.invman.InventoryHolder;
 import com.m4thg33k.tombmanygraves.items.ModItems;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.util.ChatHelper;
 
 import net.minecraft.block.Block;

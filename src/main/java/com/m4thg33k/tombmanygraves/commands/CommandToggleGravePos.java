@@ -7,8 +7,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.m4thg33k.tombmanygraves.network.GravePosTogglePacket;
 import com.m4thg33k.tombmanygraves.network.TMGNetwork;
-import com.m4thg33k.tombmanygraves.network.packets.GravePosTogglePacket;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;

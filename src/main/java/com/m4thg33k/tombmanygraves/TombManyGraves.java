@@ -6,8 +6,7 @@ import java.util.Set;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
 import com.m4thg33k.tombmanygraves.commands.ModCommands;
-import com.m4thg33k.tombmanygraves.inventoryManagement.SpecialInventoryManager;
-import com.m4thg33k.tombmanygraves.lib.Names;
+import com.m4thg33k.tombmanygraves.invman.GraveInventoryManager;
 import com.m4thg33k.tombmanygraves.proxy.CommonProxy;
 
 import net.minecraftforge.fml.common.Loader;
@@ -47,7 +46,7 @@ public class TombManyGraves {
 					Map<String, Object> annotation = data.getAnnotationInfo();
 					String reqMod = (String) annotation.get("reqMod");
 					if (reqMod == null || Loader.isModLoaded(reqMod)){
-						SpecialInventoryManager.getInstance().registerListener((IGraveInventory) c.newInstance(), annotation);
+						GraveInventoryManager.getInstance().registerListener((IGraveInventory) c.newInstance(), annotation);
 					}
 				}
 			} catch (Exception ex) {
@@ -61,7 +60,7 @@ public class TombManyGraves {
 		proxy.postinit(e);
 
 		// Make sure to finalize the listeners so the mod actually works...
-		SpecialInventoryManager.getInstance().finalizeListeners();
+		GraveInventoryManager.getInstance().finalizeListeners();
 	}
 
 	@Mod.EventHandler

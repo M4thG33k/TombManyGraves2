@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.m4thg33k.tombmanygraves.gui.containers.ContainerInventoryFileManager;
+import com.m4thg33k.tombmanygraves.network.PacketProbeFiles;
 import com.m4thg33k.tombmanygraves.network.TMGNetwork;
-import com.m4thg33k.tombmanygraves.network.packets.PacketProbeFiles;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;

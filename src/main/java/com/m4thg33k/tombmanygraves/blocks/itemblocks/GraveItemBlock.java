@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.m4thg33k.tombmanygraves.lib.Names;
+import com.m4thg33k.tombmanygraves.Names;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;

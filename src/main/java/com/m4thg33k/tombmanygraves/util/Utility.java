@@ -1,6 +1,6 @@
 package com.m4thg33k.tombmanygraves.util;
 
-import com.m4thg33k.tombmanygraves.lib.Names;
+import com.m4thg33k.tombmanygraves.Names;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;

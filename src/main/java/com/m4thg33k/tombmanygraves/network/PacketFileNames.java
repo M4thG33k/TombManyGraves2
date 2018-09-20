@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.network.packets;
+package com.m4thg33k.tombmanygraves.network;
 
 import java.util.ArrayList;
 import java.util.List;

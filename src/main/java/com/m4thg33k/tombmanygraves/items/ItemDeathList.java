@@ -7,11 +7,11 @@ import javax.annotation.Nonnull;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.m4thg33k.tombmanygraves.ModConfigs;
+import com.m4thg33k.tombmanygraves.Names;
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.gui.ModGuiHandler;
-import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
-import com.m4thg33k.tombmanygraves.lib.Names;
+import com.m4thg33k.tombmanygraves.invman.InventoryHolder;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;

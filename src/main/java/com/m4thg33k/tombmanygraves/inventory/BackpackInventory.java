@@ -1,8 +1,8 @@
-package com.m4thg33k.tombmanygraves.inventory.specialinventories;
+package com.m4thg33k.tombmanygraves.inventory;
 
+import com.m4thg33k.tombmanygraves.api.GraveInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import de.eydamos.backpack.data.PlayerSave;
@@ -23,7 +23,7 @@ public class BackpackInventory implements IGraveInventory {
     public TempInventory getItems(EntityPlayer player) {
         ItemStack backpack = BackpackHelper.getBackpackFromPlayer(player, false); // get backpack in slot
         if (! backpack.isEmpty()) {
-            return SpecialInventoryHelper.storeInventory(PlayerSave.loadPlayer(player.getEntityWorld(), player));
+            return GraveInventoryHelper.storeInventory(PlayerSave.loadPlayer(player.getEntityWorld(), player));
         } else {
             return null;
         }
@@ -44,10 +44,10 @@ public class BackpackInventory implements IGraveInventory {
                     } else if (shouldForce) {
                         // Slot is blocked, but we're forcing the grave item into place.
                         currentInventory.setInventorySlotContents(i, graveItem);
-                        SpecialInventoryHelper.dropItem(player, playerItem);
+                        GraveInventoryHelper.dropItem(player, playerItem);
                     } else {
                         // Slot is blocked, but we're not forcing items in - drop the grave item
-                        SpecialInventoryHelper.dropItem(player, graveItem);
+                        GraveInventoryHelper.dropItem(player, graveItem);
                     }
                 }
             }

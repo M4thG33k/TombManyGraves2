@@ -1,8 +1,8 @@
-package com.m4thg33k.tombmanygraves.inventory.specialinventories;
+package com.m4thg33k.tombmanygraves.inventory;
 
+import com.m4thg33k.tombmanygraves.api.GraveInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import lain.mods.cos.CosmeticArmorReworked;
@@ -20,7 +20,7 @@ public class CosmeticArmorReworkedInventory implements IGraveInventory {
 
 	@Override
 	public TempInventory getItems(EntityPlayer player) {
-		return SpecialInventoryHelper.storeInventory(CosmeticArmorReworked.invMan.getCosArmorInventory(player.getUniqueID()));
+		return GraveInventoryHelper.storeInventory(CosmeticArmorReworked.invMan.getCosArmorInventory(player.getUniqueID()));
 	}
 
 	@Override
@@ -39,11 +39,11 @@ public class CosmeticArmorReworkedInventory implements IGraveInventory {
 					// Slot is blocked, but we're forcing the grave item
 					// into place.
 					currentInventory.setInventorySlotContents(i, graveItem);
-					SpecialInventoryHelper.dropItem(player, playerItem);
+					GraveInventoryHelper.dropItem(player, playerItem);
 				} else {
 					// Slot is blocked, but we're not forcing items in -
 					// drop the grave item
-					SpecialInventoryHelper.dropItem(player, graveItem);
+					GraveInventoryHelper.dropItem(player, graveItem);
 				}
 			}
 		}

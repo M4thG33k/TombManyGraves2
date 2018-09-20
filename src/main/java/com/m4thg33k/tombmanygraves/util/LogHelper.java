@@ -4,7 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.m4thg33k.tombmanygraves.lib.Names;
+import com.m4thg33k.tombmanygraves.Names;
 
 public class LogHelper {
 	

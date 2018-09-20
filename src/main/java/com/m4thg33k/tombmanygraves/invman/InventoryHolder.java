@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.inventoryManagement;
+package com.m4thg33k.tombmanygraves.invman;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class InventoryHolder {
 
 
     public void grabPlayerData(EntityPlayer player) {
-    	HashMap<String, TempInventory> map = SpecialInventoryManager.getInstance().grabItemsFromPlayer(player);
+    	HashMap<String, TempInventory> map = GraveInventoryManager.getInstance().grabItemsFromPlayer(player);
         isEmpty = map.isEmpty();
         compound = new NBTTagCompound();
         for(Entry<String, TempInventory> entry : map.entrySet()){
@@ -174,7 +174,7 @@ public class InventoryHolder {
             return;
         }
 
-        SpecialInventoryManager.getInstance().insertInventory(player, compound, false);
+        GraveInventoryManager.getInstance().insertInventory(player, compound, false);
     }
 
     // Used to force (replace) inventory items on the player
@@ -183,7 +183,7 @@ public class InventoryHolder {
             return;
         }
 
-        SpecialInventoryManager.getInstance().insertInventory(player, compound, true);
+        GraveInventoryManager.getInstance().insertInventory(player, compound, true);
     }
 
     // Used to drop all items at a specific player's location
@@ -193,7 +193,7 @@ public class InventoryHolder {
 
     // Used to drop all items at a specific position in a world
     public void dropInventory(World world, BlockPos pos) {
-        SpecialInventoryManager
+        GraveInventoryManager
                 .getInstance()
                 .generateDrops(compound)
                 .forEach(
@@ -210,7 +210,7 @@ public class InventoryHolder {
     }
 
     public Map<String, Tuple<String, List<String>>> getItemStackStringsForGui() {
-        return SpecialInventoryManager.getInstance().createItemListForGui(compound);
+        return GraveInventoryManager.getInstance().createItemListForGui(compound);
     }
 
 }

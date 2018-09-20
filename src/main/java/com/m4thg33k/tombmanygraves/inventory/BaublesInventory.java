@@ -1,8 +1,8 @@
-package com.m4thg33k.tombmanygraves.inventory.specialinventories;
+package com.m4thg33k.tombmanygraves.inventory;
 
+import com.m4thg33k.tombmanygraves.api.GraveInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import baubles.api.BaublesApi;
@@ -41,11 +41,11 @@ public class BaublesInventory implements IGraveInventory {
                     container.setStackInSlot(i, stack);
                 } else if(shouldForce){
                     // Force the grave's item into the slot after dropping the original
-                    SpecialInventoryHelper.dropItem(player, container.getStackInSlot(i).copy());
+                    GraveInventoryHelper.dropItem(player, container.getStackInSlot(i).copy());
                     container.setStackInSlot(i, stack);
                 } else {
                     // Leave the original in place, drop the grave item
-                    SpecialInventoryHelper.dropItem(player, stack);
+                    GraveInventoryHelper.dropItem(player, stack);
                 }
             }
 

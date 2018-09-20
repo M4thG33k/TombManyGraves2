@@ -1,6 +1,6 @@
 package com.m4thg33k.tombmanygraves.tiles;
 
-import com.m4thg33k.tombmanygraves.lib.Names;
+import com.m4thg33k.tombmanygraves.Names;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 

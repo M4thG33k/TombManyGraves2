@@ -6,9 +6,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.m4thg33k.tombmanygraves.ModConfigs;
+import com.m4thg33k.tombmanygraves.Names;
 import com.m4thg33k.tombmanygraves.api.state.TMGStateProps;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
-import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
 
 import net.minecraft.block.material.Material;

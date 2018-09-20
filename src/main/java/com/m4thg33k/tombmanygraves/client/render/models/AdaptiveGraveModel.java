@@ -10,11 +10,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.m4thg33k.tombmanygraves.ModConfigs;
+import com.m4thg33k.tombmanygraves.Names;
 import com.m4thg33k.tombmanygraves.api.state.TMGStateProps;
 import com.m4thg33k.tombmanygraves.blocks.BlockGrave;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
-import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
 
 import net.minecraft.block.state.IBlockState;

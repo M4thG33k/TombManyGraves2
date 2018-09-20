@@ -2,7 +2,7 @@ package com.m4thg33k.tombmanygraves.client.render.tiles;
 
 import java.util.Random;
 
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
+import com.m4thg33k.tombmanygraves.ModConfigs;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
 
 import net.minecraft.client.Minecraft;

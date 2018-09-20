@@ -5,7 +5,7 @@ import java.util.Queue;
 
 import org.lwjgl.opengl.GL11;
 
-import com.m4thg33k.tombmanygraves.lib.Names;
+import com.m4thg33k.tombmanygraves.Names;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;

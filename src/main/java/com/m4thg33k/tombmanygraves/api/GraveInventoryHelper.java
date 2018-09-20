@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SpecialInventoryHelper {
+public class GraveInventoryHelper {
 
 	public static TempInventory storeInventory(IInventory inventory) {
 		TempInventory copy = new TempInventory(inventory.getSizeInventory());

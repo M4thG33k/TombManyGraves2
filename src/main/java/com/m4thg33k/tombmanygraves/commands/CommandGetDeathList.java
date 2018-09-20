@@ -7,8 +7,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.m4thg33k.tombmanygraves.inventoryManagement.DeathInventoryHandler;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
+import com.m4thg33k.tombmanygraves.ModConfigs;
+import com.m4thg33k.tombmanygraves.invman.DeathInventoryHandler;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;

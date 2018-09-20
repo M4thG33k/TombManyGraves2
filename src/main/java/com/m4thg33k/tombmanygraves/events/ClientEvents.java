@@ -1,8 +1,8 @@
 package com.m4thg33k.tombmanygraves.events;
 
+import com.m4thg33k.tombmanygraves.Names;
 import com.m4thg33k.tombmanygraves.client.fx.ParticleRenderDispatcher;
 import com.m4thg33k.tombmanygraves.client.render.models.AdaptiveGraveModel;
-import com.m4thg33k.tombmanygraves.lib.Names;
 import com.m4thg33k.tombmanygraves.util.Utility;
 
 import net.minecraft.client.Minecraft;

@@ -1,11 +1,6 @@
 package com.m4thg33k.tombmanygraves.network;
 
-import com.m4thg33k.tombmanygraves.lib.Names;
-import com.m4thg33k.tombmanygraves.network.packets.BasePacket;
-import com.m4thg33k.tombmanygraves.network.packets.BasePacketHandler;
-import com.m4thg33k.tombmanygraves.network.packets.GravePosTogglePacket;
-import com.m4thg33k.tombmanygraves.network.packets.GraveRenderTogglePacket;
-import com.m4thg33k.tombmanygraves.network.packets.PacketProbeFiles;
+import com.m4thg33k.tombmanygraves.Names;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

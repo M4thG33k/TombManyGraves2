@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.lib;
+package com.m4thg33k.tombmanygraves;
 
 public class Names {
     public static final String MODID = "tombmanygraves";

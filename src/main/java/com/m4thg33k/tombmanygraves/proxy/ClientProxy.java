@@ -4,13 +4,13 @@ import java.awt.Color;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import com.m4thg33k.tombmanygraves.ModConfigs;
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.client.fx.PathFX;
 import com.m4thg33k.tombmanygraves.client.render.ItemRenderRegister;
 import com.m4thg33k.tombmanygraves.client.render.ModRenders;
 import com.m4thg33k.tombmanygraves.events.ClientEvents;
 import com.m4thg33k.tombmanygraves.events.RenderEvents;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;

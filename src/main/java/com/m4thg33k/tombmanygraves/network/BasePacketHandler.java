@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.network.packets;
+package com.m4thg33k.tombmanygraves.network;
 
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;

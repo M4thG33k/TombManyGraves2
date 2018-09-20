@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.m4thg33k.tombmanygraves.inventoryManagement.InventoryHolder;
-import com.m4thg33k.tombmanygraves.inventoryManagement.SpecialInventoryManager;
+import com.m4thg33k.tombmanygraves.invman.GraveInventoryManager;
+import com.m4thg33k.tombmanygraves.invman.InventoryHolder;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -80,7 +80,7 @@ public class GuiDeathItems extends ModBaseGui {
 //
         AtomicInteger text_height = new AtomicInteger(drawPortion(header, 0));
 
-        SpecialInventoryManager.getInstance()
+        GraveInventoryManager.getInstance()
                 .getSortedGuiNames()
                 .forEach(
                         name -> {
@@ -91,7 +91,7 @@ public class GuiDeathItems extends ModBaseGui {
                                                 text_height.get(),
                                                 entry.getFirst(),
                                                 entry.getSecond(),
-                                                SpecialInventoryManager.getGuiColorForInventory(name)
+                                                GraveInventoryManager.getGuiColorForInventory(name)
                                         )
                                 );
                             }

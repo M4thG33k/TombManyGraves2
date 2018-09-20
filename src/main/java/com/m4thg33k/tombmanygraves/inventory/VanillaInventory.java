@@ -1,8 +1,8 @@
-package com.m4thg33k.tombmanygraves.inventory.specialinventories;
+package com.m4thg33k.tombmanygraves.inventory;
 
+import com.m4thg33k.tombmanygraves.api.GraveInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
-import com.m4thg33k.tombmanygraves.api.SpecialInventoryHelper;
 import com.m4thg33k.tombmanygraves.api.TempInventory;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +22,7 @@ public class VanillaInventory implements IGraveInventory {
 
 	@Override
 	public TempInventory getItems(EntityPlayer player) {
-		return SpecialInventoryHelper.storeInventory((player.inventory));
+		return GraveInventoryHelper.storeInventory((player.inventory));
 	}
 
 	@Override
@@ -41,11 +41,11 @@ public class VanillaInventory implements IGraveInventory {
 					// Slot is blocked, but we're forcing the grave item into
 					// place.
 					currentInventory.setInventorySlotContents(i, graveItem);
-					SpecialInventoryHelper.dropItem(player, playerItem);
+					GraveInventoryHelper.dropItem(player, playerItem);
 				} else {
 					// Slot is blocked, but we're not forcing items in - drop
 					// the grave item
-					SpecialInventoryHelper.dropItem(player, graveItem);
+					GraveInventoryHelper.dropItem(player, graveItem);
 				}
 			}
 		}

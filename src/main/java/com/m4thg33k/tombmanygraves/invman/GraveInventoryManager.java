@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.inventoryManagement;
+package com.m4thg33k.tombmanygraves.invman;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,20 +14,17 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
 import com.m4thg33k.tombmanygraves.api.TempInventory;
-import com.m4thg33k.tombmanygraves.inventory.specialinventories.VanillaInventory;
+import com.m4thg33k.tombmanygraves.inventory.VanillaInventory;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
 
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.Tuple;
 
-public class SpecialInventoryManager {
+public class GraveInventoryManager {
 
-	private static SpecialInventoryManager INSTANCE = null;
+	private static GraveInventoryManager INSTANCE = null;
 
 	private Map<String, IGraveInventory> listenerMap = new HashMap<>();
 	private List<Map.Entry<String, IGraveInventory>> sortedListeners = new ArrayList<>();
@@ -35,24 +32,24 @@ public class SpecialInventoryManager {
 
 	private List<String> sortedGuiNames = new ArrayList<>();
 
-	private SpecialInventoryManager() {
+	private GraveInventoryManager() {
 
 	}
 
-	public static SpecialInventoryManager getInstance() {
+	public static GraveInventoryManager getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new SpecialInventoryManager();
+			INSTANCE = new GraveInventoryManager();
 		}
 
 		return INSTANCE;
 	}
 
-	public Stream<Map.Entry<String, IGraveInventory>> getSpecialInventoryStream() {
+	public Stream<Map.Entry<String, IGraveInventory>> getGraveInventoryStream() {
 		return this.sortedListeners.stream();
 	}
 
 	public static int getGuiColorForInventory(String key) {
-		SpecialInventoryManager instance = getInstance();
+		GraveInventoryManager instance = getInstance();
 		if (instance.listenerMap.containsKey(key)) {
 			return instance.annotationMap.get(instance.listenerMap.get(key)).color();
 		}
@@ -70,9 +67,9 @@ public class SpecialInventoryManager {
 	}
 
 	@ParametersAreNonnullByDefault
-	public void registerListener(IGraveInventory iSpecialInventory, Map<String, Object> annotation) throws Exception {
+	public void registerListener(IGraveInventory iGraveInventory, Map<String, Object> annotation) throws Exception {
 		String uniqueId = (String) annotation.get("id");
-		annotationMap.put(iSpecialInventory, iSpecialInventory.getClass().getDeclaredAnnotation(GraveRegistry.class));
+		annotationMap.put(iGraveInventory, iGraveInventory.getClass().getDeclaredAnnotation(GraveRegistry.class));
 		LogHelper.info("Attempting to register special inventory: " + uniqueId);
 		if (listenerMap.containsKey(uniqueId)) {
 			// Already exists
@@ -81,7 +78,7 @@ public class SpecialInventoryManager {
 				// We can't overwrite the new one
 				if (annotationMap.get(listenerMap.get(uniqueId)).overridable()) {
 					// The current one *is* overwritable, so replace it
-					listenerMap.put(uniqueId, iSpecialInventory);
+					listenerMap.put(uniqueId, iGraveInventory);
 					LogHelper.info("Special inventory with id (" + uniqueId + ") already exists, but is able to be overwritten. Replacing existing inventory.");
 				} else {
 					// Neither is overwritable
@@ -96,7 +93,7 @@ public class SpecialInventoryManager {
 			}
 		} else {
 			LogHelper.info("Added special inventory with id (" + uniqueId + ") to TombManyGraves.");
-			listenerMap.put(uniqueId, iSpecialInventory);
+			listenerMap.put(uniqueId, iGraveInventory);
 		}
 	}
 
@@ -128,7 +125,7 @@ public class SpecialInventoryManager {
 
 	public HashMap<String, TempInventory> grabItemsFromPlayer(EntityPlayer player) {
 
-		Iterator<Map.Entry<String, IGraveInventory>> iter = getSpecialInventoryStream().iterator();
+		Iterator<Map.Entry<String, IGraveInventory>> iter = getGraveInventoryStream().iterator();
 		boolean shouldContinue = true;
 		while (iter.hasNext()) {
 			shouldContinue = iter.next().getValue().pregrabLogic(player);
@@ -144,7 +141,7 @@ public class SpecialInventoryManager {
 		//NBTTagCompound compound = new NBTTagCompound();
 		AtomicInteger numAdded = new AtomicInteger(0);
 
-		getSpecialInventoryStream().forEach(entry -> {
+		getGraveInventoryStream().forEach(entry -> {
 			TempInventory data = entry.getValue().getItems(player);
 			if (data != null) {
 				itms.put(entry.getKey(), data);
@@ -157,7 +154,7 @@ public class SpecialInventoryManager {
 
 	public void insertInventory(EntityPlayer player, NBTTagCompound compound, boolean shouldForce) {
 		if (compound != null) {
-			getSpecialInventoryStream().forEach(entry -> {
+			getGraveInventoryStream().forEach(entry -> {
 				if (compound.hasKey(entry.getKey())) {
 					entry.getValue().insertInventory(player, new TempInventory(compound.getTagList(entry.getKey(), 10)), shouldForce);
 				}
@@ -168,7 +165,7 @@ public class SpecialInventoryManager {
 	public List<ItemStack> generateDrops(NBTTagCompound compound) {
 		List<ItemStack> drops = new ArrayList<>();
 		if (compound != null) {
-			getSpecialInventoryStream().forEach(entry -> {
+			getGraveInventoryStream().forEach(entry -> {
 				if (compound.hasKey(entry.getKey())) {
 					TempInventory inv = new TempInventory(compound.getTagList(entry.getKey(), 10));
 					drops.addAll(inv.getListOfNonEmptyItemStacks());
@@ -187,7 +184,7 @@ public class SpecialInventoryManager {
 	public Map<String, Tuple<String, List<String>>> createItemListForGui(NBTTagCompound compound) {
 		Map<String, Tuple<String, List<String>>> theMap = new HashMap<>();
 
-		getSpecialInventoryStream().forEach(entry -> {
+		getGraveInventoryStream().forEach(entry -> {
 			if (compound.hasKey(entry.getKey())) {
 				TempInventory inv = new TempInventory(compound.getTagList(entry.getKey(), 10));
 				List<ItemStack> drops = inv.getListOfNonEmptyItemStacks();

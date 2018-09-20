@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.network.packets;
+package com.m4thg33k.tombmanygraves.network;
 
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.NetHandlerPlayServer;

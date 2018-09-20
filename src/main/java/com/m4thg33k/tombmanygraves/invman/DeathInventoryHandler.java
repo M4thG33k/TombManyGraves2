@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.inventoryManagement;
+package com.m4thg33k.tombmanygraves.invman;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,8 +11,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.m4thg33k.tombmanygraves.ModConfigs;
 import com.m4thg33k.tombmanygraves.items.ModItems;
-import com.m4thg33k.tombmanygraves.lib.ModConfigs;
 import com.m4thg33k.tombmanygraves.util.ChatHelper;
 
 import net.minecraft.entity.item.EntityItem;
