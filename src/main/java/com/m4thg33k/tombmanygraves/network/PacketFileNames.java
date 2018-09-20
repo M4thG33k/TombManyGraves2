@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.math.BlockPos;
@@ -30,7 +28,7 @@ public class PacketFileNames extends BaseThreadsafePacket {
 
     @Override
     public void handleClientSafe(NetHandlerPlayClient netHandler) {
-        GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
+//        GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
 //        if (currentScreen instanceof InventoryFileManagerGui)
 //        {
 //            LogHelper.info("Received information on the client!");

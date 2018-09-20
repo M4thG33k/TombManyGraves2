@@ -5,9 +5,9 @@ import com.m4thg33k.tombmanygraves.Names;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModTiles {
-    public static void init()
-    {
-        String prefix = "tile." + Names.MODID;
-        GameRegistry.registerTileEntity(TileGrave.class, prefix + Names.GRAVE_BLOCK);
-    }
+	@SuppressWarnings("deprecation")
+	public static void init() {
+		String prefix = "tile." + Names.MODID;
+		GameRegistry.registerTileEntity(TileGrave.class, prefix + Names.GRAVE_BLOCK); //Using new method will break existing graves
+	}
 }

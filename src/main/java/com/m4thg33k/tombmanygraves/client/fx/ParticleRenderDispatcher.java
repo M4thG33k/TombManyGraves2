@@ -8,27 +8,26 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.profiler.Profiler;
 
 public class ParticleRenderDispatcher {
-    public static int pathFXCount = 0;
-    public static int depthIgnoringPathFXCount = 0;
+	public static int pathFXCount = 0;
+	public static int depthIgnoringPathFXCount = 0;
 
-    public static void dispatch()
-    {
-        Tessellator tessellator = Tessellator.getInstance();
+	public static void dispatch() {
+		Tessellator tessellator = Tessellator.getInstance();
 
-        Profiler profiler = Minecraft.getMinecraft().mcProfiler;
+		Profiler profiler = Minecraft.getMinecraft().mcProfiler;
 
-        GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
-        GlStateManager.depthMask(false);
-        GlStateManager.enableBlend();
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
+		GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+		GlStateManager.depthMask(false);
+		GlStateManager.enableBlend();
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569F);
 
-        profiler.startSection("grave_path");
-        PathFX.dispatchQueuedRenders(tessellator);
-        profiler.endSection();
+		profiler.startSection("grave_path");
+		PathFX.dispatchQueuedRenders(tessellator);
+		profiler.endSection();
 
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1f);
-        GlStateManager.disableBlend();
-        GlStateManager.depthMask(true);
-        GL11.glPopAttrib();
-    }
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1f);
+		GlStateManager.disableBlend();
+		GlStateManager.depthMask(true);
+		GL11.glPopAttrib();
+	}
 }

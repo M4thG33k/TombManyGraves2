@@ -56,10 +56,9 @@ public class CommandRestoreInventory extends CommandBase {
             sender.sendMessage(new TextComponentString(getUsage(sender)));
             return;
         }
-
         EntityPlayer receiver = args.length > 2 ?
-                sender.getEntityWorld().getPlayerEntityByName(args[2]) :
-                sender.getEntityWorld().getPlayerEntityByName(args[0]);
+        		server.getPlayerList().getPlayerByUsername(args[2]) :
+        			server.getPlayerList().getPlayerByUsername(args[0]);
 
         if (receiver == null)
         {

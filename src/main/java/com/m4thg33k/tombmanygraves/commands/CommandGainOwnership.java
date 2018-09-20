@@ -54,6 +54,7 @@ public class CommandGainOwnership extends CommandBase {
             } catch (Exception e)
             {
                 sender.sendMessage(new TextComponentString("Invalid usage: " + getUsage(sender)));
+                return;
             }
         }
 
