@@ -1,9 +1,4 @@
-package com.m4thg33k.tombmanygraves.api.inventory.specialinventories;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
+package com.m4thg33k.tombmanygraves.inventory.specialinventories;
 
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
@@ -15,8 +10,6 @@ import de.eydamos.backpack.helper.BackpackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagList;
 
 @GraveRegistry(id = "eydamosbackpacks", name = "Backpacks", overridable = true, reqMod = "backpack")
 public class BackpackInventory implements IGraveInventory {
@@ -27,19 +20,17 @@ public class BackpackInventory implements IGraveInventory {
     }
 
     @Override
-    public NBTBase getNbtData(EntityPlayer player) {
+    public TempInventory getItems(EntityPlayer player) {
         ItemStack backpack = BackpackHelper.getBackpackFromPlayer(player, false); // get backpack in slot
         if (! backpack.isEmpty()) {
-            return SpecialInventoryHelper.getTagListFromIInventory(PlayerSave.loadPlayer(player.getEntityWorld(), player));
+            return SpecialInventoryHelper.storeInventory(PlayerSave.loadPlayer(player.getEntityWorld(), player));
         } else {
             return null;
         }
     }
 
     @Override
-    public void insertInventory(EntityPlayer player, NBTBase compound, boolean shouldForce) {
-        if (compound instanceof NBTTagList) {
-            TempInventory graveItems = new TempInventory((NBTTagList) compound);
+    public void insertInventory(EntityPlayer player, TempInventory graveItems, boolean shouldForce) {
             IInventory currentInventory = PlayerSave.loadPlayer(player.getEntityWorld(), player);
 
             for (int i = 0; i < graveItems.getSizeInventory(); i++) {
@@ -60,16 +51,5 @@ public class BackpackInventory implements IGraveInventory {
                     }
                 }
             }
-        }
-    }
-
-    @Nonnull
-    @Override
-    public List<ItemStack> getDrops(NBTBase compound) {
-        if (compound instanceof NBTTagList) {
-            return (new TempInventory((NBTTagList) compound)).getListOfNonEmptyItemStacks();
-        } else {
-            return new ArrayList<ItemStack>();
-        }
     }
 }

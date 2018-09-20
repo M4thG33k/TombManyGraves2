@@ -62,6 +62,7 @@ public class CommonEvents {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerDrop(PlayerDropsEvent e) {
+		if(e.isCanceled())return;
 		EntityPlayer player = e.getEntityPlayer();
 		if (ModConfigs.PRINT_DEATH_LOG) {
 			handleDeathLog(player);

@@ -14,7 +14,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;
 import com.m4thg33k.tombmanygraves.api.TempInventory;
-import com.m4thg33k.tombmanygraves.api.inventory.specialinventories.VanillaInventory;
+import com.m4thg33k.tombmanygraves.inventory.specialinventories.VanillaInventory;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
 
 import net.minecraft.entity.item.EntityItem;

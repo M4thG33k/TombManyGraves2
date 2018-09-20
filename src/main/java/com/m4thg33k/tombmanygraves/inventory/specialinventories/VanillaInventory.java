@@ -1,4 +1,4 @@
-package com.m4thg33k.tombmanygraves.api.inventory.specialinventories;
+package com.m4thg33k.tombmanygraves.inventory.specialinventories;
 
 import com.m4thg33k.tombmanygraves.api.GraveRegistry;
 import com.m4thg33k.tombmanygraves.api.IGraveInventory;

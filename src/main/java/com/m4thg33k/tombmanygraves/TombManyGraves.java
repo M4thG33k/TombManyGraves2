@@ -46,8 +46,7 @@ public class TombManyGraves {
 				if (IGraveInventory.class.isAssignableFrom(c)) {
 					Map<String, Object> annotation = data.getAnnotationInfo();
 					String reqMod = (String) annotation.get("reqMod");
-					if (reqMod == null){
-					//if (reqMod == null || Loader.isModLoaded(reqMod)){
+					if (reqMod == null || Loader.isModLoaded(reqMod)){
 						SpecialInventoryManager.getInstance().registerListener((IGraveInventory) c.newInstance(), annotation);
 					}
 				}

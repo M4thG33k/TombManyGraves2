@@ -18,7 +18,7 @@ public interface IGraveInventory {
     // algorithm to determine whether or not any items are being saved in the grave (if no items would be saved,
     // the grave is not formed!)
     default TempInventory getItems(EntityPlayer player) {
-        return null;
+        return new TempInventory(0);
     }
 
     // Use the NBTBase compound to insert items into the special inventory.
