@@ -17,19 +17,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class RenderEvents {
 
-    public Minecraft mc;
+    public Minecraft mc = Minecraft.getInstance();
 
-    private static final int FORCE = ModConfigs.NAME_FORCE;
-    private static final int YIELD = ModConfigs.NAME_YIELD;
-
-    public RenderEvents()
-    {
-        this.mc = Minecraft.getMinecraft();
-    }
+    private final int FORCE = 0xFFFFFF;
+    private final int YIELD = 0xFFAAAA;
 
     @SubscribeEvent
     public void onBlockHighlight(DrawBlockHighlightEvent event)
@@ -40,7 +35,7 @@ public class RenderEvents {
         }
 
         RayTraceResult trace = event.getTarget();
-        if (trace != null && trace.typeOfHit == RayTraceResult.Type.BLOCK)
+        if (trace != null && trace.type == RayTraceResult.Type.BLOCK)
         {
             World world = mc.world;
             IBlockState state = world.getBlockState(trace.getBlockPos());
@@ -52,7 +47,7 @@ public class RenderEvents {
                 {
                     String name = ((TileGrave) tile).getPlayerName();
                     boolean giveGraveItemsPriority = ((TileGrave) tile).areGraveItemsForced();
-                    this.renderPlayerName(trace.getBlockPos(), event.getPartialTicks(), name, giveGraveItemsPriority);
+                    renderPlayerName(trace.getBlockPos(), event.getPartialTicks(), name, giveGraveItemsPriority);
                 }
             }
         }
@@ -63,7 +58,7 @@ public class RenderEvents {
         if (name.length() > 0)
         {
             GlStateManager.alphaFunc(516, 0.1f);
-            renderPlayerName(name, this.mc.player, pos, partialTicks, giveGravePriority);
+            renderPlayerName(name, mc.player, pos, partialTicks, giveGravePriority);
         }
     }
 
@@ -82,17 +77,17 @@ public class RenderEvents {
         float angleV = 0f;
 
 
-        this.renderLabel(name, x - dx, y -dy, z - dz, angleH, angleV, giveGravePriority);
-        this.renderLabel(giveGravePriority ? "force" : "yield", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
+        renderLabel(name, x - dx, y -dy, z - dz, angleH, angleV, giveGravePriority);
+        renderLabel(giveGravePriority ? "force" : "yield", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
 //        if (giveGravePriority) {
-//            this.renderLabel("force", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
+//            renderLabel("force", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
 //        }
 //        else {
-//            this.renderLabel("yield", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
+//            renderLabel("yield", x - dx, y - dy - 0.25, z - dz, angleH, angleV, giveGravePriority);
 //        }
         if (ModConfigs.GRAVE_POS_ENABLED)
         {
-            this.renderLabel(posToString(pos), x - dx, y - dy - 0.5, z - dz, angleH, angleV, giveGravePriority);
+            renderLabel(posToString(pos), x - dx, y - dy - 0.5, z - dz, angleH, angleV, giveGravePriority);
         }
     }
 
@@ -103,20 +98,20 @@ public class RenderEvents {
 
     protected void renderLabel(String name, double x, double y, double z, float angleH, float angleV, boolean giveGravePriority)
     {
-        FontRenderer fontRenderer = this.mc.fontRenderer;
+        FontRenderer fontRenderer = mc.fontRenderer;
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(x+0.5, y+1.5, z+0.5);
-        GlStateManager.glNormal3f(0.0f, 1.0f, 0.0f);
-        GlStateManager.rotate(-angleH, 0.0f, 1.0f, 0.0f);
-        GlStateManager.rotate(-angleV, 1.0f, 0.0f, 0.0f);
-        GlStateManager.scale(-0.025f, -0.025f, 0.025f);
+        GlStateManager.translated(x+0.5, y+1.5, z+0.5);
+        GlStateManager.normal3f(0.0f, 1.0f, 0.0f);
+        GlStateManager.rotatef(-angleH, 0.0f, 1.0f, 0.0f);
+        GlStateManager.rotatef(-angleV, 1.0f, 0.0f, 0.0f);
+        GlStateManager.scalef(-0.025f, -0.025f, 0.025f);
         GlStateManager.disableLighting();
         GlStateManager.depthMask(false);
-        GlStateManager.disableDepth();
+        GlStateManager.disableDepthTest();
 
         GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
                 GlStateManager.SourceFactor.ONE,
                 GlStateManager.DestFactor.ZERO);
@@ -136,13 +131,13 @@ public class RenderEvents {
         GlStateManager.enableTexture2D();
 
 //        fontRenderer.drawString(name, -strLenHalved, 0, giveGravePriority ? 0xFFFFFF : 0x000000);
-        GlStateManager.enableDepth();
+        GlStateManager.enableDepthTest();
 
         GlStateManager.depthMask(true);
         fontRenderer.drawString(name, -strLenHalved, 0, giveGravePriority ? FORCE : YIELD);
 
         GlStateManager.disableBlend();
-        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+        GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 
         GlStateManager.popMatrix();
     }

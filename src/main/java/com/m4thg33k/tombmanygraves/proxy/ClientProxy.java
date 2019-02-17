@@ -2,22 +2,19 @@ package com.m4thg33k.tombmanygraves.proxy;
 
 import java.awt.Color;
 
-import org.lwjgl.util.vector.Vector3f;
+import javax.vecmath.Vector3f;
 
 import com.m4thg33k.tombmanygraves.ModConfigs;
 import com.m4thg33k.tombmanygraves.TombManyGraves;
 import com.m4thg33k.tombmanygraves.client.fx.PathFX;
-import com.m4thg33k.tombmanygraves.client.render.ItemRenderRegister;
 import com.m4thg33k.tombmanygraves.client.render.ModRenders;
 import com.m4thg33k.tombmanygraves.events.ClientEvents;
 import com.m4thg33k.tombmanygraves.events.RenderEvents;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
 
 public class ClientProxy extends CommonProxy{
 
@@ -25,34 +22,23 @@ public class ClientProxy extends CommonProxy{
     private Color FAR;
 
     @Override
-    public void preinit(FMLPreInitializationEvent e) {
-        super.preinit(e);
-    }
+    public void setupClient(FMLClientSetupEvent e) {
+    MinecraftForge.EVENT_BUS.register(new ClientEvents());
+    MinecraftForge.EVENT_BUS.register(new RenderEvents());
+      ModRenders.init();
+      //ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
+      //ItemModelMesher mesher = Minecraft.getInstance().getItemRenderer().getItemModelMesher();
 
-    @Override
-    public void init(FMLInitializationEvent e) {
-        super.init(e);
+      //ItemRenderRegister.initClient(mesher);
 
-        ModRenders.init();
-//        ItemRenderRegister.registerItemRenderers();
-        ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
-        ItemRenderRegister.initClient(mesher);
-
-        NEAR = ModConfigs.NEAR_PARTICLE;
-        FAR = ModConfigs.FAR_PARTICLE;
-    }
-
-    @Override
-    public void postinit(FMLPostInitializationEvent e) {
-        super.postinit(e);
-        MinecraftForge.EVENT_BUS.register(new ClientEvents());
-        MinecraftForge.EVENT_BUS.register(new RenderEvents());
+      NEAR = new Color(0xFFFFFF);
+      FAR = new Color(0x000000);
     }
 
     @Override
     public void particleStream(Vector3f start, Vector3f end) {
-        Vector3f diff = Vector3f.sub(start, end, null);
+        Vector3f diff = new Vector3f(start);
+        diff.sub(end);
         float length = diff.length();
         float scale = diff.length() < 5 ? 10 : diff.length();
 
@@ -101,9 +87,9 @@ public class ClientProxy extends CommonProxy{
             return;
         }
 
-        PathFX path = new PathFX(Minecraft.getMinecraft().world, x, y, z, size, r, g, b, true, false, maxAge);
+        PathFX path = new PathFX(Minecraft.getInstance().world, x, y, z, size, r, g, b, true, false, maxAge);
         path.setSpeed(motionX, motionY, motionZ);
-        Minecraft.getMinecraft().effectRenderer.addEffect(path);
+        Minecraft.getInstance().particles.addEffect(path);
     }
 
     @Override

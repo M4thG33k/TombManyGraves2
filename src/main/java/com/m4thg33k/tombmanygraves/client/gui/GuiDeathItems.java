@@ -30,7 +30,7 @@ public class GuiDeathItems extends ModBaseGui {
     public GuiDeathItems(EntityPlayer player, ItemStack deathList) {
         super(200, 150);
         this.inventoryHolder = new InventoryHolder();
-        this.inventoryHolder.readFromNBT(deathList.getTagCompound());
+        this.inventoryHolder.readFromNBT(deathList.getOrCreateTag());
 
         dataMap = this.inventoryHolder.getItemStackStringsForGui();
 
@@ -46,7 +46,7 @@ public class GuiDeathItems extends ModBaseGui {
             // given to us in the mapped List
             dataMap.entrySet()
                     .forEach(
-                            entry -> linesWithin.addAndGet(3 + entry.getValue().getSecond().size())
+                            entry -> linesWithin.addAndGet(3 + entry.getValue().getB().size())
                     );
 
             // add the linesWithin total to the total number of lines
@@ -71,9 +71,9 @@ public class GuiDeathItems extends ModBaseGui {
         bindTexture("deathlistbackground.png");
         drawTexture(getGuiLeft(), getGuiTop(), 0, 0, xSize, ySize);
     }
-
+    
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    public void render(int mouseX, int mouseY, float partialTicks) {
         drawBackground(0);
         scrollbar.update(this, mouseX, mouseY);
         scrollbar.draw(this);
@@ -89,8 +89,8 @@ public class GuiDeathItems extends ModBaseGui {
                                 text_height.set(
                                         drawInventoryItems(
                                                 text_height.get(),
-                                                entry.getFirst(),
-                                                entry.getSecond(),
+                                                entry.getA(),
+                                                entry.getB(),
                                                 GraveInventoryManager.getGuiColorForInventory(name)
                                         )
                                 );
@@ -103,6 +103,12 @@ public class GuiDeathItems extends ModBaseGui {
 
     private int drawPortion(List<String> lines, int startHeight) {
         return drawPortion(lines, startHeight, 0);
+    }
+    
+    @Override
+    public boolean mouseScrolled(double scrolled) {
+    	scrollbar.mouseScrolled(scrolled);
+    	return super.mouseScrolled(scrolled);
     }
 
     private int drawPortion(List<String> lines, int startHeight, int draw_color) {

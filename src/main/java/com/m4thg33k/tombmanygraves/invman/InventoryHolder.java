@@ -2,6 +2,7 @@ package com.m4thg33k.tombmanygraves.invman;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,13 +10,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.m4thg33k.tombmanygraves.api.TempInventory;
-import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.items.ItemDeathList;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -56,33 +55,33 @@ public class InventoryHolder {
         for(Entry<String, TempInventory> entry : map.entrySet()){
         	NBTTagList list = new NBTTagList();
         	entry.getValue().writeToTagList(list);
-        	compound.setTag(entry.getKey(), list);
+        	compound.put(entry.getKey(), list);
         }
 
-        playerName = player.getName();
-        compound.setString(PLAYER_NAME, playerName);
+        playerName = player.getName().getFormattedText();
+        compound.putString(PLAYER_NAME, playerName);
 
         setTimestamp(new SimpleDateFormat("MM_dd_YYYY_HH_mm_ss").format(new Date()));
     }
     
     public List<ItemStack> getAllItems(){
     	List<ItemStack> list = new ArrayList<>();
-    	for(String key : compound.getKeySet()){
-    		TempInventory inv = new TempInventory(compound.getTagList(key, 10));
+    	for(String key : compound.keySet()){
+    		TempInventory inv = new TempInventory(compound.getList(key, 10));
     		list.addAll(inv.getListOfNonEmptyItemStacks());
     	}
     	return list;
     }
     
-    public void ensure(List<EntityItem> drops){
-    	for(String key : compound.getKeySet()){
-    		TempInventory inv = new TempInventory(compound.getTagList(key, 10));
+    public void ensure(Collection<EntityItem> collection){
+    	for(String key : compound.keySet()){
+    		TempInventory inv = new TempInventory(compound.getList(key, 10));
     		for(int i = 0; i < inv.getSizeInventory(); i++){
     			boolean contains = false;
-    			for(EntityItem itm : drops){
+    			for(EntityItem itm : collection){
     				if(ItemStack.areItemStacksEqual(inv.getStackInSlot(i), itm.getItem())){
     					contains = true;
-    					drops.remove(itm);
+    					collection.remove(itm);
     					break;
     				}
     			}
@@ -92,7 +91,7 @@ public class InventoryHolder {
     		}
     		NBTTagList list = new NBTTagList();
     		inv.writeToTagList(list);
-    		compound.setTag(key, list);
+    		compound.put(key, list);
     	}
     	isEmpty = getAllItems().isEmpty();
     }
@@ -107,9 +106,9 @@ public class InventoryHolder {
         ycoord = pos.getY();
         zcoord = pos.getZ();
 
-        compound.setInteger(X, xcoord);
-        compound.setInteger(Y, ycoord);
-        compound.setInteger(Z, zcoord);
+        compound.putInt(X, xcoord);
+        compound.putInt(Y, ycoord);
+        compound.putInt(Z, zcoord);
     }
 
     public String getPlayerName() {
@@ -122,7 +121,7 @@ public class InventoryHolder {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
-        compound.setString(TIMESTAMP, timestamp);
+        compound.putString(TIMESTAMP, timestamp);
     }
 
     public String getTimestamp() {
@@ -130,28 +129,26 @@ public class InventoryHolder {
     }
 
     public static boolean isItemValidForGrave(ItemStack stack) {
-        if (stack.isEmpty()
-                || stack.getItem() instanceof ItemDeathList
-                || stack.getItem() == Item.getItemFromBlock(ModBlocks.blockGrave)) {
+        if (stack.isEmpty() || stack.getItem() instanceof ItemDeathList) {
             return false;
         }
         return true;
     }
 
     public NBTTagCompound writeToNBT(NBTTagCompound inCompound) {
-        inCompound.setTag(TAG_NAME, this.compound);
-        inCompound.setBoolean(EMPTY, this.isEmpty);
+        inCompound.put(TAG_NAME, this.compound);
+        inCompound.putBoolean(EMPTY, this.isEmpty);
         return inCompound;
     }
 
     public void readFromNBT(NBTTagCompound inCompound) {
-        if (inCompound.hasKey(TAG_NAME)) {
-            this.compound = inCompound.getCompoundTag(TAG_NAME);
+        if (inCompound.contains(TAG_NAME)) {
+            this.compound = inCompound.getCompound(TAG_NAME);
             this.isEmpty = inCompound.getBoolean(EMPTY);
 
-            this.xcoord = compound.getInteger(X);
-            this.ycoord = compound.getInteger(Y);
-            this.zcoord = compound.getInteger(Z);
+            this.xcoord = compound.getInt(X);
+            this.ycoord = compound.getInt(Y);
+            this.zcoord = compound.getInt(Z);
 
             this.timestamp = compound.getString(TIMESTAMP);
             this.playerName = compound.getString(PLAYER_NAME);

@@ -1,25 +1,27 @@
 package com.m4thg33k.tombmanygraves.blocks;
 
+import com.m4thg33k.tombmanygraves.Names;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
 public class BaseBlock extends Block {
 
-    public BaseBlock(String unlocalizedName, Material material, float hardness, float resistance)
+	
+    public BaseBlock(String name, Material material, float hardness, float resistance)
     {
-        super(material);
-        this.setUnlocalizedName(unlocalizedName);
-        this.setHardness(hardness);
-        this.setResistance(resistance);
+        super(Block.Properties.create(material).hardnessAndResistance(hardness, resistance));
+        setRegistryName(Names.MODID, name);
+        
     }
 
-    public BaseBlock(String unlocalizedName, float hardness, float resistance)
+    public BaseBlock(String name, float hardness, float resistance)
     {
-        this(unlocalizedName, Material.ROCK, hardness, resistance);
+        this(name, Material.ROCK, hardness, resistance);
     }
 
-    public BaseBlock(String unlocalizedName)
+    public BaseBlock(String name)
     {
-        this(unlocalizedName, 2.0f, 10.0f);
+        this(name, 2.0f, 10.0f);
     }
 }

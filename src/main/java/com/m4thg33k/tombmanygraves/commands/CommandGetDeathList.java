@@ -1,86 +1,37 @@
 package com.m4thg33k.tombmanygraves.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import com.m4thg33k.tombmanygraves.ModConfigs;
+import com.m4thg33k.tombmanygraves.commands.argtypes.TimestampArgument;
+import com.m4thg33k.tombmanygraves.commands.argtypes.UsernameArgument;
 import com.m4thg33k.tombmanygraves.invman.DeathInventoryHandler;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentTranslation;
 
-public class CommandGetDeathList extends CommandBase {
+public class CommandGetDeathList {
 
-    public CommandGetDeathList()
-    {
-        super("tmg_getDeathList", 0, false);
+	public static final SimpleCommandExceptionType INVALID_TIMESTAMP = new SimpleCommandExceptionType(new TextComponentTranslation("argument.tmg.timestamp"));
+	public static final SimpleCommandExceptionType DISABLED_COMMAND = new SimpleCommandExceptionType(new TextComponentTranslation("argument.tmg.disabled"));
 
-        aliases.add("tmg_deathlist");
-    }
+	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 
-    @Override
-    @Nonnull
-    @ParametersAreNonnullByDefault
-    public String getUsage(ICommandSender sender) {
-        return COMMAND_NAME + " [player] <timestamp or latest>";
-    }
+		dispatcher.register(Commands.literal("tmg_deathlist").requires((source) -> source.hasPermissionLevel(0)).then(Commands.argument("player", UsernameArgument.get()).executes((context) -> execute(context.getSource().asPlayer(), context.getArgument("player", String.class), "latest")).then(Commands.argument("timestamp", TimestampArgument.get()).executes((context) -> execute(context.getSource().asPlayer(), context.getArgument("player", String.class), context.getArgument("timestamp", String.class))))));
+	}
 
-    @Override
-    @ParametersAreNonnullByDefault
-    public boolean isUsernameIndex(String[] args, int index) {
-        return index == 0;
-    }
+	public static int execute(EntityPlayerMP sender, String player, String file) throws CommandSyntaxException {
+		if (!ModConfigs.ALLOW_INVENTORY_SAVES) {
+			throw DISABLED_COMMAND.create();
+		}
 
-    @Override
-    @Nonnull
-    @ParametersAreNonnullByDefault
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        if (args.length == 1)
-        {
-            return getListOfStringMatchingLastWord(args, server.getOnlinePlayerNames());
-        }
-
-        if (args.length == 2)
-        {
-            return getListOfStringMatchingLastWord(args, DeathInventoryHandler.getFilenames(args[0]));
-        }
-
-        return new ArrayList<>();
-    }
-
-    @Override
-    @ParametersAreNonnullByDefault
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (sender.getEntityWorld().isRemote)
-        {
-            return;
-        }
-
-        if (! ModConfigs.ALLOW_INVENTORY_SAVES)
-        {
-            sender.sendMessage(new TextComponentString("This command has been disabled."));
-            return;
-        }
-
-        if (args.length < 2)
-        {
-            sender.sendMessage(new TextComponentString(getUsage(sender)));
-            return;
-        }
-
-        boolean worked = DeathInventoryHandler.getDeathList((EntityPlayer)sender, (EntityPlayer)sender, args[0], args[1], false);
-        if (!worked)
-        {
-            sender.sendMessage(new TextComponentString("Failed to retrieve list."));
-            sender.sendMessage(new TextComponentString("Check spelling and timestamp."));
-        }
-    }
+		boolean worked = DeathInventoryHandler.getDeathList(sender, sender, player, file, false);
+		if (!worked) {
+			throw INVALID_TIMESTAMP.create();
+		}
+		return 0;
+	}
 }

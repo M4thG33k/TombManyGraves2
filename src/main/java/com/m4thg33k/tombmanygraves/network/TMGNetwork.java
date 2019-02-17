@@ -1,86 +1,53 @@
 package com.m4thg33k.tombmanygraves.network;
 
+import java.util.function.Predicate;
+
 import com.m4thg33k.tombmanygraves.Names;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
+
 
 public class TMGNetwork {
 
     public static TMGNetwork instance = new TMGNetwork();
 
-    public final SimpleNetworkWrapper network;
-    protected final BasePacketHandler handler;
+    public final SimpleChannel network;
     private int id = 0;
 
     public TMGNetwork(){
-        network = NetworkRegistry.INSTANCE.newSimpleChannel(Names.MODID);
-        handler = new BasePacketHandler();
-    }
-
-    public void registerPacket(Class<? extends BasePacket> packetClass)
-    {
-        registerPacketClient(packetClass);
-        registerPacketServer(packetClass);
-    }
-
-    public static void registerPacketClient(Class<? extends BasePacket> packetClass)
-    {
-        registerPacketImp(packetClass, Side.CLIENT);
-    }
-
-    public static void registerPacketServer(Class<? extends BasePacket> packetClass)
-    {
-        registerPacketImp(packetClass, Side.SERVER);
-    }
-
-    public static void registerPacketImp(Class<? extends BasePacket> packetClass, Side side)
-    {
-        instance.network.registerMessage(instance.handler, packetClass, instance.id++, side);
+    	String version = "1.0.0";
+    	Predicate<String> pred = (ver) -> {return ver.equals(version);};
+        network = NetworkRegistry.newSimpleChannel(new ResourceLocation(Names.MODID, "main"), () -> {return version;}, pred, pred);
     }
 
     public static void setup()
     {
         //register packets here
-        registerPacketServer(PacketProbeFiles.class);
-        registerPacketClient(GraveRenderTogglePacket.class);
-        registerPacketClient(GravePosTogglePacket.class);
+    	instance.network.<GraveRenderTogglePacket>registerMessage(instance.id++, GraveRenderTogglePacket.class, null, null, (a, b) -> a.execute());
+    	instance.network.<GravePosTogglePacket>registerMessage(instance.id++, GravePosTogglePacket.class, null, null, (a, b) -> a.execute());
     }
 
-    public static void sendToAll(BasePacket packet)
+    public static <MSG> void sendTo(MSG packet, EntityPlayerMP player)
     {
-        instance.network.sendToAll(packet);
+        instance.network.sendTo(packet, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
     }
 
-    public static void sendTo(BasePacket packet, EntityPlayerMP player)
-    {
-        instance.network.sendTo(packet, player);
-    }
-
-    public static void sendToAllAround(BasePacket packet, NetworkRegistry.TargetPoint point)
-    {
-        instance.network.sendToAllAround(packet, point);
-    }
-
-    public static void sendToDimension(BasePacket packet, int dimensionID)
-    {
-        instance.network.sendToDimension(packet, dimensionID);
-    }
-
-    public static void sendToServer(BasePacket packet)
+    public static <MSG> void sendToServer(MSG packet)
     {
         instance.network.sendToServer(packet);
     }
 
-    public static void sendToClients(WorldServer world, BlockPos pos, BasePacket packet)
+    public static <MSG> void sendToClients(WorldServer world, BlockPos pos, MSG packet)
     {
-        Chunk chunk = world.getChunkFromBlockCoords(pos);
+        Chunk chunk = world.getChunk(pos);
         for (EntityPlayer player : world.playerEntities)
         {
             if (!(player instanceof EntityPlayerMP))

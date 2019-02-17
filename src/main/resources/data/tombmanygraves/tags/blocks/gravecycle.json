@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:dirt",
+    "minecraft:bedrock",
+    "minecraft:bricks",
+    "minecraft:magma_block",
+    "minecraft:sea_lantern",
+    "minecraft:red_nether_bricks",
+    "minecraft:dead_tube_coral_block",
+    "minecraft:oak_wood",
+    "minecraft:purpur_block",
+    "minecraft:soul_sand",
+    "minecraft:diamond_ore",
+    "minecraft:dark_prismarine",
+    "minecraft:red_wool"
+  ]
+}

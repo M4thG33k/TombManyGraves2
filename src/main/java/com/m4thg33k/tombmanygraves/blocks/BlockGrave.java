@@ -1,234 +1,201 @@
 package com.m4thg33k.tombmanygraves.blocks;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.m4thg33k.tombmanygraves.ModConfigs;
 import com.m4thg33k.tombmanygraves.Names;
-import com.m4thg33k.tombmanygraves.api.state.TMGStateProps;
 import com.m4thg33k.tombmanygraves.tiles.TileGrave;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.IBucketPickupHandler;
+import net.minecraft.block.ILiquidContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.IFluidState;
+import net.minecraft.init.Fluids;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
 
-@SuppressWarnings("deprecation")
-public class BlockGrave extends BaseBlock {
+public class BlockGrave extends BaseBlock implements IBucketPickupHandler, ILiquidContainer {
 
-    public BlockGrave()
-    {
-        super(Names.GRAVE_BLOCK, Material.WOOD, 100.0f, 100.0f);
+	protected static final VoxelShape SHAPE = Block.makeCuboidShape(0.25f * 16, 0.25f * 16, 0.25f * 16, 0.75f * 16, 0.75f * 16, 0.75f * 16);
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-        this.setBlockUnbreakable();
-        
-        this.setRegistryName(Names.MODID, Names.GRAVE_BLOCK);
+	public BlockGrave() {
+		super(Names.GRAVE_BLOCK, Material.WOOD, -1f, 100.0f);
+		this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.valueOf(false)));
+	}
 
-        this.setDefaultState(((IExtendedBlockState) blockState.getBaseState())
-                .withProperty(TMGStateProps.HELD_STATE, null)
-                .withProperty(TMGStateProps.HELD_WORLD, null)
-                .withProperty(TMGStateProps.HELD_POS, null));
-    }
+	@Override
+	public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY) {
+		if (!worldIn.isRemote) {
+			TileEntity tile = worldIn.getTileEntity(pos);
+			if (tile != null && tile instanceof TileGrave) {
+				if (playerIn.isSneaking()) {
+					((TileGrave) tile).toggleLock(playerIn);
+				} else {
+					((TileGrave) tile).onRightClick(playerIn);
+				}
+			}
+		}
+		return true;
+	}
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY) {
-        if (!worldIn.isRemote)
-        {
-            TileEntity tile = worldIn.getTileEntity(pos);
-            if (tile != null && tile instanceof TileGrave)
-            {
-                if (playerIn.isSneaking())
-                {
-                    ((TileGrave) tile).toggleLock(playerIn);
-                }
-                else
-                {
-                    ((TileGrave) tile).onRightClick(playerIn);
-                }
-            }
-        }
-        return true;
-    }
+	@Override
+	public IBlockState updatePostPlacement(IBlockState stateIn, EnumFacing facing, IBlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (stateIn.get(WATERLOGGED)) {
+			worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+		}
 
-    @Nonnull
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new ExtendedBlockState(this, new IProperty[] {},
-                new IUnlistedProperty[] {TMGStateProps.HELD_STATE, TMGStateProps.HELD_WORLD, TMGStateProps.HELD_POS});
-    }
+		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+	}
 
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return 0;
-    }
+	@Override
+	public Fluid pickupFluid(IWorld worldIn, BlockPos pos, IBlockState state) {
+		if (state.get(WATERLOGGED)) {
+			worldIn.setBlockState(pos, state.with(WATERLOGGED, Boolean.valueOf(false)), 3);
+			return Fluids.WATER;
+		} else {
+			return Fluids.EMPTY;
+		}
+	}
 
-    @Nonnull
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState();
-    }
+	@Override
+	public IFluidState getFluidState(IBlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+	}
 
-    @ParametersAreNonnullByDefault
-    @Nonnull
-    @Override
-    public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-        state = ((IExtendedBlockState) state).withProperty(TMGStateProps.HELD_WORLD, world)
-                .withProperty(TMGStateProps.HELD_POS, pos);
+	@Override
+	public boolean canContainFluid(IBlockReader worldIn, BlockPos pos, IBlockState state, Fluid fluidIn) {
+		return !state.get(WATERLOGGED) && fluidIn == Fluids.WATER;
+	}
 
-        TileEntity tile = world.getTileEntity(pos);
-        if (tile != null && tile instanceof TileGrave)
-        {
-            state = ((IExtendedBlockState)state).withProperty(TMGStateProps.HELD_STATE,
-                    ((TileGrave) tile).getCamoState());
-        }
+	@Override
+	public void onReplaced(IBlockState state, World worldIn, BlockPos pos, IBlockState newState, boolean isMoving) {
+		if (state.getBlock() != newState.getBlock()) {
+			super.onReplaced(state, worldIn, pos, newState, isMoving);
+		}
+	}
 
-        return state;
-    }
+	@Override
+	public boolean receiveFluid(IWorld worldIn, BlockPos pos, IBlockState state, IFluidState fluidStateIn) {
+		if (!state.get(WATERLOGGED) && fluidStateIn.getFluid() == Fluids.WATER) {
+			if (!worldIn.isRemote()) {
+				worldIn.setBlockState(pos, state.with(WATERLOGGED, Boolean.valueOf(true)), 3);
+				worldIn.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
+			}
 
-    @Override
-    public boolean hasTileEntity(IBlockState state) {
-        return true;
-    }
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileGrave();
-    }
+	protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+		builder.add(WATERLOGGED);
+	}
 
+	@Override
+	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+		return SHAPE;
+	}
 
-    @ParametersAreNonnullByDefault
-    @Override
-    public void addCollisionBoxToList(IBlockState state,World worldIn, BlockPos pos, AxisAlignedBB entityBox,
-                                      List<AxisAlignedBB> collidingBoxes,@Nullable Entity entityIn, boolean bool) {
-        TileEntity tile = worldIn.getTileEntity(pos);
-        if (tile != null && tile instanceof TileGrave)
-        {
-            if (entityIn instanceof EntityPlayer &&
-                    !(((TileGrave) tile).isLocked()) &&
-                    ((TileGrave) tile).hasAccess((EntityPlayer)entityIn))
-            {
-                super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, bool);
-            }
-        }
-    }
+	@Override
+	public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+		return state.getShape(worldIn, pos);
+	}
 
-    @Override
-    public boolean isBlockNormalCube(IBlockState state) {
-        return false;
-    }
+	@Override
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
+	}
 
-    @Override
-    public boolean isNormalCube(IBlockState state) {
-        return false;
-    }
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.CUTOUT_MIPPED;
+	}
 
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+	}
 
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
+		return new TileGrave();
+	}
 
-    @Override
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-        TileEntity tile = worldIn.getTileEntity(pos);
-        if (tile != null && tile instanceof TileGrave)
-        {
-            if (entityIn instanceof EntityPlayer && entityIn.isEntityAlive())
-            {
-                if (ModConfigs.REQUIRE_SNEAKING)
-                {
-                    if (entityIn.isSneaking())
-                    {
-                        ((TileGrave) tile).onCollision((EntityPlayer) entityIn);
-                    }
-                }
-                else
-                {
-                    ((TileGrave) tile).onCollision((EntityPlayer) entityIn);
-                }
-            }
-        }
-    }
+	@Override
+	public boolean isBlockNormalCube(IBlockState state) {
+		return false;
+	}
 
-    @Override
-    public void breakBlock(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        // TODO: 1/15/2017 set logic once TE implemented
-    }
+	@Override
+	public boolean isNormalCube(IBlockState state) {
+		return false;
+	}
 
-    @Nonnull
-    @Override
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        // TODO: 1/15/2017 implement once model is coded
-        return super.getRenderType(state);
-    }
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
 
-    @Nonnull
-    @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return new AxisAlignedBB(0.25f, 0.25f, 0.25f, 0.75f, 0.75f, 0.75f);
-    }
+	@Override
+	public void onEntityCollision(IBlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if (tile != null && tile instanceof TileGrave) {
+			if (entityIn instanceof EntityPlayer && entityIn.isAlive()) {
+				if (ModConfigs.REQUIRE_SNEAKING) {
+					if (entityIn.isSneaking()) {
+						((TileGrave) tile).onCollision((EntityPlayer) entityIn);
+					}
+				} else {
+					((TileGrave) tile).onCollision((EntityPlayer) entityIn);
+				}
+			}
+		}
+	}
 
-    @Override
-    public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
-        return false;
-    }
+	@Override
+	public boolean canEntityDestroy(IBlockState state, IBlockReader world, BlockPos pos, Entity entity) {
+		return false;
+	}
 
-    @ParametersAreNonnullByDefault
-    @Override
-    public void onBlockExploded(World world, BlockPos pos, Explosion explosion) {
+	@ParametersAreNonnullByDefault
+	@Override
+	public void onBlockExploded(IBlockState state, World world, BlockPos pos, Explosion explosion) {
 
-    }
+	}
 
-    @Override
-    public boolean isFullBlock(IBlockState state) {
-        return false;
-    }
+	@Override
+	public boolean isTopSolid(IBlockState state) {
+		return false;
+	}
 
-    @Override
-    public boolean isTopSolid(IBlockState state) {
-        return false;
-    }
+	@Override
+	public boolean isNormalCube(IBlockState state, IBlockReader world, BlockPos pos) {
+		return false;
+	}
 
-    @Override
-    public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public int getLightOpacity(IBlockState state) {
-        return 0;
-    }
-
-    @ParametersAreNonnullByDefault
-    @Override
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        return true;
-    }
-
-    @Override
-    public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face) {
-        return false;
-    }
+	@Override
+	public int getOpacity(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+		return 0;
+	}
 }

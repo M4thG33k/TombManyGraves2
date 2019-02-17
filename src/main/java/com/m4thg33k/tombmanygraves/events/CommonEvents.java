@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.m4thg33k.tombmanygraves.ModConfigs;
+import com.m4thg33k.tombmanygraves.blocks.BlockGrave;
 import com.m4thg33k.tombmanygraves.blocks.ModBlocks;
 import com.m4thg33k.tombmanygraves.invman.DeathInventoryHandler;
 import com.m4thg33k.tombmanygraves.invman.InventoryHolder;
@@ -15,6 +16,7 @@ import com.m4thg33k.tombmanygraves.util.ChatHelper;
 import com.m4thg33k.tombmanygraves.util.LogHelper;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFlowingFluid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -32,8 +34,8 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CommonEvents {
 
@@ -69,9 +71,9 @@ public class CommonEvents {
 		}
 		if (!player.world.getGameRules().getBoolean("keepInventory")) {
 			InventoryHolder inventoryHolder = invs.get(player.getUniqueID());
-			inventoryHolder.ensure(e.getDrops());
-			if(!inventoryHolder.isInventoryEmpty())handleGraveLogic(player);
 			if(inventoryHolder != null){
+				inventoryHolder.ensure(e.getDrops());
+				if(!inventoryHolder.isInventoryEmpty())handleGraveLogic(player);
 				List<EntityItem> removals = new ArrayList<EntityItem>();
 				List<ItemStack> dropList = inventoryHolder.getAllItems();
 				for(EntityItem itm : e.getDrops()){
@@ -87,7 +89,7 @@ public class CommonEvents {
 			}
 		}
 
-		ItemStack newList = DeathInventoryHandler.getDeathListFromFile(player.getName(), "latest");
+		ItemStack newList = DeathInventoryHandler.getDeathListFromFile(player.getName().getString(), "latest");
 		if (newList != null) {
 			InventoryPlayer inv = player.inventory;
 			for (int i = 0; i < inv.mainInventory.size(); i++) {
@@ -99,8 +101,8 @@ public class CommonEvents {
 		}
 
 		for (EntityItem entityItem : e.getDrops()) {
-			if (entityItem.getItem().getItem() == Item.getItemFromBlock(ModBlocks.blockGrave) || entityItem.getItem().getItem() == ModItems.itemDeathList) {
-				entityItem.setDead();
+			if (entityItem.getItem().getItem() == ModItems.itemDeathList) {
+				entityItem.remove();
 			}
 		}
 	}
@@ -227,14 +229,17 @@ public class CommonEvents {
 		if (world.isAirBlock(pos)) {
 			return true;
 		}
-
-		Block theBlock = world.getBlockState(pos).getBlock();
+		IBlockState state = world.getBlockState(pos);
+		Block theBlock = state.getBlock();
 		if (ModConfigs.REPLACE_PLANTS && theBlock instanceof IPlantable) {
 			return true;
 		}
 
 		if (!ignoreFluidConfigs) {
-			if ((ModConfigs.REPLACE_STILL_LAVA && theBlock == Blocks.LAVA) || (ModConfigs.REPLACE_FLOWING_LAVA && theBlock == Blocks.FLOWING_LAVA) || (ModConfigs.REPLACE_STILL_WATER && theBlock == Blocks.WATER) || (ModConfigs.REPLACE_FLOWING_WATER && theBlock == Blocks.FLOWING_WATER)) {
+			if ((ModConfigs.REPLACE_STILL_LAVA && theBlock == Blocks.LAVA && state.get(BlockFlowingFluid.LEVEL) == 15 ||
+					(ModConfigs.REPLACE_FLOWING_LAVA && theBlock == Blocks.LAVA && state.get(BlockFlowingFluid.LEVEL) < 15)
+					|| (ModConfigs.REPLACE_STILL_WATER && theBlock == Blocks.WATER && state.get(BlockFlowingFluid.LEVEL) == 15)
+					|| (ModConfigs.REPLACE_FLOWING_WATER && theBlock == Blocks.WATER && state.get(BlockFlowingFluid.LEVEL) < 15))) {
 				return true;
 			}
 		}
@@ -249,51 +254,10 @@ public class CommonEvents {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void itemToss(ItemTossEvent event) {
 		Item item = event.getEntityItem().getItem().getItem();
-		if (item == Item.getItemFromBlock(ModBlocks.blockGrave) || item == ModItems.itemDeathList) {
+		if (item == ModItems.itemDeathList) {
 			event.setCanceled(true);
 		}
 	}
-
-	// @SubscribeEvent(priority = EventPriority.HIGH)
-	// public void itemDrop(PlayerDropsEvent event) {
-	// if (event.getEntityPlayer() == null || event.getEntityPlayer() instanceof
-	// FakePlayer || event.isCanceled()) {
-	// return;
-	// }
-	//
-	// if
-	// (event.getEntityPlayer().world.getGameRules().getBoolean("keepInventory"))
-	// {
-	// return;
-	// }
-	//
-	// event.getDrops().removeIf(ei -> ei.getItem().getItem() ==
-	// ModItems.itemDeathList);
-	//
-	// // Get the death list from the current death
-	// ItemStack newList =
-	// DeathInventoryHandler.getDeathListFromFile(event.getEntityPlayer().getName(),
-	// "latest");
-	// if (newList != null) {
-	// InventoryPlayer inv = event.getEntityPlayer().inventory;
-	// for (int i = 0; i < inv.mainInventory.size(); i++) {
-	// if (inv.mainInventory.get(i).isEmpty()) {
-	// inv.mainInventory.set(i, newList.copy());
-	// break;
-	// }
-	// }
-	// }
-	//
-	// // for (EntityItem entityItem : event.getDrops())
-	// // {
-	// // if (entityItem.getItem().getItem() ==
-	// // Item.getItemFromBlock(ModBlocks.blockGrave) ||
-	// // entityItem.getItem().getItem() == ModItems.itemDeathList)
-	// // {
-	// // entityItem.setDead();
-	// // }
-	// // }
-	// }
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onPlayerClone(PlayerEvent.Clone event) {

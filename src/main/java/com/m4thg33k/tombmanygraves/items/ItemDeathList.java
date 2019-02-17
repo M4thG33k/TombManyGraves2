@@ -3,17 +3,19 @@ package com.m4thg33k.tombmanygraves.items;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.vecmath.Vector3f;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.glfw.GLFW;
 
 import com.m4thg33k.tombmanygraves.ModConfigs;
 import com.m4thg33k.tombmanygraves.Names;
 import com.m4thg33k.tombmanygraves.TombManyGraves;
-import com.m4thg33k.tombmanygraves.gui.ModGuiHandler;
+import com.m4thg33k.tombmanygraves.client.gui.GuiDeathItems;
 import com.m4thg33k.tombmanygraves.invman.InventoryHolder;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -22,6 +24,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
@@ -29,11 +33,7 @@ public class ItemDeathList extends Item{
 
     public ItemDeathList()
     {
-        super();
-
-        this.setUnlocalizedName(Names.DEATH_LIST);
-
-        this.setMaxStackSize(1);
+        super(new Properties().maxStackSize(1));
         this.setRegistryName(Names.MODID, Names.DEATH_LIST);
     }
 
@@ -45,57 +45,54 @@ public class ItemDeathList extends Item{
         {
             return new ActionResult<>(EnumActionResult.PASS, held);
         }
-        playerIn.openGui(TombManyGraves.INSTANCE,
-                ModGuiHandler.DEATH_ITEMS_GUI,
-                worldIn,
-                playerIn.getPosition().getX(),
-                playerIn.getPosition().getY(),
-                playerIn.getPosition().getZ());
+        if(worldIn.isRemote){
+        	Minecraft.getInstance().displayGuiScreen(new GuiDeathItems(playerIn, held));
+        }
         return new ActionResult<>(EnumActionResult.SUCCESS, held);
     }
-
+    
     @Override
-    public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag advanced) {
+    public void addInformation(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, world, tooltip, advanced);
-
-        boolean isShifted = Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
-        boolean isControlled = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+        
+        boolean isShifted = InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT) || InputMappings.isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
+        boolean isControlled = InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) || InputMappings.isKeyDown(GLFW.GLFW_KEY_RIGHT_CONTROL);
 
         if (isShifted) {
-            tooltip.add(TextFormatting.GOLD + "Right-click to view a list of everything");
-            tooltip.add(TextFormatting.GOLD + "you had on you when you died.");
-            tooltip.add(TextFormatting.RED + "Drop from your inventory to destroy");
+            tooltip.add(new TextComponentString(TextFormatting.GOLD + "Right-click to view a list of everything"));
+            tooltip.add(new TextComponentString(TextFormatting.GOLD + "you had on you when you died."));
+            tooltip.add(new TextComponentString(TextFormatting.RED + "Drop from your inventory to destroy"));
         }
         else {
-            tooltip.add(TextFormatting.ITALIC + "<Shift for explanation>");
+            tooltip.add(new TextComponentString(TextFormatting.ITALIC + "<Shift for explanation>"));
         }
 
         if (isControlled)
         {
-            tooltip.add(TextFormatting.BLUE + "\"/tmg_deathlist [player] latest\"");
-            tooltip.add(TextFormatting.BLUE + "will give you a list of everything");
-            tooltip.add(TextFormatting.BLUE + "from before your last death");
+            tooltip.add(new TextComponentString(TextFormatting.BLUE + "\"/tmg_deathlist [player] latest\""));
+            tooltip.add(new TextComponentString(TextFormatting.BLUE + "will give you a list of everything"));
+            tooltip.add(new TextComponentString(TextFormatting.BLUE + "from before your last death"));
         }
         else
         {
-            tooltip.add(TextFormatting.ITALIC + "<Control for command>");
+            tooltip.add(new TextComponentString(TextFormatting.ITALIC + "<Control for command>"));
         }
     }
 
     private Vector3f getEndVector(ItemStack stack)
     {
-        if (stack.isEmpty() || !stack.hasTagCompound())
+        if (stack.isEmpty() || !stack.hasTag())
         {
             return null;
         }
         else {
-            NBTTagCompound compound = stack.getTagCompound();
+            NBTTagCompound compound = stack.getTag();
 
-            if (compound.hasKey(InventoryHolder.TAG_NAME)) {
-                compound = compound.getCompoundTag(InventoryHolder.TAG_NAME);
-                float x = compound.getInteger(InventoryHolder.X) + 0.5f;
-                float y = compound.getInteger(InventoryHolder.Y) + 0.5f;
-                float z = compound.getInteger(InventoryHolder.Z) + 0.5f;
+            if (compound.contains(InventoryHolder.TAG_NAME)) {
+                compound = compound.getCompound(InventoryHolder.TAG_NAME);
+                float x = compound.getInt(InventoryHolder.X) + 0.5f;
+                float y = compound.getInt(InventoryHolder.Y) + 0.5f;
+                float z = compound.getInt(InventoryHolder.Z) + 0.5f;
 
                 if (y < 0)
                 {
@@ -116,12 +113,12 @@ public class ItemDeathList extends Item{
         {
             return null;
         }
-
-        return Vector3f.sub(start, end, null);
+        start.sub(end);
+        return start;
     }
-
+    
     @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!worldIn.isRemote || !(entityIn instanceof EntityPlayer) ||
                 (((EntityPlayer) entityIn).getHeldItemMainhand() != stack && ((EntityPlayer) entityIn).getHeldItemOffhand() != stack))
         {
@@ -134,16 +131,16 @@ public class ItemDeathList extends Item{
         }
 
         Vector3f start = new Vector3f((float)entityIn.posX, (float)entityIn.posY + 2.5f, (float)entityIn.posZ);
-        Vector3f direction = getDirectionalVector(stack, start);
+        Vector3f direction = getDirectionalVector(stack, new Vector3f(start));
         if (direction == null || direction.length() == 0)
         {
             return;
         }
-
-        Vector3f normed = direction.normalise(null);
+        Vector3f normed = new Vector3f(direction);
+        normed.normalize();
         float length = Math.min(100, direction.length());
-        Vector3f end = Vector3f.add(new Vector3f(normed.x * length, normed.y * length, normed.z * length), start, null);
-
-        TombManyGraves.proxy.particleStream(start, end);
+        normed.scale(length);
+        normed.add(start);
+        TombManyGraves.proxy.particleStream(start, normed);
     }
 }

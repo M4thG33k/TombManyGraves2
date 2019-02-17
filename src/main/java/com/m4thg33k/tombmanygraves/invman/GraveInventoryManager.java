@@ -155,8 +155,8 @@ public class GraveInventoryManager {
 	public void insertInventory(EntityPlayer player, NBTTagCompound compound, boolean shouldForce) {
 		if (compound != null) {
 			getGraveInventoryStream().forEach(entry -> {
-				if (compound.hasKey(entry.getKey())) {
-					entry.getValue().insertInventory(player, new TempInventory(compound.getTagList(entry.getKey(), 10)), shouldForce);
+				if (compound.contains(entry.getKey())) {
+					entry.getValue().insertInventory(player, new TempInventory(compound.getList(entry.getKey(), 10)), shouldForce);
 				}
 			});
 		}
@@ -166,8 +166,8 @@ public class GraveInventoryManager {
 		List<ItemStack> drops = new ArrayList<>();
 		if (compound != null) {
 			getGraveInventoryStream().forEach(entry -> {
-				if (compound.hasKey(entry.getKey())) {
-					TempInventory inv = new TempInventory(compound.getTagList(entry.getKey(), 10));
+				if (compound.contains(entry.getKey())) {
+					TempInventory inv = new TempInventory(compound.getList(entry.getKey(), 10));
 					drops.addAll(inv.getListOfNonEmptyItemStacks());
 				}
 			});
@@ -185,8 +185,8 @@ public class GraveInventoryManager {
 		Map<String, Tuple<String, List<String>>> theMap = new HashMap<>();
 
 		getGraveInventoryStream().forEach(entry -> {
-			if (compound.hasKey(entry.getKey())) {
-				TempInventory inv = new TempInventory(compound.getTagList(entry.getKey(), 10));
+			if (compound.contains(entry.getKey())) {
+				TempInventory inv = new TempInventory(compound.getList(entry.getKey(), 10));
 				List<ItemStack> drops = inv.getListOfNonEmptyItemStacks();
 				if (drops.size() > 0) {
 					theMap.put(entry.getKey(), new Tuple<>(annotationMap.get(entry.getValue()).name(), TempInventory.getGuiStringsForItemStackList(drops)));

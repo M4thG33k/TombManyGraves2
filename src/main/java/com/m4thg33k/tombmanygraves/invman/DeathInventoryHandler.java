@@ -79,13 +79,19 @@ public class DeathInventoryHandler {
     private static boolean writePortion(String filename, String toWrite)
     {
         boolean didWork = true;
-
-        try (FileWriter file = new FileWriter(filename))
+        File f = new File(filename);
+        f.getParentFile().mkdirs();
+        if(!f.exists())
+			try {
+				f.createNewFile();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+        try (FileWriter file = new FileWriter(f))
         {
             file.write(toWrite);
             file.close();
-        }
-        catch (Exception e)
+        }catch (Exception e)
         {
             e.printStackTrace();
             didWork = false;
@@ -96,7 +102,7 @@ public class DeathInventoryHandler {
 
     public static void clearLatest(EntityPlayer player)
     {
-        String filename = "/" + player.getName();
+        String filename = "/" + player.getName().getFormattedText();
         String timestamp = "latest";
         String filePostfix = timestamp + ".json";
 
@@ -153,9 +159,9 @@ public class DeathInventoryHandler {
             reader = new BufferedReader(new FileReader(filename));
             String fileData = reader.readLine();
             NBTTagCompound allNBT = JsonToNBT.getTagFromJson(fileData);
-            if (allNBT.getKeySet().size() > 0){
+            if (allNBT.keySet().size() > 0){
                 ItemStack theList = new ItemStack(ModItems.itemDeathList, 1);
-                theList.setTagCompound(allNBT);
+                theList.setTag(allNBT);
                 
                 return theList;
             }
@@ -186,10 +192,10 @@ public class DeathInventoryHandler {
             reader = new BufferedReader(new FileReader(filename));
             String fileData = reader.readLine();
             NBTTagCompound allNBT = JsonToNBT.getTagFromJson(fileData);
-            if (allNBT.getKeySet().size() > 0)
+            if (allNBT.keySet().size() > 0)
             {
                 ItemStack theList = new ItemStack(ModItems.itemDeathList, 1);
-                theList.setTagCompound(allNBT);
+                theList.setTag(allNBT);
 
                 BlockPos pos = playerOld.getPosition();
                 EntityPlayer thePlayer = playerOld;
@@ -200,7 +206,7 @@ public class DeathInventoryHandler {
 //                    LogHelper.info("Player respawn dimension: " + playerOld.world.provider.getRespawnDimension((EntityPlayerMP)playerOld));
 //                    LogHelper.info(playerOld.hasSpawnDimension());
 //                    BlockPos bedPos = player.getBedLocation(player.getSpawnDimension());
-                    BlockPos bedPos = playerOld.getBedLocation(playerOld.world.provider.getDimension());
+                    BlockPos bedPos = playerOld.getBedLocation(playerOld.world.dimension.getType());
                     if (bedPos != null)
                     {
 //                        LogHelper.info("A " + bedPos.toString());

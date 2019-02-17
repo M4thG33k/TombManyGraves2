@@ -6,6 +6,7 @@ import java.util.Queue;
 import org.lwjgl.opengl.GL11;
 
 import com.m4thg33k.tombmanygraves.Names;
+import com.m4thg33k.tombmanygraves.TombManyGraves;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
@@ -16,7 +17,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class PathFX extends Particle {
 
@@ -35,10 +35,11 @@ public class PathFX extends Particle {
 	private boolean depthTest = true;
 	public boolean distanceLimit = true;
 	private final float moteParticleScale;
-	private final int moteHalfLife;
+	private final float moteHalfLife;
 
 	public PathFX(World world, double x, double y, double z, float size, float red, float green, float blue, boolean distanceLimit, boolean depthTest, float maxAge) {
 		super(world, x, y, z, 0, 0, 0);
+		setSize(0.1f, 0.1f);
 		particleRed = red;
 		particleGreen = green;
 		particleBlue = blue;
@@ -47,21 +48,20 @@ public class PathFX extends Particle {
 		motionX = motionY = motionZ = 0;
 		particleScale *= size;
 		moteParticleScale = particleScale;
-		particleMaxAge = (int) (28 / (Math.random() * 0.3 + 0.7) * maxAge);
+		this.maxAge = (int) (28 / (Math.random() * 0.3 + 0.7) * maxAge);
 		this.depthTest = depthTest;
 
-		moteHalfLife = particleMaxAge / 2;
-		setSize(0.1f, 0.1f);
-		Entity renderEntity = FMLClientHandler.instance().getClient().getRenderViewEntity();
+		moteHalfLife = this.maxAge / 2;
+		Entity renderEntity = Minecraft.getInstance().player;
 
 		if (distanceLimit) {
 			int visibleDistance = 50;
-			if (!FMLClientHandler.instance().getClient().gameSettings.fancyGraphics) {
+			if (!Minecraft.getInstance().gameSettings.fancyGraphics) {
 				visibleDistance = 25;
 			}
 
 			if (renderEntity == null || renderEntity.getDistance(posX, posY, posZ) > visibleDistance) {
-				particleMaxAge = 0;
+				this.maxAge = 0;
 			}
 		}
 
@@ -74,8 +74,8 @@ public class PathFX extends Particle {
 		ParticleRenderDispatcher.pathFXCount = 0;
 		ParticleRenderDispatcher.depthIgnoringPathFXCount = 0;
 
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 0.75f);
-		Minecraft.getMinecraft().renderEngine.bindTexture(particles);
+		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 0.75f);
+		Minecraft.getInstance().textureManager.bindTexture(particles);
 		if (!queuedRenders.isEmpty()) {
 			tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
 			for (PathFX path : queuedRenders) {
@@ -84,14 +84,14 @@ public class PathFX extends Particle {
 			tessellator.draw();
 		}
 		if (!queuedDepthIgnoringRenders.isEmpty()) {
-			GlStateManager.disableDepth();
+			GlStateManager.disableDepthTest();
 			tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
 			for (PathFX path : queuedDepthIgnoringRenders) {
 				path.renderQueued(tessellator, false);
 			}
 			tessellator.draw();
 			GlStateManager.enableBlend();
-			GlStateManager.enableDepth();
+			GlStateManager.enableDepthTest();
 		}
 
 		queuedRenders.clear();
@@ -105,7 +105,7 @@ public class PathFX extends Particle {
 			ParticleRenderDispatcher.depthIgnoringPathFXCount++;
 		}
 
-		float ageScale = (float) particleAge / (float) moteHalfLife;
+		float ageScale = (float) age / (float) moteHalfLife;
 
 		if (ageScale > 1) {
 			ageScale = 2 - ageScale;
@@ -141,14 +141,14 @@ public class PathFX extends Particle {
 			queuedDepthIgnoringRenders.add(this);
 		}
 	}
-
+	
 	@Override
-	public void onUpdate() {
+	public void tick() {
 		prevPosX = posX;
 		prevPosY = posY;
 		prevPosZ = posZ;
 
-		if (particleAge++ >= particleMaxAge) {
+		if (age++ >= maxAge) {
 			setExpired();
 		}
 

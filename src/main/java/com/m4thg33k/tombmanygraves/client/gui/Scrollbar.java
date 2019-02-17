@@ -1,6 +1,6 @@
 package com.m4thg33k.tombmanygraves.client.gui;
 
-import org.lwjgl.input.Mouse;
+import net.minecraft.client.Minecraft;
 
 public class Scrollbar {
 
@@ -14,6 +14,7 @@ public class Scrollbar {
     private float scrollDelta = 15;
 
     private float currentScroll;
+    private float scrollUpdate;
     private boolean wasClicking = false;
     private boolean isScrolling = false;
 
@@ -83,9 +84,9 @@ public class Scrollbar {
             currentScroll = 0;
         } else
         {
-            int wheel = Mouse.getDWheel();
+            int wheel = (int) consumeScroll();
             wheel = Math.max(Math.min(-wheel, 1), -1);
-
+            
             if (wheel == -1)
             {
                 setCurrentScroll(currentScroll - scrollDelta);
@@ -95,7 +96,7 @@ public class Scrollbar {
                 setCurrentScroll(currentScroll + scrollDelta);
             }
 
-            boolean down = Mouse.isButtonDown(0);
+            boolean down = Minecraft.getInstance().mouseHelper.isLeftDown();
 
             if (!wasClicking && down && gui.isInBounds(x, y, scrollbarWidth, scrollbarHeight, mouseX, mouseY))
             {
@@ -114,6 +115,16 @@ public class Scrollbar {
                 setCurrentScroll(mouseY - gui.getGuiTop());
             }
         }
+    }
+
+    public void mouseScrolled(double scrolled) {
+    	scrollUpdate = (float) scrolled;
+    }
+    
+    private float consumeScroll(){
+    	float scrll = scrollUpdate;
+    	scrollUpdate = 0;
+    	return scrll;
     }
 
 
